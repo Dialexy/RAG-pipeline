@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+
+# Data — large corpus files (Wikipedia dumps, arXiv, etc.)
+data/raw/
+data/processed/
+*.xml.bz2
+*.xml.gz
+*.tar.gz
+*.tar.bz2
+*.zip
+*.jsonl
+*.jsonl.gz
+*.parquet
+*.csv
+*.tsv
+*.pdf
+*.txt.gz
+
+# Vector store (ChromaDB persisted data)
+chroma/
+chroma_db/
+*.chroma
+vector_store/
+
+# HuggingFace model cache
+.cache/
+models/
+*.bin
+*.safetensors
+*.onnx
+*.ot
+
+# Logs and outputs
+logs/
+*.log
+results/
+outputs/
+
+# macOS
+.DS_Store

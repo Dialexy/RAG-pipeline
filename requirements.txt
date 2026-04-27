@@ -1,0 +1,22 @@
+# LLM
+ollama
+
+# Embeddings
+sentence-transformers
+
+# Vector store
+chromadb
+
+# Sparse retrieval
+rank-bm25
+
+# Re-ranking
+# cross-encoder via sentence-transformers (included above)
+
+# Data / numerics
+numpy
+pandas
+
+# Utilities
+python-dotenv
+tqdm
