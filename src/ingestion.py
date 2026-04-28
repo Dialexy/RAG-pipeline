@@ -6,12 +6,23 @@ from pathlib import Path
 from collections.abc import Iterator
 from itertools import chain
 from datetime import datetime
+from typing import cast, Any
+from datasets import load_dataset  # type: ignore
 from .models import Document
 
 
 def fetch_corpus(output_dir: Path) -> None:
     """Download / export the chosen dataset into output_dir."""
-    raise NotImplementedError
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    dataset = load_dataset("ag_news", split="train[:200]")
+
+    for i, indexedfile in enumerate(dataset):
+        item = cast(dict[str, Any], indexedfile)
+
+        filepath = output_dir / f"{i}.txt"
+        if not filepath.exists():
+            _ = filepath.write_text(item["text"], encoding="utf-8")
 
 
 def iter_documents(raw_dir: Path) -> Iterator[Document]:
