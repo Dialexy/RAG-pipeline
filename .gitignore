@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+pyrightconfig.json
 *.py[cod]
 *.pyo
 *.pyd
