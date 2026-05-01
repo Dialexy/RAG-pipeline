@@ -65,4 +65,22 @@ def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
     Dispatch to the right strategy and yield chunk dicts:
     {"id": str, "text": str, "metadata": dict}
     """
-    raise NotImplementedError
+
+    if cfg.strategy == "fixed":
+        texts = chunk_fixed(doc.text, cfg)
+    elif cfg.strategy == "recursive":
+        texts = chunk_recursive(doc.text, cfg)
+    else:
+        raise ValueError(f"Unknown: {cfg.strategy}")
+
+    for i, chunk_text in enumerate(texts):
+        yield Document(
+            id=f"{doc.id}::chunk{i}",
+            text=chunk_text,
+            metadata={
+                **doc.metadata,
+                "chunk_index": i,
+                "chunk_strategy": cfg.strategy,
+                "parent_id": doc.id,
+            },
+        )
