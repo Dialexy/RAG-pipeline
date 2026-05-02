@@ -10,5 +10,8 @@ numpy
 # LLM
 ollama
 
+# Vector Store
+chromadb
+
 # CLI
 typer
