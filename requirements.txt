@@ -4,6 +4,7 @@ datasets
 # ML
 torch
 transformers
+sentence-transformers
 numpy
 
 # LLM
