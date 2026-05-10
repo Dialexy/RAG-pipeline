@@ -10,6 +10,7 @@ This is where naive RAG breaks down:
 from ..config import RetrievalConfig
 from .models import Document
 from rank_bm25 import BM25Okapi
+from collections import defaultdict
 import numpy as np
 
 
@@ -34,9 +35,22 @@ def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]:
     ]
 
 
-def reciprocal_rank_fusion(ranked_lists: list[list[dict]], k: int = 60) -> list[dict]:
-    """Fuse multiple ranked lists via RRF before re-ranking."""
-    raise NotImplementedError
+def reciprocal_rank_fusion(ranked_lists, k=60):
+    scores = defaultdict(float)
+    doc_map = {}
+
+    for ranked_list in ranked_lists:
+        for rank, doc in enumerate(ranked_list):
+            doc_map[doc["text"]] = doc
+            scores[doc["text"]] += 1 / (k + rank)
+
+    sorted_items = sorted(
+        scores.items(),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+
+    return [{**doc_map[text], "score": score} for text, score in sorted_items]
 
 
 def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
