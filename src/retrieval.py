@@ -92,7 +92,7 @@ def retrieve(
     dense_result = dense_search(query_embedding, cfg.retrieval.top_k, collection)
 
     if cfg.retrieval.use_hybrid:
-        bm25_result = bm25_search(query, corpus, cfg.retrieval.rerank_top_k)
+        bm25_result = bm25_search(query, corpus, cfg.retrieval.top_k)
         candidates = reciprocal_rank_fusion([dense_result, bm25_result])
 
     else:
