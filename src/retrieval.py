@@ -7,10 +7,13 @@ This is where naive RAG breaks down:
   - context window pressure  →  pick rerank_top_n << top_k
 """
 
-from ..config import RetrievalConfig
+from ..config import PipelineConfig
 from .models import Document
+from .embedding import embed_chunks
+from .vector_store import dense_search
 from rank_bm25 import BM25Okapi
 from collections import defaultdict
+from sentence_transformers import CrossEncoder
 import numpy as np
 
 
@@ -55,14 +58,47 @@ def reciprocal_rank_fusion(ranked_lists, k=60):
 
 def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     """Cross-encoder re-ranking — returns top_n chunks sorted by relevance."""
-    raise NotImplementedError
+    model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+    pairs = [(query, candidate["text"]) for candidate in candidates]
+    scores = model.predict(pairs)
+
+    ranked = sorted(
+        zip(candidates, scores),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+
+    return [
+        {
+            **candidate,
+            "reranked_score": score,
+        }
+        for candidate, score in ranked[:top_n]
+    ]
 
 
 def retrieve(
-    query: str, collection, corpus: list[Document], cfg: RetrievalConfig
+    query: str, collection, corpus: list[Document], cfg: PipelineConfig
 ) -> list[dict]:
     """
     Full retrieval pipeline for a single query:
     dense → (BM25 → RRF) → re-rank → return top-n chunks
     """
-    raise NotImplementedError
+
+    embedding_matrix = embed_chunks([query], cfg.embedding)
+    query_embedding = embedding_matrix[0]
+
+    dense_result = dense_search(query_embedding, cfg.retrieval.top_k, collection)
+
+    if cfg.retrieval.use_hybrid:
+        bm25_result = bm25_search(query, corpus, cfg.retrieval.rerank_top_k)
+        candidates = reciprocal_rank_fusion([dense_result, bm25_result])
+
+    else:
+        candidates = dense_result
+
+    if cfg.retrieval.use_reranker:
+        return rerank(query, candidates, cfg.retrieval.rerank_top_n)
+    else:
+        return candidates[: cfg.retrieval.rerank_top_n]
