@@ -2,7 +2,7 @@
 End-to-end pipeline: index-time and query-time entry points.
 """
 
-from config import PipelineConfig
+from ..config import PipelineConfig
 
 
 def build_pipeline(cfg: PipelineConfig) -> None:
