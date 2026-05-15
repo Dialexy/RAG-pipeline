@@ -16,7 +16,7 @@ class ChunkConfig:
     chunk_overlap: int = 64
 
 
-@dataclass
+@dataclass(frozen=True)
 class EmbeddingConfig:
     model_name: str = "all-MiniLM-L6-v2"
     batch_size: int = 64

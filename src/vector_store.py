@@ -20,12 +20,15 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
     texts = [doc.text for doc in chunks]
     embedded = embed_chunks(texts, cfg.embedding)
 
-    rag_chunks.upsert(
-        ids=[chunk.id for chunk in chunks],
-        embeddings=embedded.tolist(),
-        documents=[chunk.text for chunk in chunks],
-        metadatas=[chunk.metadata for chunk in chunks],
-    )
+    BATCH_SIZE = 500
+    for i in range(0, len(chunks), BATCH_SIZE):
+        batch = chunks[i : i + BATCH_SIZE]
+        rag_chunks.upsert(
+            ids=[chunk.id for chunk in batch],
+            embeddings=embedded[i : i + BATCH_SIZE].tolist(),
+            documents=[chunk.text for chunk in batch],
+            metadatas=[chunk.metadata for chunk in batch],
+        )
 
 
 def load_index(cfg: PipelineConfig) -> Collection:

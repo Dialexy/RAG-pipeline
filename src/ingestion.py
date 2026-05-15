@@ -15,14 +15,19 @@ def fetch_corpus(output_dir: Path) -> None:
     """Download / export the chosen dataset into output_dir."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    dataset = load_dataset("ag_news", split="train[:200]") #TODO: need to change to this to the actual corpus
+    dataset = load_dataset(
+        "wikimedia/wikipedia", "20231101.en", streaming=True, split="train"
+    )
 
     for i, indexedfile in enumerate(dataset):
+        if i >= 100:
+            break
         item = cast(dict[str, Any], indexedfile)
 
         filepath = output_dir / f"{i}.txt"
         if not filepath.exists():
-            _ = filepath.write_text(item["text"], encoding="utf-8")
+            combined = item["title"] + "\n\n" + item["text"]
+            filepath.write_text(combined, encoding="utf-8")
 
 
 def iter_documents(raw_dir: Path) -> Iterator[Document]:
