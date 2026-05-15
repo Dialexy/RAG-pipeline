@@ -7,7 +7,7 @@ This is where naive RAG breaks down:
   - context window pressure  →  pick rerank_top_n << top_k
 """
 
-from ..config import PipelineConfig
+from config import PipelineConfig
 from .models import Document
 from .embedding import embed_chunks
 from .vector_store import dense_search

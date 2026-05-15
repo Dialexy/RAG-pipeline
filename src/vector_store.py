@@ -2,9 +2,9 @@
 Chroma wrapper: index chunks and run similarity search.
 """
 
-from ..config import PipelineConfig, CHROMA_PERSIST_DIR
+from config import PipelineConfig, CHROMA_PERSIST_DIR
 from .models import Document
-from embedding import embed_chunks
+from .embedding import embed_chunks
 import chromadb
 from chromadb.api.models.Collection import Collection
 

@@ -4,7 +4,7 @@ Handles batching and returns numpy arrays.
 """
 
 import numpy as np
-from ..config import EmbeddingConfig
+from config import EmbeddingConfig
 from sentence_transformers import SentenceTransformer
 
 

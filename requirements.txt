@@ -6,12 +6,10 @@ torch
 transformers
 sentence-transformers
 numpy
+rank-bm25
 
 # LLM
 ollama
 
 # Vector Store
 chromadb
-
-# CLI
-typer

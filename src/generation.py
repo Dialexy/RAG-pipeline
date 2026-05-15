@@ -4,7 +4,7 @@ LLM generation layer. Takes retrieved chunks and a query, returns an answer.
 
 import ollama
 from textwrap import dedent
-from ..config import GenerationConfig
+from config import GenerationConfig
 
 
 def build_prompt(query: str, chunks: list[dict]) -> str:

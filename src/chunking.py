@@ -4,7 +4,7 @@ work is showing why it breaks and what the alternatives fix.
 """
 
 from collections.abc import Iterator
-from ..config import ChunkConfig
+from config import ChunkConfig
 from .models import Document
 
 
@@ -21,19 +21,32 @@ def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
     return chunks
 
 
-def chunk_recursive(text: str, cfg: ChunkConfig) -> list[str]:
+def chunk_recursive(text: str, cfg: ChunkConfig, _separators: list[str] | None = None) -> list[str]:
     """Recursive character split on paragraph / sentence / word boundaries."""
-    seperators = ["\n\n", "\n", ". ", " ", ""]
+
+    if len(text) <= cfg.chunk_size:
+        return [text]
+
+    if _separators is None:
+        _separators = ["\n\n", "\n", ". ", " "]
+
     results = []
 
-    for seperator in seperators:
+    for i, seperator in enumerate(_separators):
         splittext = text.split(seperator)
 
         for part in splittext:
+            if not part.strip():
+                continue
             if len(part) <= cfg.chunk_size:
                 results.append(part)
             else:
-                sub_chunk = chunk_recursive(part, cfg)
+                remaining = _separators[i + 1:]
+                if remaining and any(sep in part for sep in remaining):
+                    sub_chunk = chunk_recursive(part, cfg, remaining)
+                else:
+                    step = max(1, cfg.chunk_size - cfg.chunk_overlap)
+                    sub_chunk = [part[i : i + cfg.chunk_size] for i in range(0, len(part), step)]
                 results.extend(sub_chunk)
 
         if len(splittext) > 1:
