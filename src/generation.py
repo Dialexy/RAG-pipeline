@@ -28,6 +28,7 @@ def build_prompt(query: str, chunks: list[dict]) -> str:
     Answer based only on the context above.
     If the answer is not in the context,
     say "I don't have enough information to answer that."
+    and explain what was given.
     """)
 
     return final_prompt
