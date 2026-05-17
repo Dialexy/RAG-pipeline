@@ -14,7 +14,13 @@ from .vector_store import dense_search
 from rank_bm25 import BM25Okapi
 from collections import defaultdict
 from sentence_transformers import CrossEncoder
+from functools import lru_cache
 import numpy as np
+
+
+@lru_cache(maxsize=None)
+def load_rank() -> CrossEncoder:
+    return CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 
 def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]:
@@ -58,8 +64,7 @@ def reciprocal_rank_fusion(ranked_lists, k=60):
 
 def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     """Cross-encoder re-ranking — returns top_n chunks sorted by relevance."""
-    model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-
+    model = load_rank()
     pairs = [(query, candidate["text"]) for candidate in candidates]
     scores = model.predict(pairs)
 
