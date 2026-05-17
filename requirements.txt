@@ -2,8 +2,6 @@
 datasets
 
 # ML
-torch
-transformers
 sentence-transformers
 numpy
 rank-bm25
