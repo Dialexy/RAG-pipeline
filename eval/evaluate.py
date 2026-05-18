@@ -75,13 +75,16 @@ def faithfulness_score(
     context = "\n".join(source_chunks)
 
     prompt = dedent(f"""
-    Given this context: {context}
-    And this answer: {answer}
+    You are evaluating if an answer is grounded in a context.
 
-    Rate from 0.0 to 1.0 how well the answer is supported by the context.
-    An answer that cites specific sources or quotes from the context should score highly.
-    An answer that makes claims not found anywhere in the context should score low.
-    Only respond with a decimal number between 0.0 and 1.0.
+    Context: {context}
+
+    Answer: {answer}
+
+    For each claim in the answer, check if it is directly supported by the context.
+    Respond with only a decimal between 0.0 and 1.0 representing the fraction of claims supported.
+    0.0 means no claims are supported. 1.0 means all claims are supported.
+    Only output the number, nothing else,
     """)
 
     ollama_output = ollama.chat(
