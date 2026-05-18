@@ -11,7 +11,7 @@ CHROMA_PERSIST_DIR = Path(".chroma")
 
 @dataclass
 class ChunkConfig:
-    strategy: str = "recursive"  # "fixed", "recursive", "semantic"
+    strategy: str = "semantic"  # "fixed", "recursive", "semantic"
     chunk_size: int = 512
     chunk_overlap: int = 64
 
@@ -32,7 +32,7 @@ class RetrievalConfig:
 
 @dataclass
 class GenerationConfig:
-    model: str = "qwen2.5:14b"
+    model: str = "qwen2.5:3b"
     max_tokens: int = 1024
     temperature: float = 0.0
 

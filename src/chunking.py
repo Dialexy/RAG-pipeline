@@ -3,10 +3,16 @@ Chunking strategies. Naive fixed-size chunking is the baseline; the interesting
 work is showing why it breaks and what the alternatives fix.
 """
 
+import numpy as np
+import nltk
+from nltk.tokenize import sent_tokenize
+from .embedding import embed_chunks
 from collections.abc import Iterator
+from config import EmbeddingConfig
 from config import ChunkConfig
 from .models import Document
 
+nltk.download('punkt_tab')
 
 def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
     """Sliding-window fixed-size split. Baseline — fast but context-blind."""
@@ -21,7 +27,9 @@ def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
     return chunks
 
 
-def chunk_recursive(text: str, cfg: ChunkConfig, _separators: list[str] | None = None) -> list[str]:
+def chunk_recursive(
+    text: str, cfg: ChunkConfig, _separators: list[str] | None = None
+) -> list[str]:
     """Recursive character split on paragraph / sentence / word boundaries."""
 
     if len(text) <= cfg.chunk_size:
@@ -41,12 +49,14 @@ def chunk_recursive(text: str, cfg: ChunkConfig, _separators: list[str] | None =
             if len(part) <= cfg.chunk_size:
                 results.append(part)
             else:
-                remaining = _separators[i + 1:]
+                remaining = _separators[i + 1 :]
                 if remaining and any(sep in part for sep in remaining):
                     sub_chunk = chunk_recursive(part, cfg, remaining)
                 else:
                     step = max(1, cfg.chunk_size - cfg.chunk_overlap)
-                    sub_chunk = [part[i : i + cfg.chunk_size] for i in range(0, len(part), step)]
+                    sub_chunk = [
+                        part[i : i + cfg.chunk_size] for i in range(0, len(part), step)
+                    ]
                 results.extend(sub_chunk)
 
         if len(splittext) > 1:
@@ -70,7 +80,44 @@ def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
     Embed sentences, split at embedding-distance peaks.
     Addresses the main failure of fixed chunking: slicing mid-thought.
     """
-    raise NotImplementedError
+    sentences = sent_tokenize(text)
+
+    if len(sentences) <= 1:
+        return [text]
+
+    embeddings = embed_chunks(sentences, EmbeddingConfig())
+
+    distances = [
+        1
+        - (
+            np.dot(embeddings[i], embeddings[i + 1])
+            / (np.linalg.norm(embeddings[i]) * np.linalg.norm(embeddings[i + 1]))
+        )
+        for i in range(len(embeddings) - 1)
+    ]
+
+    threshold = float(np.mean(distances) + 0.5 * np.std(distances))
+
+    split_points = {i for i, d in enumerate(distances) if d > threshold}
+
+    chunks: list[str] = []
+    group: list[str] = []
+    for i, sentence in enumerate(sentences):
+        group.append(sentence)
+        if i in split_points:
+            chunks.append(" ".join(group))
+            group = []
+    if group:
+        chunks.append(" ".join(group))
+
+    result: list[str] = []
+    for chunk in chunks:
+        if len(chunk) > cfg.chunk_size:
+            result.extend(chunk_recursive(chunk, cfg))
+        else:
+            result.append(chunk)
+
+    return result
 
 
 def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
@@ -83,6 +130,8 @@ def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
         texts = chunk_fixed(doc.text, cfg)
     elif cfg.strategy == "recursive":
         texts = chunk_recursive(doc.text, cfg)
+    elif cfg.strategy == "semantic":
+        texts = chunk_semantic(doc.text, cfg)
     else:
         raise ValueError(f"Unknown: {cfg.strategy}")
 

@@ -1,5 +1,6 @@
 # Data
 datasets
+nltk
 
 # ML
 sentence-transformers
