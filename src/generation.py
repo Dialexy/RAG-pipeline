@@ -25,10 +25,11 @@ def build_prompt(query: str, chunks: list[dict]) -> str:
     Question:
     {query}
 
-    Answer based only on the context above.
-    If the answer is not in the context,
-    say "I don't have enough information to answer that."
-    and explain what was given.
+    Answer the question using ONLY the sources provided above.
+    Do not use any knowledge outside of the provided sources.
+    If the answer cannot be found in the sources, respond with exactly:
+    "I don't have enough information to answer that."
+    Cite which source number supports your answer.
     """)
 
     return final_prompt
@@ -44,7 +45,13 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
 
     response = ollama.chat(
         model=cfg.model,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a precise assistant that answers questions strictly based on provided context. Never use outside knowledge. If the answer isn't in the context, say so.",
+            },
+            {"role": "user", "content": prompt},
+        ],
         options={"temperature": cfg.temperature, "num_predict": cfg.max_tokens},
     )
 

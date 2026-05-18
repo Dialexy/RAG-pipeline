@@ -78,8 +78,10 @@ def faithfulness_score(
     Given this context: {context}
     And this answer: {answer}
 
-    Rate from 0.0 to 1.0 how faithfully the answer is grounded
-    in the context. Only respond with a number.
+    Rate from 0.0 to 1.0 how well the answer is supported by the context.
+    An answer that cites specific sources or quotes from the context should score highly.
+    An answer that makes claims not found anywhere in the context should score low.
+    Only respond with a decimal number between 0.0 and 1.0.
     """)
 
     ollama_output = ollama.chat(
@@ -134,6 +136,7 @@ def run_evaluation(
         "faithfulness": sum(faithfulness_scores) / len(faithfulness_scores),
         "n_evaluated": len(qa_pairs),
     }
+
 
 if __name__ == "__main__":
     cfg = PipelineConfig()
