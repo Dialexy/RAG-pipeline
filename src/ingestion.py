@@ -20,7 +20,7 @@ def fetch_corpus(output_dir: Path) -> None:
     )
 
     for i, indexedfile in enumerate(dataset):
-        if i >= 10000:
+        if i >= 1000:
             break
         item = cast(dict[str, Any], indexedfile)
 

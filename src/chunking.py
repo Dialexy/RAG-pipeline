@@ -12,7 +12,10 @@ from config import EmbeddingConfig
 from config import ChunkConfig
 from .models import Document
 
-nltk.download('punkt_tab')
+try:
+    nltk.data.find('tokenizers/punkt_tab')
+except LookupError:
+    nltk.download('punkt_tab')
 
 def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
     """Sliding-window fixed-size split. Baseline — fast but context-blind."""
