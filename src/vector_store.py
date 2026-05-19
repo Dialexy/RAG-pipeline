@@ -7,6 +7,9 @@ from .models import Document
 from .embedding import embed_chunks
 import chromadb
 from chromadb.api.models.Collection import Collection
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
@@ -14,6 +17,7 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
     Embed all chunks and upsert into Chroma.
     Persists to CHROMA_PERSIST_DIR.
     """
+    logger.info("Building index for %d chunks", len(chunks))
     chroma_client = chromadb.PersistentClient(CHROMA_PERSIST_DIR)
 
     rag_chunks = chroma_client.get_or_create_collection(name="rag_chunks")
@@ -30,9 +34,12 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
             metadatas=[chunk.metadata for chunk in batch],
         )
 
+    logger.info("Index build complete — %d chunks upserted into Chroma", len(chunks))
+
 
 def load_index(cfg: PipelineConfig) -> Collection:
     """Return an existing Chroma collection from disk."""
+    logger.info("Loading index from %s", CHROMA_PERSIST_DIR)
     chroma_client = chromadb.PersistentClient(CHROMA_PERSIST_DIR)
     rag_chunks = chroma_client.get_collection(name="rag_chunks")
     return rag_chunks

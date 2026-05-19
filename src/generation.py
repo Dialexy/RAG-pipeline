@@ -5,6 +5,9 @@ LLM generation layer. Takes retrieved chunks and a query, returns an answer.
 import ollama
 from textwrap import dedent
 from config import GenerationConfig
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def build_prompt(query: str, chunks: list[dict]) -> str:
@@ -41,6 +44,7 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     Streams from ollama.chat() using cfg.model (default: qwen2.5:14b).
     """
 
+    logger.info("Generating answer for query: %r (model=%s, chunks=%d)", query, cfg.model, len(chunks))
     prompt = build_prompt(query, chunks)
 
     response = ollama.chat(
@@ -55,4 +59,6 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
         options={"temperature": cfg.temperature, "num_predict": cfg.max_tokens},
     )
 
-    return response.message.content or ""
+    answer = response.message.content or ""
+    logger.info("Generation complete — %d chars", len(answer))
+    return answer

@@ -9,16 +9,21 @@ from datetime import datetime
 from typing import cast, Any
 from datasets import load_dataset
 from .models import Document
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def fetch_corpus(output_dir: Path) -> None:
     """Download / export the chosen dataset into output_dir."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    logger.info("Fetching corpus into %s", output_dir)
     dataset = load_dataset(
         "wikimedia/wikipedia", "20231101.en", streaming=True, split="train"
     )
 
+    count = 0
     for i, indexedfile in enumerate(dataset):
         if i >= 1000:
             break
@@ -28,6 +33,9 @@ def fetch_corpus(output_dir: Path) -> None:
         if not filepath.exists():
             combined = item["title"] + "\n\n" + item["text"]
             filepath.write_text(combined, encoding="utf-8")
+            count += 1
+
+    logger.info("Corpus fetch complete — %d new documents written", count)
 
 
 def iter_documents(raw_dir: Path) -> Iterator[Document]:
@@ -37,7 +45,8 @@ def iter_documents(raw_dir: Path) -> Iterator[Document]:
     """
     patterns = ("*.txt", "*.md")
 
-    files = chain.from_iterable(raw_dir.rglob(p) for p in patterns)
+    files = list(chain.from_iterable(raw_dir.rglob(p) for p in patterns))
+    logger.info("Iterating %d documents from %s", len(files), raw_dir)
 
     for file_path in files:
         text = file_path.read_text(encoding="utf-8")

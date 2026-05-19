@@ -16,6 +16,9 @@ from collections import defaultdict
 from sentence_transformers import CrossEncoder
 from functools import lru_cache
 import numpy as np
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 
 @lru_cache(maxsize=None)
@@ -91,6 +94,14 @@ def retrieve(
     dense → (BM25 → RRF) → re-rank → return top-n chunks
     """
 
+    logger.info(
+        "Retrieving for query: %r (hybrid=%s, reranker=%s, top_k=%d)",
+        query,
+        cfg.retrieval.use_hybrid,
+        cfg.retrieval.use_reranker,
+        cfg.retrieval.top_k,
+    )
+
     embedding_matrix = embed_chunks([query], cfg.embedding)
     query_embedding = embedding_matrix[0]
 
@@ -99,11 +110,13 @@ def retrieve(
     if cfg.retrieval.use_hybrid:
         bm25_result = bm25_search(query, corpus, cfg.retrieval.top_k)
         candidates = reciprocal_rank_fusion([dense_result, bm25_result])
-
     else:
         candidates = dense_result
 
     if cfg.retrieval.use_reranker:
-        return rerank(query, candidates, cfg.retrieval.rerank_top_n)
+        results = rerank(query, candidates, cfg.retrieval.rerank_top_n)
     else:
-        return candidates[: cfg.retrieval.rerank_top_n]
+        results = candidates[: cfg.retrieval.rerank_top_n]
+
+    logger.info("Retrieval complete — %d chunks returned", len(results))
+    return results

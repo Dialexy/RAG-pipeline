@@ -11,6 +11,9 @@ from collections.abc import Iterator
 from config import EmbeddingConfig
 from config import ChunkConfig
 from .models import Document
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 try:
     nltk.data.find('tokenizers/punkt_tab')
@@ -137,6 +140,8 @@ def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
         texts = chunk_semantic(doc.text, cfg)
     else:
         raise ValueError(f"Unknown: {cfg.strategy}")
+
+    logger.debug("Document %s → %d chunks (strategy=%s)", doc.id, len(texts), cfg.strategy)
 
     for i, chunk_text in enumerate(texts):
         yield Document(
