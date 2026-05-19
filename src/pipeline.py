@@ -3,11 +3,13 @@ End-to-end pipeline: index-time and query-time entry points.
 """
 
 from config import PipelineConfig, PROCESSED_DIR, RAW_DIR
+from .models import Document
 from .ingestion import fetch_corpus, iter_documents
 from .chunking import chunk_document
 from .vector_store import build_index, load_index
 from .retrieval import retrieve
 from .generation import generate
+
 
 def build_pipeline(cfg: PipelineConfig) -> None:
     """
@@ -24,19 +26,28 @@ def build_pipeline(cfg: PipelineConfig) -> None:
 
     build_index(chunks, cfg)
 
-def query_pipeline(query: str, cfg: PipelineConfig) -> dict:
+
+def query_pipeline(
+    query: str,
+    cfg: PipelineConfig,
+    collection=None,
+    corpus: list[Document] | None = None,
+) -> dict:
     """
     Query-time: embed query → retrieve → generate.
     Returns {"query": str, "answer": str, "sources": list[dict]}
     """
-    collection = load_index(cfg)
+    if collection is None:
+        collection = load_index(cfg)
 
-    corpus = list(iter_documents(RAW_DIR))
+    if corpus is None:
+        corpus = list(iter_documents(RAW_DIR))
+
     chunks = retrieve(query, collection, corpus, cfg)
     answer = generate(query, chunks, cfg.generation)
 
     return {
-            "query": query,
-            "answer": answer,
-            "sources": chunks,
-            }
+        "query": query,
+        "answer": answer,
+        "sources": chunks,
+    }

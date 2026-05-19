@@ -38,7 +38,7 @@ def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]:
         {
             "text": corpus[i].text,
             "metadata": corpus[i].metadata,
-            "score": scores[i],
+            "score": float(scores[i]),
         }
         for i in top_indices
     ]
@@ -77,7 +77,7 @@ def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     return [
         {
             **candidate,
-            "reranked_score": score,
+            "reranked_score": float(score),
         }
         for candidate, score in ranked[:top_n]
     ]

@@ -50,7 +50,7 @@ def dense_search(query_embedding, top_k: int, collection) -> list[dict]:
         {
             "text": doc,
             "metadata": meta,
-            "score": dist,
+            "score": float(dist),
         }
         for doc, meta, dist in zip(
             results["documents"][0],

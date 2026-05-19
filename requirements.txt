@@ -12,3 +12,7 @@ ollama
 
 # Vector Store
 chromadb
+
+# API
+fastapi
+uvicorn
