@@ -7,7 +7,7 @@ This is where naive RAG breaks down:
   - context window pressure  →  pick rerank_top_n << top_k
 """
 
-from config import PipelineConfig
+from config import PipelineConfig, GenerationConfig
 from .models import Document
 from .embedding import embed_chunks
 from .vector_store import dense_search
@@ -15,8 +15,9 @@ from rank_bm25 import BM25Okapi
 from collections import defaultdict
 from sentence_transformers import CrossEncoder
 from functools import lru_cache
-import numpy as np
 from .logger import get_logger
+import numpy as np
+import ollama
 
 logger = get_logger(__name__)
 
@@ -26,11 +27,16 @@ def load_rank() -> CrossEncoder:
     return CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 
+@lru_cache(maxsize=None)
+def build_bm25_index(corpus: tuple[Document, ...]) -> BM25Okapi:
+    tokenised_corpus = [doc.text.lower().split() for doc in corpus]
+    return BM25Okapi(tokenised_corpus)
+
+
 def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]:
     """Sparse BM25 retrieval over the full chunk corpus."""
 
-    tokenised_corpus = [doc.text.lower().split() for doc in corpus]
-    bm25 = BM25Okapi(tokenised_corpus)
+    bm25 = build_bm25_index(tuple(corpus))
 
     tokenised_query = query.lower().split()
     scores = bm25.get_scores(tokenised_query)
@@ -86,32 +92,61 @@ def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     ]
 
 
+def expand_query(query: str, cfg: GenerationConfig) -> list[str]:
+    """Ask the LLM for 2 alternative phrasings; returns original + up to 2 variants."""
+    prompt = f"""Generate 2 alternative phrasings of this question that mean the same thing.
+Return only the questions, one per line, no numbering or explanation.
+
+Question: {query}"""
+
+    response = ollama.chat(
+        model=cfg.model, messages=[{"role": "user", "content": prompt}]
+    )
+
+    raw = response.message.content or ""
+    variants = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+    return [query] + variants[:2]
+
+
 def retrieve(
     query: str, collection, corpus: list[Document], cfg: PipelineConfig
 ) -> list[dict]:
     """
     Full retrieval pipeline for a single query:
-    dense → (BM25 → RRF) → re-rank → return top-n chunks
+    expand → dense → (BM25) → RRF → re-rank → return top-n chunks
     """
 
     logger.info(
-        "Retrieving for query: %r (hybrid=%s, reranker=%s, top_k=%d)",
+        "Retrieving for query: %r (hybrid=%s, reranker=%s, query_expansion=%s, top_k=%d)",
         query,
         cfg.retrieval.use_hybrid,
         cfg.retrieval.use_reranker,
+        cfg.retrieval.use_query_expansion,
         cfg.retrieval.top_k,
     )
 
-    embedding_matrix = embed_chunks([query], cfg.embedding)
-    query_embedding = embedding_matrix[0]
+    if cfg.retrieval.use_query_expansion:
+        query_variants = expand_query(query, cfg.generation)
+        logger.info(
+            "Query expanded to %d variants: %s", len(query_variants), query_variants
+        )
+    else:
+        query_variants = [query]
 
-    dense_result = dense_search(query_embedding, cfg.retrieval.top_k, collection)
+    all_dense = []
+    all_bm25 = []
+
+    for variant in query_variants:
+        embedding = embed_chunks([variant], cfg.embedding)[0]
+        all_dense.append(dense_search(embedding, cfg.retrieval.top_k, collection))
+
+        if cfg.retrieval.use_hybrid:
+            all_bm25.append(bm25_search(variant, corpus, cfg.retrieval.top_k))
 
     if cfg.retrieval.use_hybrid:
-        bm25_result = bm25_search(query, corpus, cfg.retrieval.top_k)
-        candidates = reciprocal_rank_fusion([dense_result, bm25_result])
+        candidates = reciprocal_rank_fusion(all_dense + all_bm25)
     else:
-        candidates = dense_result
+        candidates = reciprocal_rank_fusion(all_dense)
 
     if cfg.retrieval.use_reranker:
         results = rerank(query, candidates, cfg.retrieval.rerank_top_n)

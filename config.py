@@ -14,6 +14,7 @@ class ChunkConfig:
     strategy: str = "semantic"  # "fixed", "recursive", "semantic"
     chunk_size: int = 512
     chunk_overlap: int = 64
+    semantic_threshold: float = 0.5
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,7 @@ class RetrievalConfig:
     rerank_top_n: int = 3
     use_reranker: bool = True
     use_hybrid: bool = True  # BM25 + dense
+    use_query_expansion: bool = True
 
 
 @dataclass

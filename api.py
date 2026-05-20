@@ -13,6 +13,7 @@ from src.pipeline import query_pipeline
 
 class QueryRequest(BaseModel):
     question: str
+    model: str | None = None
 
 
 class QueryResponse(BaseModel):
@@ -50,9 +51,12 @@ def health():
 @app.post("/query", response_model=QueryResponse)
 def query(request: QueryRequest):
     """Embed the question, retrieve chunks, generate an answer, return structured response."""
+    cfg = state["cfg"]
+    if request.model is not None:
+        cfg.generation.model = request.model
     result = query_pipeline(
         request.question,
-        state["cfg"],
+        cfg,
         collection=state["collection"],
         corpus=state["corpus"],
     )
