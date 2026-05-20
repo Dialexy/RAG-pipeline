@@ -21,7 +21,7 @@ except LookupError:
     nltk.download('punkt_tab')
 
 def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
-    """Sliding-window fixed-size split. Baseline — fast but context-blind."""
+    """Sliding-window fixed-size split. Baseline, fast but context-blind."""
     chunks = []
     start = 0
 

@@ -35,7 +35,7 @@ def fetch_corpus(output_dir: Path) -> None:
             filepath.write_text(combined, encoding="utf-8")
             count += 1
 
-    logger.info("Corpus fetch complete — %d new documents written", count)
+    logger.info("Corpus fetch complete: %d new documents written", count)
 
 
 def iter_documents(raw_dir: Path) -> Iterator[Document]:

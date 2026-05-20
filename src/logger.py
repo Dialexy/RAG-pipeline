@@ -34,3 +34,10 @@ def get_logger(name: str) -> logging.Logger:
         logger.propagate = False
 
     return logger
+
+
+def set_debug() -> None:
+    """Drop all src.* loggers to DEBUG level."""
+    for name, logger in logging.Logger.manager.loggerDict.items():
+        if name.startswith("src.") and isinstance(logger, logging.Logger):
+            logger.setLevel(logging.DEBUG)

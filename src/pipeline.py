@@ -33,7 +33,7 @@ def build_pipeline(cfg: PipelineConfig) -> None:
         for chunk in chunk_document(document, cfg.chunking):
             chunks.append(chunk)
     logger.info(
-        "Chunking complete — %d chunks in %.1fs",
+        "Chunking complete: %d chunks in %.1fs",
         len(chunks),
         time.perf_counter() - t_chunk,
     )
@@ -66,7 +66,7 @@ def query_pipeline(
 
     t_retrieve = time.perf_counter()
     chunks = retrieve(query, collection, corpus, cfg)
-    logger.info("Retrieval took %.2fs — %d chunks", time.perf_counter() - t_retrieve, len(chunks))
+    logger.info("Retrieval took %.2fs, %d chunks", time.perf_counter() - t_retrieve, len(chunks))
 
     t_generate = time.perf_counter()
     answer = generate(query, chunks, cfg.generation)

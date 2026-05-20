@@ -10,7 +10,7 @@ This is where naive RAG breaks down:
 from config import PipelineConfig, GenerationConfig
 from .models import Document
 from .embedding import embed_chunks
-from .vector_store import dense_search
+from .vector_store import dense_search, fetch_neighbouring_chunks
 from rank_bm25 import BM25Okapi
 from collections import defaultdict
 from sentence_transformers import CrossEncoder
@@ -33,7 +33,7 @@ def build_bm25_index(corpus: tuple[Document, ...]) -> BM25Okapi:
     return BM25Okapi(tokenised_corpus)
 
 
-def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]:
+def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]: #TODO: Change the granuality to chunks not files. Right now dense serach is more granualar.
     """Sparse BM25 retrieval over the full chunk corpus."""
 
     bm25 = build_bm25_index(tuple(corpus))
@@ -72,7 +72,7 @@ def reciprocal_rank_fusion(ranked_lists, k=60):
 
 
 def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
-    """Cross-encoder re-ranking — returns top_n chunks sorted by relevance."""
+    """Cross-encoder re-ranking; returns top_n chunks sorted by relevance."""
     model = load_rank()
     pairs = [(query, candidate["text"]) for candidate in candidates]
     scores = model.predict(pairs)
@@ -153,5 +153,12 @@ def retrieve(
     else:
         results = candidates[: cfg.retrieval.rerank_top_n]
 
-    logger.info("Retrieval complete — %d chunks returned", len(results))
+    for result in results:
+        meta = result["metadata"]
+        if "parent_id" in meta and "chunk_index" in meta:
+            chunk_id = f"{meta['parent_id']}::chunk{meta['chunk_index']}"
+            neighbours = fetch_neighbouring_chunks(chunk_id, collection)
+            result["text"] = "\n".join(neighbours[:1] + [result["text"]] + neighbours[1:])
+
+    logger.info("Retrieval complete: %d chunks returned", len(results))
     return results

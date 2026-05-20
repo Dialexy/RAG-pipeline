@@ -2,12 +2,13 @@
 Chroma wrapper: index chunks and run similarity search.
 """
 
+import chromadb
 from config import PipelineConfig, CHROMA_PERSIST_DIR
 from .models import Document
 from .embedding import embed_chunks
-import chromadb
 from chromadb.api.models.Collection import Collection
 from .logger import get_logger
+
 
 logger = get_logger(__name__)
 
@@ -34,7 +35,7 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
             metadatas=[chunk.metadata for chunk in batch],
         )
 
-    logger.info("Index build complete — %d chunks upserted into Chroma", len(chunks))
+    logger.info("Index build complete: %d chunks upserted into Chroma", len(chunks))
 
 
 def load_index(cfg: PipelineConfig) -> Collection:
@@ -43,6 +44,33 @@ def load_index(cfg: PipelineConfig) -> Collection:
     chroma_client = chromadb.PersistentClient(CHROMA_PERSIST_DIR)
     rag_chunks = chroma_client.get_collection(name="rag_chunks")
     return rag_chunks
+
+
+def fetch_neighbouring_chunks(chunk_id: str, collection) -> list[str]:
+    """Given a chunk id like '90.txt::chunk7', fetch chunk6 and chunk8 texts."""
+
+    parts = chunk_id.split("::chunk")
+    doc_id = parts[0]
+    chunk_index = int(parts[1])
+
+    neighbour_ids = [
+        f"{doc_id}::chunk{chunk_index - 1}",
+        f"{doc_id}::chunk{chunk_index + 1}",
+    ]
+
+    neighbour_texts = []
+    found_ids = []
+    for neighbour_id in neighbour_ids:
+        try:
+            result = collection.get(ids=[neighbour_id], include=["documents"])
+            if result["documents"] and result["documents"][0]:
+                neighbour_texts.append(result["documents"][0][0])
+                found_ids.append(neighbour_id)
+        except:
+            pass
+
+    logger.debug("Neighbours for %s: %s", chunk_id, found_ids if found_ids else "none")
+    return neighbour_texts
 
 
 def dense_search(query_embedding, top_k: int, collection) -> list[dict]:

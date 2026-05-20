@@ -60,5 +60,5 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     )
 
     answer = response.message.content or ""
-    logger.info("Generation complete — %d chars", len(answer))
+    logger.info("Generation complete: %d chars", len(answer))
     return answer
