@@ -11,7 +11,6 @@ import ollama
 import random
 import re
 from typing import Any
-from config import PipelineConfig
 from pathlib import Path
 from textwrap import dedent
 from src.vector_store import load_index
@@ -35,12 +34,16 @@ def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict
         text = file.read_text(encoding="utf-8")
         doc_id = str(file.relative_to(raw_dir))
 
+        max_start = max(0, len(text) - 2000)
+        start = random.randint(0, max_start)
+        window = text[start:start + 2000]
+
         prompt = f"""
-                Read the following text and generate one factual question 
+                Read the following text and generate one factual question
                 whose answer is clearly stated in the text.
                 Respond with only the question, nothing else.
 
-                Text: {text[:2000]}
+                Text: {window}
                 """
 
         question = (

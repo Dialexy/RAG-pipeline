@@ -14,6 +14,7 @@ from src.pipeline import query_pipeline
 class QueryRequest(BaseModel):
     question: str
     model: str | None = None
+    filters: dict | None = None
 
 
 class QueryResponse(BaseModel):
@@ -52,6 +53,7 @@ def health():
 def query(request: QueryRequest):
     """Embed the question, retrieve chunks, generate an answer, return structured response."""
     cfg = state["cfg"]
+    # TODO: I need to avoid mutating the shared cfg state. I need to Create a copy per request for thread safety
     if request.model is not None:
         cfg.generation.model = request.model
     result = query_pipeline(
@@ -59,6 +61,7 @@ def query(request: QueryRequest):
         cfg,
         collection=state["collection"],
         corpus=state["corpus"],
+        filters=request.filters,
     )
     return QueryResponse(
         answer=result["answer"], sources=result["sources"], query=result["query"]

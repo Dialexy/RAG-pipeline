@@ -109,7 +109,7 @@ Question: {query}"""
 
 
 def retrieve(
-    query: str, collection, corpus: list[Document], cfg: PipelineConfig
+    query: str, collection, corpus: list[Document], cfg: PipelineConfig, filters: dict | None = None
 ) -> list[dict]:
     """
     Full retrieval pipeline for a single query:
@@ -136,9 +136,11 @@ def retrieve(
     all_dense = []
     all_bm25 = []
 
+    active_filters = filters if filters is not None else cfg.retrieval.default_filters
+
     for variant in query_variants:
         embedding = embed_chunks([variant], cfg.embedding)[0]
-        all_dense.append(dense_search(embedding, cfg.retrieval.top_k, collection))
+        all_dense.append(dense_search(embedding, cfg.retrieval.top_k, collection, filters=active_filters))
 
         if cfg.retrieval.use_hybrid:
             all_bm25.append(bm25_search(variant, corpus, cfg.retrieval.top_k))

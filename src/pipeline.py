@@ -50,6 +50,7 @@ def query_pipeline(
     cfg: PipelineConfig,
     collection=None,
     corpus: list[Document] | None = None,
+    filters: dict | None = None,
 ) -> dict:
     """
     Query-time: embed query → retrieve → generate.
@@ -65,7 +66,7 @@ def query_pipeline(
         corpus = list(iter_documents(RAW_DIR))
 
     t_retrieve = time.perf_counter()
-    chunks = retrieve(query, collection, corpus, cfg)
+    chunks = retrieve(query, collection, corpus, cfg, filters=filters)
     logger.info("Retrieval took %.2fs, %d chunks", time.perf_counter() - t_retrieve, len(chunks))
 
     t_generate = time.perf_counter()

@@ -30,6 +30,7 @@ class RetrievalConfig:
     use_reranker: bool = True
     use_hybrid: bool = True  # BM25 + dense
     use_query_expansion: bool = True
+    default_filters: dict | None = None
 
 
 @dataclass

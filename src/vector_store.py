@@ -73,12 +73,13 @@ def fetch_neighbouring_chunks(chunk_id: str, collection) -> list[str]:
     return neighbour_texts
 
 
-def dense_search(query_embedding, top_k: int, collection) -> list[dict]:
+def dense_search(query_embedding, top_k: int, collection, filters: dict | None = None) -> list[dict]:
     """Return top-k chunks by cosine similarity."""
     results = collection.query(
         query_embeddings=[query_embedding.tolist()],
         n_results=top_k,
         include=["documents", "metadatas", "distances"],
+        where=filters,
     )
 
     return [
