@@ -9,6 +9,7 @@ Metrics to implement:
 
 import ollama
 import random
+import re
 from typing import Any
 from config import PipelineConfig
 from pathlib import Path
@@ -92,10 +93,12 @@ def faithfulness_score(
     )
     content_unstripped = ollama_output.message.content or ""
     content_stripped = content_unstripped.strip()
-    try:
-        return float(content_stripped)
-    except ValueError:
-        return 0.0
+
+    match = re.search(r"\b\d*\.?\d+\b", content_stripped)
+    if match:
+        score = float(match.group())
+        return max(0.0, min(1.0, score))
+    return 0.0
 
 
 def run_evaluation(
