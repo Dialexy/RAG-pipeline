@@ -15,6 +15,7 @@ class ChunkConfig:
     chunk_size: int = 512
     chunk_overlap: int = 64
     semantic_threshold: float = 0.5
+    dedup_threshold: float = 0.95
 
 
 @dataclass(frozen=True)
