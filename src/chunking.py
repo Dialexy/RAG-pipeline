@@ -16,9 +16,10 @@ from .logger import get_logger
 logger = get_logger(__name__)
 
 try:
-    nltk.data.find('tokenizers/punkt_tab')
+    nltk.data.find("tokenizers/punkt_tab")
 except LookupError:
-    nltk.download('punkt_tab')
+    nltk.download("punkt_tab")
+
 
 def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
     """Sliding-window fixed-size split. Baseline, fast but context-blind."""
@@ -141,7 +142,9 @@ def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
     else:
         raise ValueError(f"Unknown: {cfg.strategy}")
 
-    logger.debug("Document %s → %d chunks (strategy=%s)", doc.id, len(texts), cfg.strategy)
+    logger.debug(
+        "Document %s → %d chunks (strategy=%s)", doc.id, len(texts), cfg.strategy
+    )
 
     for i, chunk_text in enumerate(texts):
         yield Document(

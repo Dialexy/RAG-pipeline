@@ -3,6 +3,8 @@ End-to-end pipeline: index-time and query-time entry points.
 """
 
 import time
+import hashlib
+from pathlib import Path
 from config import PipelineConfig, RAW_DIR
 from .models import Document
 from .ingestion import fetch_corpus, iter_documents
@@ -13,6 +15,30 @@ from .generation import generate
 from .logger import get_logger
 
 logger = get_logger(__name__)
+
+
+def file_hash(path: Path) -> str:
+    hash = hashlib.sha256()
+    hash.update(path.name.encode())
+    hash.update(b"\0")
+    hash.update(path.read_bytes())
+    return hash.hexdigest()
+
+
+def corpus_hash(raw_dir: Path) -> str:
+    file_path = sorted(
+        raw_dir.glob("*.txt")
+    )  # glob used instead of rglob incase I ever change the file struct
+       # rglob is probably fine though
+
+    hash = hashlib.sha256()
+
+    for file in file_path:
+        hashed_file = file_hash(file)
+        hash.update(hashed_file.encode())
+        hash.update(b"\0")
+
+    return hash.hexdigest()
 
 
 def build_pipeline(cfg: PipelineConfig) -> None:
@@ -67,7 +93,9 @@ def query_pipeline(
 
     t_retrieve = time.perf_counter()
     chunks = retrieve(query, collection, corpus, cfg, filters=filters)
-    logger.info("Retrieval took %.2fs, %d chunks", time.perf_counter() - t_retrieve, len(chunks))
+    logger.info(
+        "Retrieval took %.2fs, %d chunks", time.perf_counter() - t_retrieve, len(chunks)
+    )
 
     t_generate = time.perf_counter()
     answer = generate(query, chunks, cfg.generation)
