@@ -5,7 +5,7 @@ End-to-end pipeline: index-time and query-time entry points.
 import time
 import hashlib
 from pathlib import Path
-from config import PipelineConfig, RAW_DIR
+from config import CHROMA_PERSIST_DIR, PipelineConfig, RAW_DIR
 from .models import Document
 from .ingestion import fetch_corpus, iter_documents
 from .chunking import chunk_document
@@ -29,7 +29,7 @@ def corpus_hash(raw_dir: Path) -> str:
     file_path = sorted(
         raw_dir.glob("*.txt")
     )  # glob used instead of rglob incase I ever change the file struct
-       # rglob is probably fine though
+    # rglob is probably fine though
 
     hash = hashlib.sha256()
 
@@ -41,11 +41,22 @@ def corpus_hash(raw_dir: Path) -> str:
     return hash.hexdigest()
 
 
-def build_pipeline(cfg: PipelineConfig) -> None:
+def build_pipeline(cfg: PipelineConfig, force=False) -> None:
     """
     Index-time: ingest → chunk → embed → store.
     Run once (or when the corpus changes).
     """
+
+    current_hash = corpus_hash(RAW_DIR)
+    hash_file = CHROMA_PERSIST_DIR / "corpus.hash"
+
+    if not force and hash_file.exists():
+        stored_hash = hash_file.read_text()
+
+        if current_hash == stored_hash:
+            logger.info("Indexing Skipped, corpus unchanged")
+            return
+
     t_start = time.perf_counter()
     logger.info("Starting indexing pipeline")
 
@@ -69,6 +80,7 @@ def build_pipeline(cfg: PipelineConfig) -> None:
     logger.info("Index built in %.1fs", time.perf_counter() - t_index)
 
     logger.info("Indexing pipeline complete in %.1fs", time.perf_counter() - t_start)
+    hash_file.write_text(current_hash)
 
 
 def query_pipeline(

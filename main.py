@@ -11,9 +11,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="RAG pipeline")
     sub = parser.add_subparsers(dest="command")
 
-    sub.add_parser("index", parents=[common], help="Ingest corpus, chunk, embed, and store")
+    idx = sub.add_parser(
+        "index", parents=[common], help="Ingest corpus, chunk, embed, and store"
+    )
+    idx.add_argument(
+        "--force", action="store_true", help="Reindex even if the corpus is unchanged"
+    )
 
-    q = sub.add_parser("query", parents=[common], help="Ask a question against the index")
+    q = sub.add_parser(
+        "query", parents=[common], help="Ask a question against the index"
+    )
     q.add_argument("question", type=str)
     q.add_argument(
         "--model",
@@ -27,11 +34,11 @@ def main() -> None:
         set_debug()
     cfg = PipelineConfig()
 
-    if args.model is not None:
+    if getattr(args, "model", None) is not None:
         cfg.generation.model = args.model
 
     if args.command == "index":
-        build_pipeline(cfg)
+        build_pipeline(cfg, force=getattr(args, "force", False))
     elif args.command == "query":
         result = query_pipeline(args.question, cfg)
         print(result["answer"])
