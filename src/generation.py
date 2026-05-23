@@ -3,6 +3,7 @@ LLM generation layer. Takes retrieved chunks and a query, returns an answer.
 """
 
 import ollama
+import httpx
 from textwrap import dedent
 from config import GenerationConfig
 from .logger import get_logger
@@ -44,21 +45,42 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     Streams from ollama.chat() using cfg.model (default: qwen2.5:14b).
     """
 
-    logger.info("Generating answer for query: %r (model=%s, chunks=%d)", query, cfg.model, len(chunks))
+    logger.info(
+        "Generating answer for query: %r (model=%s, chunks=%d)",
+        query,
+        cfg.model,
+        len(chunks),
+    )
     prompt = build_prompt(query, chunks)
 
-    response = ollama.chat(
-        model=cfg.model,
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a precise assistant that answers questions strictly based on provided context. Never use outside knowledge. If the answer isn't in the context, say so.",
-            },
-            {"role": "user", "content": prompt},
-        ],
-        options={"temperature": cfg.temperature, "num_predict": cfg.max_tokens},
-    )
+    try:
+        response = ollama.chat(
+            model=cfg.model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a precise assistant that answers questions strictly based on provided context. Never use outside knowledge. If the answer isn't in the context, say so.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            options={"temperature": cfg.temperature, "num_predict": cfg.max_tokens},
+        )
+        answer = response.message.content or ""
+        logger.info("Generation complete: %d chars", len(answer))
+        return answer
 
-    answer = response.message.content or ""
-    logger.info("Generation complete: %d chars", len(answer))
-    return answer
+    except httpx.ConnectError as e:
+        logger.error("Cannot connect to Ollama. start it with 'ollama serve'")
+        raise RuntimeError("Ollama service unavailable") from e
+
+    except ollama.ResponseError as e:
+        logger.error("Ollama returned an error: %s", e)
+        raise RuntimeError("Ollama service unavailable") from e
+
+    except Exception as e:
+        if "model" in str(e).lower() and cfg.model in str(e):
+            logger.error(
+                "Model %r not found. Pull with 'ollama pull %s'", cfg.model, cfg.model
+            )
+            raise RuntimeError(f"Model {cfg.model!r} not found") from e
+        raise
