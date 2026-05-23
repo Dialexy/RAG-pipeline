@@ -17,7 +17,7 @@ from src.vector_store import load_index
 from src.retrieval import retrieve
 from src.generation import generate
 from src.ingestion import iter_documents
-from src.chunking import chunk_document
+from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 
 
@@ -116,11 +116,16 @@ def run_evaluation(
     faithfulness_scores = []
 
     collection = load_index(pipeline_cfg)
-    corpus = [
-        chunk
-        for doc in iter_documents(RAW_DIR)
-        for chunk in chunk_document(doc, pipeline_cfg.chunking)
-    ]
+    corpus = []
+    batch_size = 5000
+    offset = 0
+    while True:
+        batch = collection.get(include=["documents", "metadatas"], limit=batch_size, offset=offset)
+        if not batch["ids"]:
+            break
+        for id_, text, meta in zip(batch["ids"], batch["documents"], batch["metadatas"]):
+            corpus.append(Document(id=id_, text=text, metadata=meta))
+        offset += batch_size
 
     for qa_pair in qa_pairs:
         question = qa_pair["question"]

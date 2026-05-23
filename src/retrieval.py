@@ -24,7 +24,7 @@ logger = get_logger(__name__)
 
 @lru_cache(maxsize=None)
 def load_rank() -> CrossEncoder:
-    return CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    return CrossEncoder("BAAI/bge-reranker-large")
 
 
 @lru_cache(maxsize=None)

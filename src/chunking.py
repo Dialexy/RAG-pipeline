@@ -103,7 +103,7 @@ def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
         for i in range(len(embeddings) - 1)
     ]
 
-    threshold = float(np.mean(distances) + cfg.semantic_threshold * np.std(distances))
+    threshold = float(np.mean(distances) + cfg.semantic_split_std_multiplier * np.std(distances))
 
     split_points = {i for i, d in enumerate(distances) if d > threshold}
 
@@ -124,7 +124,7 @@ def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
         else:
             result.append(chunk)
 
-    return result
+    return [chunk for chunk in result if len(chunk) >= cfg.semantic_min_chunk_size]
 
 
 def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
