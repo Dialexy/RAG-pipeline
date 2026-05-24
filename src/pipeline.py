@@ -104,14 +104,34 @@ def query_pipeline(
         corpus = list(iter_documents(RAW_DIR))
 
     t_retrieve = time.perf_counter()
-    chunks = retrieve(query, collection, corpus, cfg, filters=filters)
-    logger.info(
-        "Retrieval took %.2fs, %d chunks", time.perf_counter() - t_retrieve, len(chunks)
-    )
+    try:
+        chunks = retrieve(query, collection, corpus, cfg, filters=filters)
+        logger.info(
+            "Retrieval took %.2fs, %d chunks",
+            time.perf_counter() - t_retrieve,
+            len(chunks),
+        )
+    except Exception as e:
+        logger.error("Retrieval failed: %s", e)
+        return {
+            "query": query,
+            "answer": "I encountered an error during retrieval. Please try again.",
+            "sources": [],
+            "error": str(e),
+        }
 
     t_generate = time.perf_counter()
-    answer = generate(query, chunks, cfg.generation)
-    logger.info("Generation took %.2fs", time.perf_counter() - t_generate)
+    try:
+        answer = generate(query, chunks, cfg.generation)
+        logger.info("Generation took %.2fs", time.perf_counter() - t_generate)
+    except RuntimeError as e:
+        logger.error("Generation failed: %s", e)
+        return {
+            "query": query,
+            "answer": str(e),
+            "sources": chunks,
+            "error": str(e),
+        }
 
     logger.info("Query complete in %.2fs", time.perf_counter() - t_start)
 
@@ -119,4 +139,5 @@ def query_pipeline(
         "query": query,
         "answer": answer,
         "sources": chunks,
+        "error": None,
     }

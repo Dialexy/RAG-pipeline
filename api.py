@@ -21,6 +21,7 @@ class QueryResponse(BaseModel):
     answer: str
     sources: list[dict]
     query: str
+    error: str | None = None
 
 
 state = {}
