@@ -2,6 +2,7 @@
 LLM generation layer. Takes retrieved chunks and a query, returns an answer.
 """
 
+import time
 import ollama
 import httpx
 from textwrap import dedent
@@ -53,34 +54,40 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     )
     prompt = build_prompt(query, chunks)
 
-    try:
-        response = ollama.chat(
-            model=cfg.model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a precise assistant that answers questions strictly based on provided context. Never use outside knowledge. If the answer isn't in the context, say so.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            options={"temperature": cfg.temperature, "num_predict": cfg.max_tokens},
-        )
-        answer = response.message.content or ""
-        logger.info("Generation complete: %d chars", len(answer))
-        return answer
+    messages = [
+        {
+            "role": "system",
+            "content": "You are a precise assistant that answers questions strictly based on provided context. Never use outside knowledge. If the answer isn't in the context, say so.",
+        },
+        {"role": "user", "content": prompt},
+    ]
+    options = {"temperature": cfg.temperature, "num_predict": cfg.max_tokens}
 
-    except httpx.ConnectError as e:
-        logger.error("Cannot connect to Ollama. start it with 'ollama serve'")
-        raise RuntimeError("Ollama service unavailable") from e
+    max_retries = 6
+    for attempt in range(max_retries):
+        try:
+            response = ollama.chat(model=cfg.model, messages=messages, options=options)
+            answer = response.message.content or ""
+            logger.info("Generation complete: %d chars", len(answer))
+            return answer
 
-    except ollama.ResponseError as e:
-        logger.error("Ollama returned an error: %s", e)
-        raise RuntimeError("Ollama service unavailable") from e
+        except (ConnectionError, httpx.ConnectError, httpx.RemoteProtocolError) as e:
+            if attempt < max_retries - 1:
+                wait = min(5 * (2 ** attempt), 60)
+                logger.warning("Ollama connection dropped, retrying in %ds (attempt %d/%d)", wait, attempt + 1, max_retries)
+                time.sleep(wait)
+            else:
+                logger.error("Cannot connect to Ollama after %d attempts. Start it with 'ollama serve'", max_retries)
+                raise RuntimeError("Ollama service unavailable") from e
 
-    except Exception as e:
-        if "model" in str(e).lower() and cfg.model in str(e):
-            logger.error(
-                "Model %r not found. Pull with 'ollama pull %s'", cfg.model, cfg.model
-            )
-            raise RuntimeError(f"Model {cfg.model!r} not found") from e
-        raise
+        except ollama.ResponseError as e:
+            logger.error("Ollama returned an error: %s", e)
+            raise RuntimeError("Ollama service unavailable") from e
+
+        except Exception as e:
+            if "model" in str(e).lower() and cfg.model in str(e):
+                logger.error(
+                    "Model %r not found. Pull with 'ollama pull %s'", cfg.model, cfg.model
+                )
+                raise RuntimeError(f"Model {cfg.model!r} not found") from e
+            raise

@@ -18,6 +18,7 @@ from functools import lru_cache
 from .logger import get_logger
 import numpy as np
 import ollama
+import httpx
 
 logger = get_logger(__name__)
 
@@ -99,13 +100,16 @@ Return only the questions, one per line, no numbering or explanation.
 
 Question: {query}"""
 
-    response = ollama.chat(
-        model=cfg.model, messages=[{"role": "user", "content": prompt}]
-    )
-
-    raw = response.message.content or ""
-    variants = [line.strip() for line in raw.strip().splitlines() if line.strip()]
-    return [query] + variants[:2]
+    try:
+        response = ollama.chat(
+            model=cfg.model, messages=[{"role": "user", "content": prompt}]
+        )
+        raw = response.message.content or ""
+        variants = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+        return [query] + variants[:2]
+    except (httpx.RemoteProtocolError, httpx.ConnectError) as e:
+        logger.warning("Query expansion failed, continuing with original query: %s", e)
+        return [query]
 
 
 def retrieve(

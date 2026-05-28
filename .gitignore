@@ -55,6 +55,7 @@ logs/
 *.log
 results/
 outputs/
+eval/results/
 
 # macOS
 .DS_Store

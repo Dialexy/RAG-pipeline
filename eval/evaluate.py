@@ -7,7 +7,9 @@ Metrics to implement:
             answer relevance, context precision/recall (RAGAs-style)
 """
 
+import time
 import ollama
+import httpx
 import random
 import re
 from typing import Any
@@ -19,6 +21,20 @@ from src.generation import generate
 from src.ingestion import iter_documents
 from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
+
+
+def _ollama_chat_with_retry(model: str, messages: list[dict], max_retries: int = 6) -> str:
+    for attempt in range(max_retries):
+        try:
+            return ollama.chat(model=model, messages=messages).message.content or ""
+        except (ConnectionError, httpx.RemoteProtocolError, httpx.ConnectError) as e:
+            if attempt < max_retries - 1:
+                wait = min(5 * (2 ** attempt), 60)
+                print(f"Ollama disconnected, retrying in {wait}s (attempt {attempt + 1}/{max_retries})...")
+                time.sleep(wait)
+            else:
+                raise RuntimeError("Ollama service unavailable after retries") from e
+    return ""
 
 
 def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict]:
@@ -46,12 +62,7 @@ def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict
                 Text: {window}
                 """
 
-        question = (
-            ollama.chat(
-                model=cfg.model, messages=[{"role": "user", "content": prompt}]
-            ).message.content
-            or ""
-        )
+        question = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}])
 
         qa_pairs.append({"question": question, "relevant_doc_id": doc_id})
 
@@ -91,11 +102,7 @@ def faithfulness_score(
     Only output the number, nothing else,
     """)
 
-    ollama_output = ollama.chat(
-        model=cfg.model, messages=[{"role": "user", "content": prompt}]
-    )
-    content_unstripped = ollama_output.message.content or ""
-    content_stripped = content_unstripped.strip()
+    content_stripped = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}]).strip()
 
     match = re.search(r"\b\d*\.?\d+\b", content_stripped)
     if match:
@@ -161,8 +168,18 @@ def run_evaluation(
 
 
 if __name__ == "__main__":
+    import json
+    from datetime import datetime
+
     cfg = PipelineConfig()
     judge_cfg = GenerationConfig(model="qwen2.5:32b-instruct-q4_K_M")
     qa_pairs = generate_qa_pairs(RAW_DIR, 20, judge_cfg)
     results = run_evaluation(cfg, qa_pairs, judge_cfg=judge_cfg)
     print(results)
+
+    results_dir = Path(__file__).parent / "results"
+    results_dir.mkdir(exist_ok=True)
+    timestamp = datetime.now().strftime("%H-%M-%S %d-%m-%y")
+    results_path = results_dir / f"{timestamp}.json"
+    results_path.write_text(json.dumps(results, indent=2))
+    print(f"Results written to {results_path}")
