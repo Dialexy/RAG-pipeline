@@ -142,6 +142,9 @@ def run_evaluation(
             corpus.append(Document(id=id_, text=text, metadata=dict(meta)))
         offset += batch_size
 
+    # Phase 1: retrieval + generation (14b model stays loaded throughout)
+    answers = []
+    source_chunks_list = []
     for qa_pair in qa_pairs:
         question = qa_pair["question"]
         relevant_doc_id = qa_pair["relevant_doc_id"]
@@ -153,8 +156,11 @@ def run_evaluation(
         recall_scores.append(recall_at_k(retrieved_ids, relevant_ids, k=10))
         mrr_scores.append(mean_reciprocal_rank(retrieved_ids, relevant_ids))
 
-        answer = generate(question, results, pipeline_cfg.generation)
-        source_chunks = [r["text"] for r in results]
+        answers.append(generate(question, results, pipeline_cfg.generation))
+        source_chunks_list.append([r["text"] for r in results])
+
+    # Phase 2: faithfulness scoring (judge model loads once, 14b already evicted)
+    for answer, source_chunks in zip(answers, source_chunks_list):
         faithfulness_scores.append(
             faithfulness_score(answer, source_chunks, effective_judge)
         )
