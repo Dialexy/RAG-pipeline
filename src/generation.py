@@ -63,7 +63,7 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     ]
     options = {"temperature": cfg.temperature, "num_predict": cfg.max_tokens}
 
-    max_retries = 6
+    max_retries = 10
     for attempt in range(max_retries):
         try:
             response = ollama.chat(model=cfg.model, messages=messages, options=options)

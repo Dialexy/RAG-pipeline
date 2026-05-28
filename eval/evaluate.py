@@ -23,7 +23,7 @@ from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 
 
-def _ollama_chat_with_retry(model: str, messages: list[dict], max_retries: int = 6) -> str:
+def _ollama_chat_with_retry(model: str, messages: list[dict], max_retries: int = 10) -> str:
     for attempt in range(max_retries):
         try:
             return ollama.chat(model=model, messages=messages).message.content or ""
