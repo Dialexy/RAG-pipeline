@@ -36,7 +36,7 @@ def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict
 
         max_start = max(0, len(text) - 2000)
         start = random.randint(0, max_start)
-        window = text[start:start + 2000]
+        window = text[start : start + 2000]
 
         prompt = f"""
                 Read the following text and generate one factual question
@@ -105,7 +105,9 @@ def faithfulness_score(
 
 
 def run_evaluation(
-    pipeline_cfg: PipelineConfig, qa_pairs: list[dict[str, Any]]
+    pipeline_cfg: PipelineConfig,
+    qa_pairs: list[dict[str, Any]],
+    judge_cfg: GenerationConfig | None = None,
 ) -> dict:
     """
     Run the full eval suite over a list of {"question": str, "answer": str, "relevant_ids": list}
@@ -115,16 +117,22 @@ def run_evaluation(
     mrr_scores = []
     faithfulness_scores = []
 
+    effective_judge = judge_cfg if judge_cfg is not None else pipeline_cfg.generation
+
     collection = load_index(pipeline_cfg)
     corpus = []
     batch_size = 5000
     offset = 0
     while True:
-        batch = collection.get(include=["documents", "metadatas"], limit=batch_size, offset=offset)
+        batch = collection.get(
+            include=["documents", "metadatas"], limit=batch_size, offset=offset
+        )
         if not batch["ids"]:
             break
-        for id_, text, meta in zip(batch["ids"], batch["documents"], batch["metadatas"]):
-            corpus.append(Document(id=id_, text=text, metadata=meta))
+        for id_, text, meta in zip(
+            batch["ids"], batch["documents"] or [], batch["metadatas"] or []
+        ):
+            corpus.append(Document(id=id_, text=text, metadata=dict(meta)))
         offset += batch_size
 
     for qa_pair in qa_pairs:
@@ -141,7 +149,7 @@ def run_evaluation(
         answer = generate(question, results, pipeline_cfg.generation)
         source_chunks = [r["text"] for r in results]
         faithfulness_scores.append(
-            faithfulness_score(answer, source_chunks, pipeline_cfg.generation)
+            faithfulness_score(answer, source_chunks, effective_judge)
         )
 
     return {
@@ -154,6 +162,7 @@ def run_evaluation(
 
 if __name__ == "__main__":
     cfg = PipelineConfig()
-    qa_pairs = generate_qa_pairs(RAW_DIR, 20, cfg.generation)
-    results = run_evaluation(cfg, qa_pairs)
+    judge_cfg = GenerationConfig(model="qwen2.5:32b-instruct-q4_K_M")
+    qa_pairs = generate_qa_pairs(RAW_DIR, 20, judge_cfg)
+    results = run_evaluation(cfg, qa_pairs, judge_cfg=judge_cfg)
     print(results)

@@ -37,7 +37,7 @@ class RetrievalConfig:
 
 @dataclass
 class GenerationConfig:
-    model: str = "qwen2.5:32b-instruct-q4_K_M"
+    model: str = "qwen2.5:14b"
     max_tokens: int = 1024
     temperature: float = 0.0
 
