@@ -60,8 +60,15 @@ def build_pipeline(cfg: PipelineConfig, force=False) -> None:
     t_start = time.perf_counter()
     logger.info("Starting indexing pipeline")
 
-    fetch_corpus(RAW_DIR)
+    try:
+        fetch_corpus(RAW_DIR)
+    except Exception as e:
+        logger.error("Corpus fetch failed: %s", e)
+        raise RuntimeError("Corpus fetch failed - check network connection") from e
+
     documents = list(iter_documents(RAW_DIR))
+    if not documents:
+        raise RuntimeError(f"No documents found in {RAW_DIR}")
     logger.info("Ingested %d documents", len(documents))
 
     t_chunk = time.perf_counter()
@@ -76,7 +83,11 @@ def build_pipeline(cfg: PipelineConfig, force=False) -> None:
     )
 
     t_index = time.perf_counter()
-    build_index(chunks, cfg)
+    try:
+        build_index(chunks, cfg)
+    except Exception as e:
+        logger.error("Index build failed: %s", e)
+        raise RuntimeError("Index build failed - ChromaDB may be corrupted") from e
     logger.info("Index built in %.1fs", time.perf_counter() - t_index)
 
     logger.info("Indexing pipeline complete in %.1fs", time.perf_counter() - t_start)
