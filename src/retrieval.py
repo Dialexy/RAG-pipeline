@@ -25,7 +25,16 @@ logger = get_logger(__name__)
 
 @lru_cache(maxsize=None)
 def load_rank() -> CrossEncoder:
-    return CrossEncoder("BAAI/bge-reranker-large")
+    try:
+        model = CrossEncoder("BAAI/bge-reranker-large")
+        # Force a small forward pass to confirm GPU allocation succeeds
+        model.predict([("test", "test")])
+        return model
+    except Exception as e:
+        if "cuda" in str(e).lower() or "out of memory" in str(e).lower():
+            logger.warning("Reranker GPU load failed (%s), falling back to CPU", e)
+            return CrossEncoder("BAAI/bge-reranker-large", device="cpu")
+        raise
 
 
 @lru_cache(maxsize=None)

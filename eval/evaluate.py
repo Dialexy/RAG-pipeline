@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
     cfg = PipelineConfig()
     judge_cfg = GenerationConfig(model="qwen2.5:32b-instruct-q4_K_M")
-    qa_pairs = generate_qa_pairs(RAW_DIR, 20, judge_cfg)
+    qa_pairs = generate_qa_pairs(RAW_DIR, 100, judge_cfg)
     results = run_evaluation(cfg, qa_pairs, judge_cfg=judge_cfg)
     print(results)
 
