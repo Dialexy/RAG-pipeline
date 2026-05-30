@@ -93,7 +93,7 @@ def build_pipeline(cfg: PipelineConfig, force=False) -> None:
     t_chunk = time.perf_counter()
     chunks = []
     for document in documents:
-        for chunk in chunk_document(document, cfg.chunking):
+        for chunk in chunk_document(document, cfg.chunking, cfg.embedding):
             chunks.append(chunk)
     logger.info(
         "Chunking complete: %d chunks in %.1fs",

@@ -82,7 +82,7 @@ def chunk_recursive(
     return merged_chunks
 
 
-def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
+def chunk_semantic(text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig) -> list[str]:
     """
     Embed sentences, split at embedding-distance peaks.
     Addresses the main failure of fixed chunking: slicing mid-thought.
@@ -92,7 +92,7 @@ def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
     if len(sentences) <= 1:
         return [text]
 
-    embeddings = embed_chunks(sentences, EmbeddingConfig())
+    embeddings = embed_chunks(sentences, embedding_cfg)
 
     distances = [
         1
@@ -129,7 +129,7 @@ def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
     return [chunk for chunk in result if len(chunk) >= cfg.semantic_min_chunk_size]
 
 
-def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
+def chunk_document(doc: Document, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig) -> Iterator[Document]:
     """
     Dispatch to the right strategy and yield chunk dicts:
     {"id": str, "text": str, "metadata": dict}
@@ -140,7 +140,7 @@ def chunk_document(doc: Document, cfg: ChunkConfig) -> Iterator[Document]:
     elif cfg.strategy == "recursive":
         texts = chunk_recursive(doc.text, cfg)
     elif cfg.strategy == "semantic":
-        texts = chunk_semantic(doc.text, cfg)
+        texts = chunk_semantic(doc.text, cfg, embedding_cfg)
     else:
         raise ValueError(f"Unknown: {cfg.strategy}")
 
