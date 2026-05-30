@@ -44,11 +44,7 @@ def build_bm25_index(corpus: tuple[Document, ...]) -> BM25Okapi:
     return BM25Okapi(tokenised_corpus)
 
 
-def bm25_search(
-    query: str, corpus: list[Document], top_k: int
-) -> list[
-    dict
-]:  # TODO: Change the granuality to chunks not files. Right now dense serach is more granualar.
+def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]:
     """Sparse BM25 retrieval over the full chunk corpus."""
 
     bm25 = build_bm25_index(tuple(corpus))
@@ -201,14 +197,24 @@ def retrieve(
     else:
         results = candidates[: cfg.retrieval.rerank_top_n]
 
+    seen_ids: set[str] = set()
+    deduped = []
+    for result in results:
+        meta = result["metadata"]
+        chunk_id = f"{meta['parent_id']}::chunk{meta['chunk_index']}" if "parent_id" in meta and "chunk_index" in meta else None
+        if chunk_id is None or chunk_id not in seen_ids:
+            if chunk_id:
+                seen_ids.add(chunk_id)
+            deduped.append(result)
+    results = deduped
+
     for result in results:
         meta = result["metadata"]
         if "parent_id" in meta and "chunk_index" in meta:
             chunk_id = f"{meta['parent_id']}::chunk{meta['chunk_index']}"
-            neighbours = fetch_neighbouring_chunks(chunk_id, collection)
-            result["text"] = "\n".join(
-                neighbours[:1] + [result["text"]] + neighbours[1:]
-            )
+            prev_text, next_text = fetch_neighbouring_chunks(chunk_id, collection)
+            parts = [t for t in (prev_text, result["text"], next_text) if t is not None]
+            result["text"] = "\n".join(parts)
 
     logger.info("Retrieval complete: %d chunks returned", len(results))
     if return_candidates:

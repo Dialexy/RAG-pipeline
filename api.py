@@ -5,9 +5,8 @@ FastAPI app exposing the RAG pipeline over HTTP.
 from fastapi import FastAPI
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
-from src.vector_store import load_index
-from src.ingestion import iter_documents
-from config import RAW_DIR, PipelineConfig
+from src.vector_store import load_index, load_chunk_corpus
+from config import PipelineConfig
 from src.pipeline import query_pipeline
 
 
@@ -36,7 +35,7 @@ async def lifespan(app):
     cfg = PipelineConfig()
     state["cfg"] = cfg
     state["collection"] = load_index(cfg)
-    state["corpus"] = list(iter_documents(RAW_DIR))
+    state["corpus"] = load_chunk_corpus(state["collection"])
     yield
     state.clear()
 

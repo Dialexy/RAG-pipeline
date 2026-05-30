@@ -14,8 +14,8 @@ from config import (
 )
 from .models import Document
 from .ingestion import fetch_corpus, iter_documents
+from .vector_store import build_index, load_index, load_chunk_corpus
 from .chunking import chunk_document
-from .vector_store import build_index, load_index
 from .retrieval import retrieve
 from .generation import generate
 from .logger import get_logger
@@ -131,7 +131,7 @@ def query_pipeline(
         collection = load_index(cfg)
 
     if corpus is None:
-        corpus = list(iter_documents(RAW_DIR))
+        corpus = load_chunk_corpus(collection)
 
     t_retrieve = time.perf_counter()
     try:

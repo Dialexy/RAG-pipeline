@@ -70,31 +70,52 @@ def load_index(cfg: PipelineConfig) -> Collection:
     return rag_chunks
 
 
-def fetch_neighbouring_chunks(chunk_id: str, collection) -> list[str]:
-    """Given a chunk id like '90.txt::chunk7', fetch chunk6 and chunk8 texts."""
+def load_chunk_corpus(collection: Collection) -> list[Document]:
+    """Load all chunks from a Chroma collection as Document objects."""
+    corpus: list[Document] = []
+    batch_size = 5000
+    offset = 0
+    while True:
+        batch = collection.get(
+            include=["documents", "metadatas"], limit=batch_size, offset=offset
+        )
+        if not batch["ids"]:
+            break
+        for id_, text, meta in zip(
+            batch["ids"], batch["documents"] or [], batch["metadatas"] or []
+        ):
+            corpus.append(Document(id=id_, text=text, metadata=dict(meta)))
+        offset += batch_size
+    logger.info("Loaded %d chunks from collection", len(corpus))
+    return corpus
+
+
+def fetch_neighbouring_chunks(chunk_id: str, collection) -> tuple[str | None, str | None]:
+    """Given a chunk id like '90.txt::chunk7', return (prev_text, next_text), either may be None."""
 
     parts = chunk_id.split("::chunk")
     doc_id = parts[0]
     chunk_index = int(parts[1])
 
-    neighbour_ids = [
-        f"{doc_id}::chunk{chunk_index - 1}",
-        f"{doc_id}::chunk{chunk_index + 1}",
-    ]
-
-    neighbour_texts = []
-    found_ids = []
-    for neighbour_id in neighbour_ids:
+    def _fetch(cid: str) -> str | None:
         try:
-            result = collection.get(ids=[neighbour_id], include=["documents"])
+            result = collection.get(ids=[cid], include=["documents"])
             if result["documents"] and result["documents"][0]:
-                neighbour_texts.append(result["documents"][0][0])
-                found_ids.append(neighbour_id)
-        except:
+                return result["documents"][0][0]
+        except Exception:
             pass
+        return None
 
-    logger.debug("Neighbours for %s: %s", chunk_id, found_ids if found_ids else "none")
-    return neighbour_texts
+    prev_text = _fetch(f"{doc_id}::chunk{chunk_index - 1}")
+    next_text = _fetch(f"{doc_id}::chunk{chunk_index + 1}")
+
+    logger.debug(
+        "Neighbours for %s: prev=%s next=%s",
+        chunk_id,
+        "found" if prev_text else "none",
+        "found" if next_text else "none",
+    )
+    return prev_text, next_text
 
 
 def dense_search(
