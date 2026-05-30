@@ -128,13 +128,22 @@ Question: {query}"""
 
 @overload
 def retrieve(
-    query: str, collection, corpus: list[Document], cfg: PipelineConfig,
-    filters: dict | None = None, *, return_candidates: Literal[True],
+    query: str,
+    collection,
+    corpus: list[Document],
+    cfg: PipelineConfig,
+    filters: dict | None = None,
+    *,
+    return_candidates: Literal[True],
 ) -> tuple[list[dict], list[dict]]: ...
 @overload
 def retrieve(
-    query: str, collection, corpus: list[Document], cfg: PipelineConfig,
-    filters: dict | None = None, return_candidates: Literal[False] = False,
+    query: str,
+    collection,
+    corpus: list[Document],
+    cfg: PipelineConfig,
+    filters: dict | None = None,
+    return_candidates: Literal[False] = False,
 ) -> list[dict]: ...
 def retrieve(
     query: str,

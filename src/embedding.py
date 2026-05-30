@@ -35,8 +35,11 @@ def embed_chunks(texts: list[str], cfg: EmbeddingConfig) -> np.ndarray:
 
     logger.info("Embedding %d texts (batch_size=%d)", len(texts), cfg.batch_size)
     embeddings = model.encode(
-        texts, batch_size=cfg.batch_size, show_progress_bar=False,
-        convert_to_numpy=True, normalize_embeddings=True,
+        texts,
+        batch_size=cfg.batch_size,
+        show_progress_bar=False,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
     )
     logger.info("Embedding complete: shape %s", embeddings.shape)
 

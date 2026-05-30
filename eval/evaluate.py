@@ -50,7 +50,9 @@ def _ollama_chat_with_retry(
     return ""
 
 
-def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig, seed: int = 42) -> list[dict]:
+def generate_qa_pairs(
+    raw_dir: Path, n: int, cfg: GenerationConfig, seed: int = 42
+) -> list[dict]:
     """Sample n docs from raw_dir, prompt the LLM for one factual question per doc,
     and return  (question, doc_id) pairs."""
 
@@ -105,7 +107,8 @@ def faithfulness_score(
     """Check how many answer claims are grounded in the retrieved context."""
     context = "\n".join(source_chunks)
 
-    prompt = dedent(f"""
+    prompt = dedent(
+        f"""
     You are evaluating if an answer is grounded in a context.
 
     Context: {context}
@@ -116,7 +119,8 @@ def faithfulness_score(
     Respond with only a decimal between 0.0 and 1.0 representing the fraction of claims supported.
     0.0 means no claims are supported. 1.0 means all claims are supported.
     Only output the number, nothing else,
-    """)
+    """
+    )
 
     content_stripped = _ollama_chat_with_retry(
         cfg.model, [{"role": "user", "content": prompt}]
@@ -168,7 +172,9 @@ def run_evaluation(
         question = qa_pair["question"]
         relevant_doc_id = qa_pair["relevant_doc_id"]
 
-        results, candidates = retrieve(question, collection, corpus, pipeline_cfg, return_candidates=True)
+        results, candidates = retrieve(
+            question, collection, corpus, pipeline_cfg, return_candidates=True
+        )
 
         relevant_ids = {relevant_doc_id}
         candidate_ids = [c["metadata"]["parent_id"] for c in candidates]

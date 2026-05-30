@@ -23,7 +23,8 @@ def build_prompt(query: str, chunks: list[dict]) -> str:
 
     all_formatted_chunks = "\n".join(formatted_chunks)
 
-    final_prompt = dedent(f"""
+    final_prompt = dedent(
+        f"""
     Context:
     {all_formatted_chunks}
 
@@ -35,7 +36,8 @@ def build_prompt(query: str, chunks: list[dict]) -> str:
     If the answer cannot be found in the sources, respond with exactly:
     "I don't have enough information to answer that."
     Cite which source number supports your answer.
-    """)
+    """
+    )
 
     return final_prompt
 

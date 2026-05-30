@@ -35,7 +35,10 @@ def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
 
 
 def chunk_recursive(
-    text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig, _separators: list[str] | None = None
+    text: str,
+    cfg: ChunkConfig,
+    embedding_cfg: EmbeddingConfig,
+    _separators: list[str] | None = None,
 ) -> list[str]:
     """Recursive character split on paragraph / sentence / word boundaries."""
 
@@ -88,7 +91,9 @@ def chunk_recursive(
     return merged_chunks
 
 
-def chunk_semantic(text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig) -> list[str]:
+def chunk_semantic(
+    text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig
+) -> list[str]:
     """
     Embed sentences, split at embedding-distance peaks.
     Addresses the main failure of fixed chunking: slicing mid-thought.
@@ -136,7 +141,9 @@ def chunk_semantic(text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig) 
     return [chunk for chunk in result if len(chunk) >= cfg.semantic_min_chunk_size]
 
 
-def chunk_document(doc: Document, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig) -> Iterator[Document]:
+def chunk_document(
+    doc: Document, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig
+) -> Iterator[Document]:
     """
     Dispatch to the right strategy and yield chunk dicts:
     {"id": str, "text": str, "metadata": dict}
