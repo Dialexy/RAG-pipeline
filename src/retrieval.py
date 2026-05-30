@@ -43,7 +43,11 @@ def build_bm25_index(corpus: tuple[Document, ...]) -> BM25Okapi:
     return BM25Okapi(tokenised_corpus)
 
 
-def bm25_search(query: str, corpus: list[Document], top_k: int) -> list[dict]: #TODO: Change the granuality to chunks not files. Right now dense serach is more granualar.
+def bm25_search(
+    query: str, corpus: list[Document], top_k: int
+) -> list[
+    dict
+]:  # TODO: Change the granuality to chunks not files. Right now dense serach is more granualar.
     """Sparse BM25 retrieval over the full chunk corpus."""
 
     bm25 = build_bm25_index(tuple(corpus))
@@ -122,7 +126,11 @@ Question: {query}"""
 
 
 def retrieve(
-    query: str, collection, corpus: list[Document], cfg: PipelineConfig, filters: dict | None = None
+    query: str,
+    collection,
+    corpus: list[Document],
+    cfg: PipelineConfig,
+    filters: dict | None = None,
 ) -> list[dict]:
     """
     Full retrieval pipeline for a single query:
@@ -153,7 +161,11 @@ def retrieve(
 
     for variant in query_variants:
         embedding = embed_chunks([variant], cfg.embedding)[0]
-        all_dense.append(dense_search(embedding, cfg.retrieval.top_k, collection, filters=active_filters))
+        all_dense.append(
+            dense_search(
+                embedding, cfg.retrieval.top_k, collection, filters=active_filters
+            )
+        )
 
         if cfg.retrieval.use_hybrid:
             all_bm25.append(bm25_search(variant, corpus, cfg.retrieval.top_k))
@@ -173,7 +185,9 @@ def retrieve(
         if "parent_id" in meta and "chunk_index" in meta:
             chunk_id = f"{meta['parent_id']}::chunk{meta['chunk_index']}"
             neighbours = fetch_neighbouring_chunks(chunk_id, collection)
-            result["text"] = "\n".join(neighbours[:1] + [result["text"]] + neighbours[1:])
+            result["text"] = "\n".join(
+                neighbours[:1] + [result["text"]] + neighbours[1:]
+            )
 
     logger.info("Retrieval complete: %d chunks returned", len(results))
     return results

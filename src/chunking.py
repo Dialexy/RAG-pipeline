@@ -103,7 +103,9 @@ def chunk_semantic(text: str, cfg: ChunkConfig) -> list[str]:
         for i in range(len(embeddings) - 1)
     ]
 
-    threshold = float(np.mean(distances) + cfg.semantic_split_std_multiplier * np.std(distances))
+    threshold = float(
+        np.mean(distances) + cfg.semantic_split_std_multiplier * np.std(distances)
+    )
 
     split_points = {i for i, d in enumerate(distances) if d > threshold}
 

@@ -73,11 +73,19 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
 
         except (ConnectionError, httpx.ConnectError, httpx.RemoteProtocolError) as e:
             if attempt < max_retries - 1:
-                wait = min(5 * (2 ** attempt), 60)
-                logger.warning("Ollama connection dropped, retrying in %ds (attempt %d/%d)", wait, attempt + 1, max_retries)
+                wait = min(5 * (2**attempt), 60)
+                logger.warning(
+                    "Ollama connection dropped, retrying in %ds (attempt %d/%d)",
+                    wait,
+                    attempt + 1,
+                    max_retries,
+                )
                 time.sleep(wait)
             else:
-                logger.error("Cannot connect to Ollama after %d attempts. Start it with 'ollama serve'", max_retries)
+                logger.error(
+                    "Cannot connect to Ollama after %d attempts. Start it with 'ollama serve'",
+                    max_retries,
+                )
                 raise RuntimeError("Ollama service unavailable") from e
 
         except ollama.ResponseError as e:
@@ -87,7 +95,9 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
         except Exception as e:
             if "model" in str(e).lower() and cfg.model in str(e):
                 logger.error(
-                    "Model %r not found. Pull with 'ollama pull %s'", cfg.model, cfg.model
+                    "Model %r not found. Pull with 'ollama pull %s'",
+                    cfg.model,
+                    cfg.model,
                 )
                 raise RuntimeError(f"Model {cfg.model!r} not found") from e
             raise

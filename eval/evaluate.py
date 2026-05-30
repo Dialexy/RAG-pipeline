@@ -19,7 +19,6 @@ from textwrap import dedent
 from src.vector_store import load_index
 from src.retrieval import retrieve
 from src.generation import generate
-from src.ingestion import iter_documents
 from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 

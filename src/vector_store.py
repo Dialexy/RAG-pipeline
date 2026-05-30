@@ -43,7 +43,7 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
     texts = [doc.text for doc in chunks]
     embedded = embed_chunks(texts, cfg.embedding)
 
-    # TODO: replace with FAISS-based approximate dedup — current O(n²) loop is unusable at scale
+    # TODO: replace with FAISS-based approximate dedup - current O(n²) loop is unusable at scale
     # chunks, embedded = deduplicate_chunks(chunks, embedded, cfg.chunking.dedup_threshold)
     # logger.info("After deduplication: %d chunks remaining", len(chunks))
 

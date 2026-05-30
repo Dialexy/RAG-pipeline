@@ -11,9 +11,11 @@ transformers.logging.set_verbosity_error()
 # safetensors uses tqdm directly when loading weights; patch __init__ to force disable
 _orig_tqdm_init = _tqdm.__init__
 
+
 def _silent_tqdm_init(self, *args, **kwargs):
     kwargs["disable"] = True
     _orig_tqdm_init(self, *args, **kwargs)
+
 
 _tqdm.__init__ = _silent_tqdm_init
 

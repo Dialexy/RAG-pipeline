@@ -7,7 +7,11 @@ import hashlib
 import json
 from pathlib import Path
 from dataclasses import asdict
-from config import (CHROMA_PERSIST_DIR, PipelineConfig, RAW_DIR,)
+from config import (
+    CHROMA_PERSIST_DIR,
+    PipelineConfig,
+    RAW_DIR,
+)
 from .models import Document
 from .ingestion import fetch_corpus, iter_documents
 from .chunking import chunk_document
