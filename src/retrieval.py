@@ -201,7 +201,11 @@ def retrieve(
     deduped = []
     for result in results:
         meta = result["metadata"]
-        chunk_id = f"{meta['parent_id']}::chunk{meta['chunk_index']}" if "parent_id" in meta and "chunk_index" in meta else None
+        chunk_id = (
+            f"{meta['parent_id']}::chunk{meta['chunk_index']}"
+            if "parent_id" in meta and "chunk_index" in meta
+            else None
+        )
         if chunk_id is None or chunk_id not in seen_ids:
             if chunk_id:
                 seen_ids.add(chunk_id)

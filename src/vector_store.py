@@ -90,7 +90,9 @@ def load_chunk_corpus(collection: Collection) -> list[Document]:
     return corpus
 
 
-def fetch_neighbouring_chunks(chunk_id: str, collection) -> tuple[str | None, str | None]:
+def fetch_neighbouring_chunks(
+    chunk_id: str, collection
+) -> tuple[str | None, str | None]:
     """Given a chunk id like '90.txt::chunk7', return (prev_text, next_text), either may be None."""
 
     parts = chunk_id.split("::chunk")
