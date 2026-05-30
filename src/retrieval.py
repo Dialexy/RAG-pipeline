@@ -10,7 +10,7 @@ This is where naive RAG breaks down:
 from typing import Literal, overload
 from config import PipelineConfig, GenerationConfig
 from .models import Document
-from .embedding import embed_chunks
+from .embedding import embed_query
 from .vector_store import dense_search, fetch_neighbouring_chunks
 from rank_bm25 import BM25Okapi
 from collections import defaultdict
@@ -172,7 +172,7 @@ def retrieve(
     active_filters = filters if filters is not None else cfg.retrieval.default_filters
 
     for variant in query_variants:
-        embedding = embed_chunks([variant], cfg.embedding)[0]
+        embedding = embed_query(variant, cfg.embedding)
         all_dense.append(
             dense_search(
                 embedding, cfg.retrieval.top_k, collection, filters=active_filters

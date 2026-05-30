@@ -39,7 +39,9 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
     logger.info("Building index for %d chunks", len(chunks))
     chroma_client = chromadb.PersistentClient(CHROMA_PERSIST_DIR)
 
-    rag_chunks = chroma_client.get_or_create_collection(name="rag_chunks")
+    rag_chunks = chroma_client.get_or_create_collection(
+        name="rag_chunks", metadata={"hnsw:space": "cosine"}
+    )
     texts = [doc.text for doc in chunks]
     embedded = embed_chunks(texts, cfg.embedding)
 

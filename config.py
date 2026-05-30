@@ -13,6 +13,7 @@ CHROMA_PERSIST_DIR = Path(".chroma")
 class ChunkConfig:
     strategy: str = "semantic"  # "fixed", "recursive", "semantic"
     chunk_size: int = 1500
+    chunk_size_tokens: int = 256
     chunk_overlap: int = 64
     semantic_split_std_multiplier: float = 2.0
     semantic_min_chunk_size: int = 100
@@ -23,6 +24,7 @@ class ChunkConfig:
 class EmbeddingConfig:
     model_name: str = "all-MiniLM-L6-v2"
     batch_size: int = 64
+    query_instruction: str = ""
 
 
 @dataclass

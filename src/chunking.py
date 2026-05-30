@@ -6,7 +6,7 @@ work is showing why it breaks and what the alternatives fix.
 import numpy as np
 import nltk
 from nltk.tokenize import sent_tokenize
-from .embedding import embed_chunks
+from .embedding import embed_chunks, get_tokenizer
 from collections.abc import Iterator
 from config import EmbeddingConfig
 from config import ChunkConfig
@@ -35,11 +35,16 @@ def chunk_fixed(text: str, cfg: ChunkConfig) -> list[str]:
 
 
 def chunk_recursive(
-    text: str, cfg: ChunkConfig, _separators: list[str] | None = None
+    text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig, _separators: list[str] | None = None
 ) -> list[str]:
     """Recursive character split on paragraph / sentence / word boundaries."""
 
-    if len(text) <= cfg.chunk_size:
+    tokenizer = get_tokenizer(embedding_cfg)
+
+    def token_len(t: str) -> int:
+        return len(tokenizer.encode(t))
+
+    if token_len(text) <= cfg.chunk_size_tokens:
         return [text]
 
     if _separators is None:
@@ -53,13 +58,14 @@ def chunk_recursive(
         for part in splittext:
             if not part.strip():
                 continue
-            if len(part) <= cfg.chunk_size:
+            if token_len(part) <= cfg.chunk_size_tokens:
                 results.append(part)
             else:
                 remaining = _separators[i + 1 :]
                 if remaining and any(sep in part for sep in remaining):
-                    sub_chunk = chunk_recursive(part, cfg, remaining)
+                    sub_chunk = chunk_recursive(part, cfg, embedding_cfg, remaining)
                 else:
+                    # hard-split fallback stays character-based
                     step = max(1, cfg.chunk_size - cfg.chunk_overlap)
                     sub_chunk = [
                         part[i : i + cfg.chunk_size] for i in range(0, len(part), step)
@@ -119,10 +125,11 @@ def chunk_semantic(text: str, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig) 
     if group:
         chunks.append(" ".join(group))
 
+    tokenizer = get_tokenizer(embedding_cfg)
     result: list[str] = []
     for chunk in chunks:
-        if len(chunk) > cfg.chunk_size:
-            result.extend(chunk_recursive(chunk, cfg))
+        if len(tokenizer.encode(chunk)) > cfg.chunk_size_tokens:
+            result.extend(chunk_recursive(chunk, cfg, embedding_cfg))
         else:
             result.append(chunk)
 
@@ -138,7 +145,7 @@ def chunk_document(doc: Document, cfg: ChunkConfig, embedding_cfg: EmbeddingConf
     if cfg.strategy == "fixed":
         texts = chunk_fixed(doc.text, cfg)
     elif cfg.strategy == "recursive":
-        texts = chunk_recursive(doc.text, cfg)
+        texts = chunk_recursive(doc.text, cfg, embedding_cfg)
     elif cfg.strategy == "semantic":
         texts = chunk_semantic(doc.text, cfg, embedding_cfg)
     else:
