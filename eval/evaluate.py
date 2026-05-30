@@ -12,6 +12,7 @@ import ollama
 import httpx
 import random
 import re
+from src.logger import get_logger
 from typing import Any
 from pathlib import Path
 from textwrap import dedent
@@ -22,15 +23,28 @@ from src.ingestion import iter_documents
 from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 
+logger = get_logger(__name__)
 
-def _ollama_chat_with_retry(model: str, messages: list[dict], max_retries: int = 10) -> str:
+
+def _ollama_chat_with_retry(
+    model: str, messages: list[dict], max_retries: int = 10
+) -> str:
     for attempt in range(max_retries):
         try:
-            return ollama.chat(model=model, messages=messages).message.content or ""
+            return (
+                ollama.chat(
+                    model=model,
+                    messages=messages,
+                    options={"temperature": 0.0, "seed": 0},
+                ).message.content
+                or ""
+            )
         except (ConnectionError, httpx.RemoteProtocolError, httpx.ConnectError) as e:
             if attempt < max_retries - 1:
-                wait = min(5 * (2 ** attempt), 60)
-                print(f"Ollama disconnected, retrying in {wait}s (attempt {attempt + 1}/{max_retries})...")
+                wait = min(5 * (2**attempt), 60)
+                logger.warning(
+                    f"Ollama disconnected, retrying in {wait}s (attempt {attempt + 1}/{max_retries})..."
+                )
                 time.sleep(wait)
             else:
                 raise RuntimeError("Ollama service unavailable after retries") from e
@@ -62,7 +76,9 @@ def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict
                 Text: {window}
                 """
 
-        question = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}])
+        question = _ollama_chat_with_retry(
+            cfg.model, [{"role": "user", "content": prompt}]
+        )
 
         qa_pairs.append({"question": question, "relevant_doc_id": doc_id})
 
@@ -102,7 +118,9 @@ def faithfulness_score(
     Only output the number, nothing else,
     """)
 
-    content_stripped = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}]).strip()
+    content_stripped = _ollama_chat_with_retry(
+        cfg.model, [{"role": "user", "content": prompt}]
+    ).strip()
 
     match = re.search(r"\b\d*\.?\d+\b", content_stripped)
     if match:
