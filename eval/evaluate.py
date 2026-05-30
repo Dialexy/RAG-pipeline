@@ -50,12 +50,13 @@ def _ollama_chat_with_retry(
     return ""
 
 
-def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict]:
+def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig, seed: int = 42) -> list[dict]:
     """Sample n docs from raw_dir, prompt the LLM for one factual question per doc,
     and return  (question, doc_id) pairs."""
 
+    rng = random.Random(seed)
     text_files = list(raw_dir.rglob("*.txt"))
-    rand_sample = random.sample(text_files, min(n, len(text_files)))
+    rand_sample = rng.sample(text_files, min(n, len(text_files)))
 
     qa_pairs = []
 
@@ -64,7 +65,7 @@ def generate_qa_pairs(raw_dir: Path, n: int, cfg: GenerationConfig) -> list[dict
         doc_id = str(file.relative_to(raw_dir))
 
         max_start = max(0, len(text) - 2000)
-        start = random.randint(0, max_start)
+        start = rng.randint(0, max_start)
         window = text[start : start + 2000]
 
         prompt = f"""
@@ -139,6 +140,7 @@ def run_evaluation(
     """
     recall_scores = []
     mrr_scores = []
+    hit3_scores = []
     faithfulness_scores = []
 
     effective_judge = judge_cfg if judge_cfg is not None else pipeline_cfg.generation
@@ -166,12 +168,15 @@ def run_evaluation(
         question = qa_pair["question"]
         relevant_doc_id = qa_pair["relevant_doc_id"]
 
-        results = retrieve(question, collection, corpus, pipeline_cfg)
+        results, candidates = retrieve(question, collection, corpus, pipeline_cfg, return_candidates=True)
 
-        retrieved_ids = [result["metadata"]["parent_id"] for result in results]
         relevant_ids = {relevant_doc_id}
-        recall_scores.append(recall_at_k(retrieved_ids, relevant_ids, k=10))
-        mrr_scores.append(mean_reciprocal_rank(retrieved_ids, relevant_ids))
+        candidate_ids = [c["metadata"]["parent_id"] for c in candidates]
+        retrieved_ids = [r["metadata"]["parent_id"] for r in results]
+
+        recall_scores.append(recall_at_k(candidate_ids, relevant_ids, k=10))
+        mrr_scores.append(mean_reciprocal_rank(candidate_ids, relevant_ids))
+        hit3_scores.append(1 if relevant_doc_id in retrieved_ids else 0)
 
         answers.append(generate(question, results, pipeline_cfg.generation))
         source_chunks_list.append([r["text"] for r in results])
@@ -183,8 +188,9 @@ def run_evaluation(
         )
 
     return {
-        "recall@10": sum(recall_scores) / len(recall_scores),
-        "mrr": sum(mrr_scores) / len(mrr_scores),
+        "recall@10_candidates": sum(recall_scores) / len(recall_scores),
+        "mrr@10_candidates": sum(mrr_scores) / len(mrr_scores),
+        "hit@3": sum(hit3_scores) / len(hit3_scores),
         "faithfulness": sum(faithfulness_scores) / len(faithfulness_scores),
         "n_evaluated": len(qa_pairs),
     }
@@ -192,11 +198,21 @@ def run_evaluation(
 
 if __name__ == "__main__":
     import json
+    import sys
     from datetime import datetime
 
     cfg = PipelineConfig()
     judge_cfg = GenerationConfig(model="qwen2.5:32b-instruct-q4_K_M")
-    qa_pairs = generate_qa_pairs(RAW_DIR, 100, judge_cfg)
+
+    qa_set_path = Path(__file__).parent / "qa_set.json"
+
+    if qa_set_path.exists() and "--regenerate" not in sys.argv:
+        qa_pairs = json.loads(qa_set_path.read_text())
+        logger.info("Loaded %d QA pairs from %s", len(qa_pairs), qa_set_path)
+    else:
+        qa_pairs = generate_qa_pairs(RAW_DIR, 100, judge_cfg, seed=42)
+        qa_set_path.write_text(json.dumps(qa_pairs, indent=2))
+        logger.info("Generated and saved %d QA pairs to %s", len(qa_pairs), qa_set_path)
     results = run_evaluation(cfg, qa_pairs, judge_cfg=judge_cfg)
     print(results)
 

@@ -7,6 +7,7 @@ This is where naive RAG breaks down:
   - context window pressure  →  pick rerank_top_n << top_k
 """
 
+from typing import Literal, overload
 from config import PipelineConfig, GenerationConfig
 from .models import Document
 from .embedding import embed_chunks
@@ -125,13 +126,24 @@ Question: {query}"""
         return [query]
 
 
+@overload
+def retrieve(
+    query: str, collection, corpus: list[Document], cfg: PipelineConfig,
+    filters: dict | None = None, *, return_candidates: Literal[True],
+) -> tuple[list[dict], list[dict]]: ...
+@overload
+def retrieve(
+    query: str, collection, corpus: list[Document], cfg: PipelineConfig,
+    filters: dict | None = None, return_candidates: Literal[False] = False,
+) -> list[dict]: ...
 def retrieve(
     query: str,
     collection,
     corpus: list[Document],
     cfg: PipelineConfig,
     filters: dict | None = None,
-) -> list[dict]:
+    return_candidates: bool = False,
+) -> list[dict] | tuple[list[dict], list[dict]]:
     """
     Full retrieval pipeline for a single query:
     expand → dense → (BM25) → RRF → re-rank → return top-n chunks
@@ -190,4 +202,6 @@ def retrieve(
             )
 
     logger.info("Retrieval complete: %d chunks returned", len(results))
+    if return_candidates:
+        return results, candidates
     return results
