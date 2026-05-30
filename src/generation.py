@@ -101,3 +101,5 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
                 )
                 raise RuntimeError(f"Model {cfg.model!r} not found") from e
             raise
+
+    raise RuntimeError("Ollama service unavailable")
