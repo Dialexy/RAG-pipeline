@@ -4,8 +4,10 @@ End-to-end pipeline: index-time and query-time entry points.
 
 import time
 import hashlib
+import json
 from pathlib import Path
-from config import CHROMA_PERSIST_DIR, PipelineConfig, RAW_DIR
+from dataclasses import asdict
+from config import (CHROMA_PERSIST_DIR, PipelineConfig, RAW_DIR,)
 from .models import Document
 from .ingestion import fetch_corpus, iter_documents
 from .chunking import chunk_document
@@ -41,13 +43,26 @@ def corpus_hash(raw_dir: Path) -> str:
     return hash.hexdigest()
 
 
+def config_fingerprint(cfg: PipelineConfig) -> str:
+    hash = hashlib.sha256()
+    configs_as_dicts = {
+        "ChunkingConfig": asdict(cfg.chunking),
+        "EmbeddingConfig": asdict(cfg.embedding),
+    }
+
+    configs_as_json = json.dumps(configs_as_dicts, sort_keys=True)
+
+    hash.update(configs_as_json.encode())
+    return hash.hexdigest()
+
+
 def build_pipeline(cfg: PipelineConfig, force=False) -> None:
     """
     Index-time: ingest → chunk → embed → store.
     Run once (or when the corpus changes).
     """
 
-    current_hash = corpus_hash(RAW_DIR)
+    current_hash = corpus_hash(RAW_DIR) + config_fingerprint(cfg)
     hash_file = CHROMA_PERSIST_DIR / "corpus.hash"
 
     if not force and hash_file.exists():
