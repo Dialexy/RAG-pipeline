@@ -4,11 +4,14 @@ nltk
 
 # ML
 sentence-transformers
+transformers
 numpy
 rank-bm25
+tqdm
 
 # LLM
 ollama
+httpx
 
 # Vector Store
 chromadb

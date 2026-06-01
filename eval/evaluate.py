@@ -180,12 +180,11 @@ def faithfulness_score(
         return max(0.0, min(1.0, score))
     return 0.0
 
+
 def _latency_stats(latencies: list[float]) -> dict[str, float]:
-    q = quantiles(latencies, n = 100)
-    return {
-            "p50": round(q[49], 3),
-            "p95": round(q[94], 3)
-            }
+    q = quantiles(latencies, n=100)
+    return {"p50": round(q[49], 3), "p95": round(q[94], 3)}
+
 
 def run_evaluation(
     pipeline_cfg: PipelineConfig,
