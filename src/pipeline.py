@@ -17,7 +17,7 @@ from .ingestion import fetch_corpus, iter_documents
 from .vector_store import build_index, load_index, load_chunk_corpus
 from .chunking import chunk_document
 from .retrieval import retrieve
-from .generation import generate
+from .generation import generate, ABSTENTION_RESPONSE
 from .logger import get_logger
 
 logger = get_logger(__name__)
@@ -151,6 +151,24 @@ def query_pipeline(
             "answer": "I encountered an error during retrieval. Please try again.",
             "sources": [],
             "error": str(e),
+        }
+
+    if (
+        cfg.retrieval.use_reranker
+        and chunks
+        and chunks[0].get("reranked_score") is not None
+        and chunks[0]["reranked_score"] < cfg.retrieval.reranker_score_threshold
+    ):
+        logger.info(
+            "Top reranker score %.3f below threshold %.3f, returning abstention",
+            chunks[0]["reranked_score"],
+            cfg.retrieval.reranker_score_threshold,
+        )
+        return {
+            "query": query,
+            "answer": ABSTENTION_RESPONSE,
+            "sources": [],
+            "error": None,
         }
 
     t_generate = time.perf_counter()

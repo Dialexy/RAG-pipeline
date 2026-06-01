@@ -35,6 +35,7 @@ class RetrievalConfig:
     use_hybrid: bool = True  # BM25 + dense
     use_query_expansion: bool = True
     default_filters: dict | None = None
+    reranker_score_threshold: float = 0.0
 
 
 @dataclass
