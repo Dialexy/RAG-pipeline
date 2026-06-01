@@ -177,7 +177,11 @@ def retrieve(
     active_filters = filters if filters is not None else cfg.retrieval.default_filters
 
     prefixed_variants = [
-        f"{cfg.embedding.query_instruction}{v}" if cfg.embedding.query_instruction else v
+        (
+            f"{cfg.embedding.query_instruction}{v}"
+            if cfg.embedding.query_instruction
+            else v
+        )
         for v in query_variants
     ]
     variant_embeddings = embed_chunks(prefixed_variants, cfg.embedding)
@@ -185,7 +189,10 @@ def retrieve(
     for i, variant in enumerate(query_variants):
         all_dense.append(
             dense_search(
-                variant_embeddings[i], cfg.retrieval.top_k, collection, filters=active_filters
+                variant_embeddings[i],
+                cfg.retrieval.top_k,
+                collection,
+                filters=active_filters,
             )
         )
 

@@ -80,11 +80,16 @@ def _ollama_chat_with_retry(
         ) as e:
             if attempt < max_retries - 1:
                 # Give the runner longer to recover from a crash
-                is_runner_crash = isinstance(e, ollama.ResponseError) and "unexpectedly stopped" in str(e)
+                is_runner_crash = isinstance(
+                    e, ollama.ResponseError
+                ) and "unexpectedly stopped" in str(e)
                 wait = 90 if is_runner_crash else min(5 * (2**attempt), 60)
                 logger.warning(
                     "Ollama error, retrying in %ds (attempt %d/%d): %s",
-                    wait, attempt + 1, max_retries, e,
+                    wait,
+                    attempt + 1,
+                    max_retries,
+                    e,
                 )
                 time.sleep(wait)
             else:

@@ -13,6 +13,7 @@ logger = get_logger(__name__)
 
 ABSTENTION_RESPONSE: str = "I don't have enough information to answer that."
 
+
 def build_prompt(query: str, chunks: list[dict]) -> str:
     """Format retrieved chunks into a context block for the prompt."""
 

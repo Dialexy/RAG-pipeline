@@ -49,6 +49,7 @@ def main() -> None:
         print(result["answer"])
     elif args.command == "serve":
         from api import app
+
         uvicorn.run(app, host=args.host, port=args.port)
     else:
         parser.print_help()
