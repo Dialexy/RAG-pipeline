@@ -18,7 +18,7 @@ from pathlib import Path
 from textwrap import dedent
 from src.vector_store import load_index
 from src.retrieval import retrieve
-from src.generation import generate
+from src.generation import generate, ABSTENTION_RESPONSE
 from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 
@@ -181,7 +181,7 @@ def run_evaluation(
     judge_cfg: GenerationConfig | None = None,
 ) -> dict:
     """
-    Run the full eval suite over a list of {"question": str, "answer": str, "relevant_ids": list}
+    Run the full eval suite over a list of {"question": str, "relevant_doc_id": str}
     and return aggregated metrics.
     """
     _ollama_unload_all()
@@ -191,6 +191,7 @@ def run_evaluation(
     mrr_scores = []
     hit3_scores = []
     faithfulness_scores = []
+    abstention_count: int = 0
 
     effective_judge = judge_cfg if judge_cfg is not None else pipeline_cfg.generation
 
@@ -236,16 +237,28 @@ def run_evaluation(
     _ollama_unload(pipeline_cfg.generation.model)
 
     # Phase 2: faithfulness scoring (judge model loads once, 14b is killed)
+    abstention_str = ABSTENTION_RESPONSE.lower()
     for answer, source_chunks in zip(answers, source_chunks_list):
-        faithfulness_scores.append(
-            faithfulness_score(answer, source_chunks, effective_judge)
-        )
+        if abstention_str in answer.lower():
+            abstention_count += 1
+            continue
+
+        score = faithfulness_score(answer, source_chunks, effective_judge)
+        faithfulness_scores.append(score)
+
+    mean_faithfulness = (
+        sum(faithfulness_scores) / len(faithfulness_scores)
+        if faithfulness_scores
+        else None
+    )
 
     return {
         "recall@10_candidates": sum(recall_scores) / len(recall_scores),
         "mrr@10_candidates": sum(mrr_scores) / len(mrr_scores),
         "hit@3": sum(hit3_scores) / len(hit3_scores),
-        "faithfulness": sum(faithfulness_scores) / len(faithfulness_scores),
+        "faithfulness": mean_faithfulness,
+        "abstention_count": abstention_count,
+        "abstention_rate": abstention_count / len(qa_pairs),
         "n_evaluated": len(qa_pairs),
     }
 

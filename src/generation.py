@@ -11,6 +11,7 @@ from .logger import get_logger
 
 logger = get_logger(__name__)
 
+ABSTENTION_RESPONSE: str = "I don't have enough information to answer that."
 
 def build_prompt(query: str, chunks: list[dict]) -> str:
     """Format retrieved chunks into a context block for the prompt."""
@@ -34,7 +35,7 @@ def build_prompt(query: str, chunks: list[dict]) -> str:
     Answer the question using ONLY the sources provided above.
     Do not use any knowledge outside of the provided sources.
     If the answer cannot be found in the sources, respond with exactly:
-    "I don't have enough information to answer that."
+    "{ABSTENTION_RESPONSE}"
     Cite which source number supports your answer.
     """
     )

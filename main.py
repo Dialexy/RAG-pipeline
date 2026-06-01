@@ -1,4 +1,5 @@
 import argparse
+import uvicorn
 from config import PipelineConfig
 from src.pipeline import build_pipeline, query_pipeline
 from src.logger import set_debug
@@ -17,6 +18,10 @@ def main() -> None:
     idx.add_argument(
         "--force", action="store_true", help="Reindex even if the corpus is unchanged"
     )
+
+    srv = sub.add_parser("serve", parents=[common], help="Start the FastAPI server")
+    srv.add_argument("--host", type=str, default="0.0.0.0")
+    srv.add_argument("--port", type=int, default=8000)
 
     q = sub.add_parser(
         "query", parents=[common], help="Ask a question against the index"
@@ -42,6 +47,9 @@ def main() -> None:
     elif args.command == "query":
         result = query_pipeline(args.question, cfg)
         print(result["answer"])
+    elif args.command == "serve":
+        from api import app
+        uvicorn.run(app, host=args.host, port=args.port)
     else:
         parser.print_help()
 
