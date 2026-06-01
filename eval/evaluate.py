@@ -12,6 +12,7 @@ import ollama
 import httpx
 import random
 import re
+from statistics import quantiles
 from src.logger import get_logger
 from typing import Any
 from pathlib import Path
@@ -179,6 +180,12 @@ def faithfulness_score(
         return max(0.0, min(1.0, score))
     return 0.0
 
+def _latency_stats(latencies: list[float]) -> dict[str, float]:
+    q = quantiles(latencies, n = 100)
+    return {
+            "p50": round(q[49], 3),
+            "p95": round(q[94], 3)
+            }
 
 def run_evaluation(
     pipeline_cfg: PipelineConfig,
@@ -196,6 +203,9 @@ def run_evaluation(
     mrr_scores = []
     hit3_scores = []
     faithfulness_scores = []
+    retrieval_latencies: list[float] = []
+    generation_latencies: list[float] = []
+
     abstention_count: int = 0
 
     effective_judge = judge_cfg if judge_cfg is not None else pipeline_cfg.generation
@@ -223,9 +233,11 @@ def run_evaluation(
         question = qa_pair["question"]
         relevant_doc_id = qa_pair["relevant_doc_id"]
 
+        t0 = time.perf_counter()
         results, candidates = retrieve(
             question, collection, corpus, pipeline_cfg, return_candidates=True
         )
+        retrieval_latencies.append(time.perf_counter() - t0)
 
         relevant_ids = {relevant_doc_id}
         candidate_ids = [c["metadata"]["parent_id"] for c in candidates]
@@ -235,11 +247,17 @@ def run_evaluation(
         mrr_scores.append(mean_reciprocal_rank(candidate_ids, relevant_ids))
         hit3_scores.append(1 if relevant_doc_id in retrieved_ids else 0)
 
+        t0 = time.perf_counter()
         answers.append(generate(question, results, pipeline_cfg.generation))
+        generation_latencies.append(time.perf_counter() - t0)
         source_chunks_list.append([r["text"] for r in results])
 
     # Evict generation model before loading the judge to avoid CUDA OOM
     _ollama_unload(pipeline_cfg.generation.model)
+
+    # Calling latency helper after list are populated
+    retrieval_stats = _latency_stats(retrieval_latencies)
+    generation_stats = _latency_stats(generation_latencies)
 
     # Phase 2: faithfulness scoring (judge model loads once, 14b is killed)
     abstention_str = ABSTENTION_RESPONSE.lower()
@@ -265,6 +283,10 @@ def run_evaluation(
         "abstention_count": abstention_count,
         "abstention_rate": abstention_count / len(qa_pairs),
         "n_evaluated": len(qa_pairs),
+        "retrieval_p50_s": retrieval_stats["p50"],
+        "retrieval_p95_s": retrieval_stats["p95"],
+        "generation_p50_s": generation_stats["p50"],
+        "generation_p95_s": generation_stats["p95"],
     }
 
 
