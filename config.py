@@ -15,7 +15,7 @@ class ChunkConfig:
     chunk_size: int = 1500
     chunk_size_tokens: int = 512
     chunk_overlap: int = 64
-    semantic_split_std_multiplier: float = 2.0
+    semantic_split_std_multiplier: float = 1.5
     semantic_min_chunk_size: int = 100
     dedup_threshold: float = 0.95
 

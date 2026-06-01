@@ -25,6 +25,40 @@ from config import PipelineConfig, GenerationConfig, RAW_DIR
 logger = get_logger(__name__)
 
 
+def _ollama_unload(model: str) -> None:
+    try:
+        ollama.generate(model=model, prompt="", keep_alive=0)
+        logger.info("Unloaded model %s from VRAM", model)
+    except Exception as e:
+        logger.warning("Failed to unload model %s: %s", model, e)
+
+
+def _ollama_unload_all() -> None:
+    """Evict every model Ollama currently has loaded in VRAM."""
+    try:
+        loaded = ollama.ps().models
+        for m in loaded:
+            _ollama_unload(m.model)
+        if loaded:
+            time.sleep(5)
+    except Exception as e:
+        logger.warning("Could not query/unload Ollama models: %s", e)
+
+
+def _ollama_warmup(model: str, max_attempts: int = 5) -> None:
+    """Confirm the model runner is stable before starting the eval loop."""
+    for attempt in range(max_attempts):
+        try:
+            ollama.chat(model=model, messages=[{"role": "user", "content": "hi"}])
+            logger.info("Warmup OK for %s", model)
+            return
+        except Exception as e:
+            wait = 30 * (attempt + 1)
+            logger.warning("Warmup failed for %s, retrying in %ds: %s", model, wait, e)
+            time.sleep(wait)
+    raise RuntimeError(f"Model {model} failed to warm up after {max_attempts} attempts")
+
+
 def _ollama_chat_with_retry(
     model: str, messages: list[dict], max_retries: int = 10
 ) -> str:
@@ -38,11 +72,19 @@ def _ollama_chat_with_retry(
                 ).message.content
                 or ""
             )
-        except (ConnectionError, httpx.RemoteProtocolError, httpx.ConnectError) as e:
+        except (
+            ConnectionError,
+            httpx.RemoteProtocolError,
+            httpx.ConnectError,
+            ollama.ResponseError,
+        ) as e:
             if attempt < max_retries - 1:
-                wait = min(5 * (2**attempt), 60)
+                # Give the runner longer to recover from a crash
+                is_runner_crash = isinstance(e, ollama.ResponseError) and "unexpectedly stopped" in str(e)
+                wait = 90 if is_runner_crash else min(5 * (2**attempt), 60)
                 logger.warning(
-                    f"Ollama disconnected, retrying in {wait}s (attempt {attempt + 1}/{max_retries})..."
+                    "Ollama error, retrying in %ds (attempt %d/%d): %s",
+                    wait, attempt + 1, max_retries, e,
                 )
                 time.sleep(wait)
             else:
@@ -142,6 +184,9 @@ def run_evaluation(
     Run the full eval suite over a list of {"question": str, "answer": str, "relevant_ids": list}
     and return aggregated metrics.
     """
+    _ollama_unload_all()
+    _ollama_warmup(pipeline_cfg.generation.model)
+
     recall_scores = []
     mrr_scores = []
     hit3_scores = []
@@ -165,7 +210,7 @@ def run_evaluation(
             corpus.append(Document(id=id_, text=text, metadata=dict(meta)))
         offset += batch_size
 
-    # Phase 1: retrieval + generation (14b model stays loaded throughout)
+    # Phase 1: retrieval + generation (14b model stays loaded)
     answers = []
     source_chunks_list = []
     for qa_pair in qa_pairs:
@@ -187,7 +232,10 @@ def run_evaluation(
         answers.append(generate(question, results, pipeline_cfg.generation))
         source_chunks_list.append([r["text"] for r in results])
 
-    # Phase 2: faithfulness scoring (judge model loads once, 14b already evicted)
+    # Evict generation model before loading the judge to avoid CUDA OOM
+    _ollama_unload(pipeline_cfg.generation.model)
+
+    # Phase 2: faithfulness scoring (judge model loads once, 14b is killed)
     for answer, source_chunks in zip(answers, source_chunks_list):
         faithfulness_scores.append(
             faithfulness_score(answer, source_chunks, effective_judge)
