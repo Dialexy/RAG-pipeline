@@ -2,6 +2,10 @@
 Chroma wrapper: index chunks and run similarity search.
 """
 
+import json
+from dataclasses import asdict
+from datetime import datetime, timezone
+
 import chromadb
 import numpy as np
 from config import PipelineConfig, CHROMA_PERSIST_DIR
@@ -41,6 +45,15 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
 
     rag_chunks = chroma_client.get_or_create_collection(
         name="rag_chunks", metadata={"hnsw:space": "cosine"}
+    )
+    rag_chunks.modify(
+        metadata={
+            "config": json.dumps(
+                {"chunking": asdict(cfg.chunking), "embedding": asdict(cfg.embedding)},
+                sort_keys=True,
+            ),
+            "indexed_at": datetime.now(timezone.utc).isoformat(),
+        }
     )
     texts = [doc.text for doc in chunks]
     embedded = embed_chunks(texts, cfg.embedding)
