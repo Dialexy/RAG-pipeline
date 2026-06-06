@@ -57,6 +57,7 @@ results/
 outputs/
 eval/results/
 eval/qa_set.json
+eval/unanswerable_set.json
 
 # macOS
 .DS_Store
