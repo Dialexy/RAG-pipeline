@@ -12,6 +12,7 @@ import ollama
 import httpx
 import random
 import re
+from collections import defaultdict
 from statistics import quantiles
 from src.logger import get_logger
 from typing import Any
@@ -24,6 +25,33 @@ from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 
 logger = get_logger(__name__)
+
+QUESTION_TYPES = ["factual", "paraphrased", "inferential", "multi_hop"]
+
+QUESTION_PROMPTS = {
+    "factual": """Read the following text and generate one factual question
+whose answer is clearly stated in the text.
+Respond with only the question, nothing else.
+
+Text: {window}""",
+    "paraphrased": """Read the following text and generate one factual question
+whose answer is clearly stated in the text. 
+The question must not use the same wording as the answer in the text — rephrase it.
+Respond with only the question, nothing else.
+
+Text: {window}""",
+    "inferential": """Read the following text and generate one question that requires
+reasoning or inference to answer — the answer should not be a phrase directly lifted
+from the text, but should require interpreting or combining what is stated.
+Respond with only the question, nothing else.
+
+Text: {window}""",
+    "multi_hop": """Read the following text and generate one question whose answer
+requires combining two separate facts stated in different parts of the text.
+Respond with only the question, nothing else.
+
+Text: {window}""",
+}
 
 
 def _ollama_unload(model: str) -> None:
@@ -110,7 +138,9 @@ def generate_qa_pairs(
 
     qa_pairs = []
 
-    for file in rand_sample:
+    for i, file in enumerate(rand_sample):
+        question_type = QUESTION_TYPES[i % len(QUESTION_TYPES)]
+
         text = file.read_text(encoding="utf-8")
         doc_id = str(file.relative_to(raw_dir))
 
@@ -118,19 +148,19 @@ def generate_qa_pairs(
         start = rng.randint(0, max_start)
         window = text[start : start + 2000]
 
-        prompt = f"""
-                Read the following text and generate one factual question
-                whose answer is clearly stated in the text.
-                Respond with only the question, nothing else.
-
-                Text: {window}
-                """
+        prompt = QUESTION_PROMPTS[question_type].format(window=window)
 
         question = _ollama_chat_with_retry(
             cfg.model, [{"role": "user", "content": prompt}]
         )
 
-        qa_pairs.append({"question": question, "relevant_doc_id": doc_id})
+        qa_pairs.append(
+            {
+                "question": question,
+                "relevant_doc_id": doc_id,
+                "question_type": question_type,
+            }
+        )
 
     return qa_pairs
 
@@ -195,6 +225,7 @@ def run_evaluation(
     Run the full eval suite over a list of {"question": str, "relevant_doc_id": str}
     and return aggregated metrics.
     """
+
     _ollama_unload_all()
     _ollama_warmup(pipeline_cfg.generation.model)
 
@@ -204,6 +235,8 @@ def run_evaluation(
     faithfulness_scores = []
     retrieval_latencies: list[float] = []
     generation_latencies: list[float] = []
+    type_hit3: defaultdict[str, list] = defaultdict(list)
+    type_recall: defaultdict[str, list] = defaultdict(list)
 
     abstention_count: int = 0
 
@@ -231,6 +264,7 @@ def run_evaluation(
     for qa_pair in qa_pairs:
         question = qa_pair["question"]
         relevant_doc_id = qa_pair["relevant_doc_id"]
+        qtype = qa_pair.get("question_type", "factual")
 
         t0 = time.perf_counter()
         results, candidates = retrieve(
@@ -242,9 +276,15 @@ def run_evaluation(
         candidate_ids = [c["metadata"]["parent_id"] for c in candidates]
         retrieved_ids = [r["metadata"]["parent_id"] for r in results]
 
-        recall_scores.append(recall_at_k(candidate_ids, relevant_ids, k=10))
+        recall_score = recall_at_k(candidate_ids, relevant_ids, k=10)
+        hit3_score = 1 if relevant_doc_id in retrieved_ids else 0
+
+        recall_scores.append(recall_score)
         mrr_scores.append(mean_reciprocal_rank(candidate_ids, relevant_ids))
-        hit3_scores.append(1 if relevant_doc_id in retrieved_ids else 0)
+        hit3_scores.append(hit3_score)
+
+        type_recall[qtype].append(recall_score)
+        type_hit3[qtype].append(hit3_score)
 
         t0 = time.perf_counter()
         answers.append(generate(question, results, pipeline_cfg.generation))
@@ -286,6 +326,14 @@ def run_evaluation(
         "retrieval_p95_s": retrieval_stats["p95"],
         "generation_p50_s": generation_stats["p50"],
         "generation_p95_s": generation_stats["p95"],
+        "per_type": {
+            qtype: {
+                "n": len(type_hit3[qtype]),
+                "hit@3": sum(type_hit3[qtype]) / len(type_hit3[qtype]),
+                "recall@10": sum(type_recall[qtype]) / len(type_recall[qtype]),
+            }
+            for qtype in type_hit3
+        },
     }
 
 
