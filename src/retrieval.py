@@ -103,23 +103,37 @@ def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     ]
 
 
-def expand_query(query: str, cfg: GenerationConfig) -> list[str]:
+def expand_query(query: str, cfg: GenerationConfig, max_retries: int = 10) -> list[str]:
     """Ask the LLM for 2 alternative phrasings; returns original + up to 2 variants."""
     prompt = f"""Generate 2 alternative phrasings of this question that mean the same thing.
 Return only the questions, one per line, no numbering or explanation.
 
 Question: {query}"""
 
-    try:
-        response = ollama.chat(
-            model=cfg.model, messages=[{"role": "user", "content": prompt}]
-        )
-        raw = response.message.content or ""
-        variants = [line.strip() for line in raw.strip().splitlines() if line.strip()]
-        return [query] + variants[:2]
-    except (httpx.RemoteProtocolError, httpx.ConnectError) as e:
-        logger.warning("Query expansion failed, continuing with original query: %s", e)
-        return [query]
+    import time as _time
+    for attempt in range(max_retries):
+        try:
+            response = ollama.chat(
+                model=cfg.model, messages=[{"role": "user", "content": prompt}]
+            )
+            raw = response.message.content or ""
+            variants = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+            return [query] + variants[:2]
+        except (httpx.RemoteProtocolError, httpx.ConnectError) as e:
+            logger.warning("Query expansion failed, continuing with original query: %s", e)
+            return [query]
+        except ollama.ResponseError as e:
+            if "unexpectedly stopped" in str(e) and attempt < max_retries - 1:
+                wait = 90
+                logger.warning(
+                    "Ollama runner crash during query expansion, retrying in %ds (attempt %d/%d): %s",
+                    wait, attempt + 1, max_retries, e,
+                )
+                _time.sleep(wait)
+            else:
+                logger.warning("Query expansion ResponseError, continuing with original query: %s", e)
+                return [query]
+    return [query]
 
 
 @overload

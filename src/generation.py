@@ -93,8 +93,20 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
                 raise RuntimeError("Ollama service unavailable") from e
 
         except ollama.ResponseError as e:
-            logger.error("Ollama returned an error: %s", e)
-            raise RuntimeError("Ollama service unavailable") from e
+            is_runner_crash = "unexpectedly stopped" in str(e)
+            if is_runner_crash and attempt < max_retries - 1:
+                wait = 90
+                logger.warning(
+                    "Ollama runner crash, retrying in %ds (attempt %d/%d): %s",
+                    wait,
+                    attempt + 1,
+                    max_retries,
+                    e,
+                )
+                time.sleep(wait)
+            else:
+                logger.error("Ollama returned an error: %s", e)
+                raise RuntimeError("Ollama service unavailable") from e
 
         except Exception as e:
             if "model" in str(e).lower() and cfg.model in str(e):
