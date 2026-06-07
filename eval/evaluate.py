@@ -179,36 +179,54 @@ def mean_reciprocal_rank(retrieved_ids: list[str], relevant_ids: set[str]) -> fl
     return 0.0
 
 
+def _decompose_claims(answer: str, cfg: GenerationConfig) -> list[str]:
+    """split an answer into atomic claims, one per line"""
+    prompt = dedent(f"""
+    Split the following answer into individual atomic claims.
+    Each claim should be a single self-contained factual assertion.
+    Do not include source citations or hedging phrases like "according to".
+    Respond with only the claims, one per line, nothing else.
+
+    Answer: {answer}
+    """)
+
+    raw = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}])
+    claims = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+    return claims
+
+
+def _verify_claim(claim: str, context: str, cfg: GenerationConfig) -> bool:
+    """Return True if the claim is directly supported by the context."""
+    prompt = dedent(f"""
+    Context: {context}
+
+    Claim: {claim}
+
+    Is this claim directly supported by the context above?
+    Respond with only "yes" or "no".
+    """)
+
+    response = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}])
+    return "yes" in response.lower()
+
+
 def faithfulness_score(
     answer: str, source_chunks: list[str], cfg: GenerationConfig
 ) -> float:
-    """Check how many answer claims are grounded in the retrieved context."""
+    """Decompose answer into atomic claims, verify each against context."""
     context = "\n".join(source_chunks)
+    claims = _decompose_claims(answer, cfg)
 
-    prompt = dedent(
-        f"""
-    You are evaluating if an answer is grounded in a context.
+    if not claims:
+        logger.warning(
+            "Claim decomposition returned no claims for answer: %r", answer[:100]
+        )
+        return 0.0
 
-    Context: {context}
-
-    Answer: {answer}
-
-    For each claim in the answer, check if it is directly supported by the context.
-    Respond with only a decimal between 0.0 and 1.0 representing the fraction of claims supported.
-    0.0 means no claims are supported. 1.0 means all claims are supported.
-    Only output the number, nothing else,
-    """
-    )
-
-    content_stripped = _ollama_chat_with_retry(
-        cfg.model, [{"role": "user", "content": prompt}]
-    ).strip()
-
-    match = re.search(r"\b\d*\.?\d+\b", content_stripped)
-    if match:
-        score = float(match.group())
-        return max(0.0, min(1.0, score))
-    return 0.0
+    verified = [_verify_claim(claim, context, cfg) for claim in claims]
+    score = sum(verified) / len(verified)
+    logger.debug("Faithfulness: %d/%d claims supported", sum(verified), len(verified))
+    return score
 
 
 def _latency_stats(latencies: list[float]) -> dict[str, float]:
