@@ -20,3 +20,6 @@ chromadb
 fastapi
 uvicorn
 pydantic
+
+# Testing
+pytest
