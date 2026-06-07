@@ -55,10 +55,6 @@ logs/
 *.log
 results/
 outputs/
-eval/results/
-eval/qa_set.json
-eval/unanswerable_set.json
-eval/qa_set_factual_only.json
 
 # macOS
 .DS_Store

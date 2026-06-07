@@ -1,0 +1,502 @@
+[
+  {
+    "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+    "relevant_doc_id": "1824.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What allows amides to act as hydrogen bond acceptors?",
+    "relevant_doc_id": "409.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What factor primarily influenced the need for substitute analysts on Westwood One's Monday Night Football broadcasts starting in 2007?",
+    "relevant_doc_id": "4506.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Who became the MP for Lichfield after the reorganisation of constituencies in Staffordshire in 1997, and what significant event occurred in the previous constituency of Lichfield and Tamworth between Heddle's suicide and the next general election?",
+    "relevant_doc_id": "4012.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "In which year did St. Pierre make women's ice hockey history by tending goal during a practice session with the Montreal Canadiens?",
+    "relevant_doc_id": "3657.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What percentage of the population in Canada identified as \"White\" according to the 2021 data?",
+    "relevant_doc_id": "2286.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What might have contributed to the significant voter apathy observed in the election, given the context of political and economic stability mentioned?",
+    "relevant_doc_id": "1679.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which family, found primarily in the New World and mentioned in the text, includes species like the Thick-billed parrot whose reintroduction attempts failed in the 1980s?",
+    "relevant_doc_id": "8935.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What is the meaning of Bar in the context of law?",
+    "relevant_doc_id": "1424.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What position did Ty Williams play for the North Queensland Cowboys by the end of 2005?",
+    "relevant_doc_id": "9674.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+    "relevant_doc_id": "6912.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+    "relevant_doc_id": "520.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "In which decade was Aimoin of Fleury born?",
+    "relevant_doc_id": "488.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What event prompted the Balkan nations to prepare for war against Turkey after Italy's invasion of Tripolitania?",
+    "relevant_doc_id": "1535.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+    "relevant_doc_id": "3582.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What city did Miller move to in 1990, and where was he based as of 2011?",
+    "relevant_doc_id": "3811.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "Who is the author of the novella \"Venus in Furs\"?",
+    "relevant_doc_id": "8279.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "How many campuses does Second Baptist Church have in the Houston metropolitan area as of the spring of 2015?",
+    "relevant_doc_id": "9863.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+    "relevant_doc_id": "434.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What percentage of the fiscal year 2017 net sales came from packaged foods sold under private labels and what historical product innovation did Seneca introduce during the 1960s that was a first in the industry?",
+    "relevant_doc_id": "9195.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "Who introduced Fadwa Tuqan to poetry?",
+    "relevant_doc_id": "3257.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+    "relevant_doc_id": "8928.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What might have influenced Lewis Morrison's decision to change his name and pursue a career on the stage after the Civil War?",
+    "relevant_doc_id": "6873.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "How does External Counterpulsation (ECP) therapy increase coronary perfusion during diastole, and what is the duration of typical treatment regimens?",
+    "relevant_doc_id": "3611.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "Who was Tremayne suspected of conspiring with against Mary?",
+    "relevant_doc_id": "7359.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+    "relevant_doc_id": "9654.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What significant challenge did Bewdley Town Football Club overcome to achieve promotion to the Premier Division of the Midland League?",
+    "relevant_doc_id": "4557.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+    "relevant_doc_id": "106.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "Which act governs the Mayo County Council?",
+    "relevant_doc_id": "2615.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What was T.J. Battle Sr.'s sentence length after pleading guilty to racketeering charges?",
+    "relevant_doc_id": "6924.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What change in Fiji's electoral system led to the abolition of Lami Open constituency?",
+    "relevant_doc_id": "5574.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+    "relevant_doc_id": "4552.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+    "relevant_doc_id": "2547.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Who assisted in the construction of Varberg Fortress due to Jacob Nielsen's connections?",
+    "relevant_doc_id": "3527.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How did Kristine Holzer's experience with juvenile rheumatoid arthritis influence her choice of sports throughout her athletic career?",
+    "relevant_doc_id": "5514.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+    "relevant_doc_id": "1674.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+    "relevant_doc_id": "1519.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "In which year did Kaare Meland cease to be the CEO of Bergens sparebank?",
+    "relevant_doc_id": "6224.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+    "relevant_doc_id": "1584.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+    "relevant_doc_id": "5881.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "How many sheadings is Rushen one of on the Isle of Man?",
+    "relevant_doc_id": "5635.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Which constituency did Dinsha Patel represent in the Lok Sabha?",
+    "relevant_doc_id": "9891.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "Based on the information provided, what might be a reason for Mondo Music Corporation's focus on producing music for all age groups and demographics?",
+    "relevant_doc_id": "4333.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which video game features the ship named Aquila and in which fantasy film is there a medieval city by the same name?",
+    "relevant_doc_id": "711.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What was McLean's most lasting legislative achievement according to the text?",
+    "relevant_doc_id": "7527.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What feature allows newer elements in a TLV message to be ignored by older systems without disrupting message parsing?",
+    "relevant_doc_id": "8785.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How have the changes in character portrayals and behaviors in The Beano over time reflected evolving societal values regarding sensitivity and inclusivity?",
+    "relevant_doc_id": "2045.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What positions did Wilhelm Christian Magelssen hold before becoming the Minister of Education and Church Affairs in 1926?",
+    "relevant_doc_id": "6201.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What does Codex Bezae version of Luke 3:22 say about Jesus's baptism?",
+    "relevant_doc_id": "1291.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Who served as Britain's ambassador to Ethiopia, Brazil, and Spain between 1962 and 1974?",
+    "relevant_doc_id": "9044.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What factors contributed to Delerium becoming inactive by 2002, and how did Allen adapt his approach to music management and label operations in response?",
+    "relevant_doc_id": "4803.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What is the name of the book Peter Snowdon co-authored with Anthony Seldon that was published in 2007?",
+    "relevant_doc_id": "5925.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What does the transition band allow between the passband and stopband in a signal processing filter?",
+    "relevant_doc_id": "9459.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Where did Shishunaga move his capital to later in his reign?",
+    "relevant_doc_id": "3150.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What was the primary reason for \u03bc-law encoding becoming a de facto standard for Unix sound despite the introduction of various other audio encoding formats in the Au file format?",
+    "relevant_doc_id": "1139.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What event in Ayckbourn's personal life coincided with a prevalent theme in his plays during the early seventies, and how long did it take for this event to be formally resolved in his personal life?",
+    "relevant_doc_id": "750.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "How many dormitories are there at Wakeijuku?",
+    "relevant_doc_id": "3733.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What position did he hold from 1985 to 1992 at York University?",
+    "relevant_doc_id": "4741.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What series of events led to the Zunbils intervening in Sistan's affairs following alha's death?",
+    "relevant_doc_id": "1307.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What is the current status of Deer Island's inhabitation and who was the last resident before it became uninhabited?",
+    "relevant_doc_id": "3814.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What material were the most ancient balls discovered in Karasahr, China made of?",
+    "relevant_doc_id": "1654.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Who was Muhammad's adopted son according to the text?",
+    "relevant_doc_id": "6227.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+    "relevant_doc_id": "4554.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+    "relevant_doc_id": "7428.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What is the name of the fourth hof purchased by the AFA in White Springs, Florida?",
+    "relevant_doc_id": "5977.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What evidence do biological scientists point to in support of the theory that Q-Celtic languages originated in western Iberia?",
+    "relevant_doc_id": "2664.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How does each presenter uniquely contribute to ending their respective episodes in a way that reflects their real-life profession?",
+    "relevant_doc_id": "6065.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+    "relevant_doc_id": "5820.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What is the population of Bozdo\u011fan as of 2022?",
+    "relevant_doc_id": "3432.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Which bank released a new card for the Linux Fund in June 2007?",
+    "relevant_doc_id": "4374.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How does the practice of non-injury (ahimsa) differ between Jain monastics and laypersons according to the text?",
+    "relevant_doc_id": "1169.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What is the population of the most populated district in Grand Cape Mount County, and which district is it?",
+    "relevant_doc_id": "9980.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What type of stars does Dr. Garmany and her team study?",
+    "relevant_doc_id": "2803.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What facility, located near Villa Park, did the club move to in 2015 and which includes a tennis club and a boxing club alongside the football club?",
+    "relevant_doc_id": "8751.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How did John Wark's role at Ipswich Town contrast with Bobby Robson's achievement with the same club, considering both were involved in European competitions?",
+    "relevant_doc_id": "4010.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which two shopping channels merged their operations by an acquisition, and what was a significant expansion strategy undertaken by one of these channels to enhance its online presence?",
+    "relevant_doc_id": "2677.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What role did Jones have on Good Morning Britain after Daybreak was replaced by it in 2014?",
+    "relevant_doc_id": "7573.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Which district is R\u00f6dinghausen located in?",
+    "relevant_doc_id": "6216.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+    "relevant_doc_id": "4422.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What position did Smith hold at the Department for Innovation, Universities and Skills, and what recognition did he receive in 2011?",
+    "relevant_doc_id": "9125.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What was Sonny King's birth name?",
+    "relevant_doc_id": "3598.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Who was the founder and first president of the Romanian Philatelic Society?",
+    "relevant_doc_id": "5313.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+    "relevant_doc_id": "916.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+    "relevant_doc_id": "3752.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "Who led the Alexandrists according to the text?",
+    "relevant_doc_id": "525.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What are some counties suggested as the possible real locations for Verysdale?",
+    "relevant_doc_id": "5168.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What distinguishes stereotypic movement disorder from tic disorders like Tourette syndrome based on the onset age and pattern of movement?",
+    "relevant_doc_id": "6572.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which genus belonging to the Crotaphytidae family is mentioned as part of the definition for \"collared lizard\" in North America?",
+    "relevant_doc_id": "4386.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+    "relevant_doc_id": "1084.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Which historical figure's remains were initially buried in St. Markus Church before being moved to Siegen?",
+    "relevant_doc_id": "3456.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+    "relevant_doc_id": "9292.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+    "relevant_doc_id": "5155.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "How many stories tall are each of the three towers at the Signature at MGM Grand?",
+    "relevant_doc_id": "3483.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "Which philosopher noted that logic becomes linguistic regarding logical constants in the preface to the second edition of The Principles of Mathematics?",
+    "relevant_doc_id": "8179.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+    "relevant_doc_id": "6482.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "Which significant naval aviation milestone occurred during the review at Weymouth, and who was the first person to achieve this feat?",
+    "relevant_doc_id": "7517.txt",
+    "question_type": "multi_hop"
+  },
+  {
+    "question": "What is the recommended charset as of HTML5?",
+    "relevant_doc_id": "2340.txt",
+    "question_type": "factual"
+  },
+  {
+    "question": "What was the name of the railway operator in the Transvaal Colony and Orange River Colony from 1902 to 1910?",
+    "relevant_doc_id": "4339.txt",
+    "question_type": "paraphrased"
+  },
+  {
+    "question": "How did the Statute of Westminster impact Canada's constitutional amendments process despite granting autonomy to Canada?",
+    "relevant_doc_id": "2287.txt",
+    "question_type": "inferential"
+  },
+  {
+    "question": "What historical event led to the desertion and destruction of \u010cerven\u00e9 D\u0159evo, which was previously inhabited by Sudeten Germans and became part of Chuden\u00edn after being a separate municipality that included Fleky?",
+    "relevant_doc_id": "4040.txt",
+    "question_type": "multi_hop"
+  }
+]
