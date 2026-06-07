@@ -61,3 +61,6 @@ outputs/
 
 # Claude Code
 .claude/
+
+# Graphify knowledge graph
+graphify-out/

@@ -55,8 +55,8 @@ def chunk_recursive(
 
     results = []
 
-    for i, seperator in enumerate(_separators):
-        splittext = text.split(seperator)
+    for i, separator in enumerate(_separators):
+        splittext = text.split(separator)
 
         for part in splittext:
             if not part.strip():

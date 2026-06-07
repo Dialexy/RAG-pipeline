@@ -2,6 +2,7 @@
 FastAPI app exposing the RAG pipeline over HTTP.
 """
 
+import dataclasses
 from fastapi import FastAPI
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
@@ -53,9 +54,10 @@ def health():
 def query(request: QueryRequest):
     """Embed the question, retrieve chunks, generate an answer, return structured response."""
     cfg = state["cfg"]
-    # TODO: I need to avoid mutating the shared cfg state. I need to Create a copy per request for thread safety
     if request.model is not None:
-        cfg.generation.model = request.model
+        cfg = dataclasses.replace(
+            cfg, generation=dataclasses.replace(cfg.generation, model=request.model)
+        )
     result = query_pipeline(
         request.question,
         cfg,

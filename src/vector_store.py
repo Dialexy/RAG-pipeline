@@ -116,7 +116,7 @@ def fetch_neighbouring_chunks(
         try:
             result = collection.get(ids=[cid], include=["documents"])
             if result["documents"] and result["documents"][0]:
-                return result["documents"][0][0]
+                return result["documents"][0]
         except Exception:
             pass
         return None

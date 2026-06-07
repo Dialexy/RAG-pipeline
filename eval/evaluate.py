@@ -18,10 +18,9 @@ from src.logger import get_logger
 from typing import Any
 from pathlib import Path
 from textwrap import dedent
-from src.vector_store import load_index
+from src.vector_store import load_index, load_chunk_corpus
 from src.retrieval import retrieve
 from src.generation import generate, ABSTENTION_RESPONSE
-from src.models import Document
 from config import PipelineConfig, GenerationConfig, RAW_DIR
 
 logger = get_logger(__name__)
@@ -67,7 +66,8 @@ def _ollama_unload_all() -> None:
     try:
         loaded = ollama.ps().models
         for m in loaded:
-            _ollama_unload(m.model)
+            if m.model:
+                _ollama_unload(m.model)
         if loaded:
             time.sleep(5)
     except Exception as e:
@@ -212,6 +212,9 @@ def faithfulness_score(
 
 
 def _latency_stats(latencies: list[float]) -> dict[str, float]:
+    if len(latencies) < 2:
+        v = latencies[0] if latencies else 0.0
+        return {"p50": round(v, 3), "p95": round(v, 3)}
     q = quantiles(latencies, n=100)
     return {"p50": round(q[49], 3), "p95": round(q[94], 3)}
 
@@ -243,20 +246,7 @@ def run_evaluation(
     effective_judge = judge_cfg if judge_cfg is not None else pipeline_cfg.generation
 
     collection = load_index(pipeline_cfg)
-    corpus = []
-    batch_size = 5000
-    offset = 0
-    while True:
-        batch = collection.get(
-            include=["documents", "metadatas"], limit=batch_size, offset=offset
-        )
-        if not batch["ids"]:
-            break
-        for id_, text, meta in zip(
-            batch["ids"], batch["documents"] or [], batch["metadatas"] or []
-        ):
-            corpus.append(Document(id=id_, text=text, metadata=dict(meta)))
-        offset += batch_size
+    corpus = load_chunk_corpus(collection)
 
     # Phase 1: retrieval + generation (14b model stays loaded)
     answers = []
