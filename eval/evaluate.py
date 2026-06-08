@@ -322,8 +322,10 @@ def run_evaluation(
     # Phase 2: faithfulness scoring (judge model loads once, 14b is killed)
     abstention_str = ABSTENTION_RESPONSE.lower()
     failed_claims: list[dict] = []
-    for question, answer, source_chunks in zip(
-        questions_list, answers, source_chunks_list
+    retrieval_failures: list[dict] = []
+    generation_failures: list[dict] = []
+    for question, answer, source_chunks, hit3 in zip(
+        questions_list, answers, source_chunks_list, hit3_scores
     ):
         if abstention_str in answer.lower():
             abstention_count += 1
@@ -333,6 +335,14 @@ def run_evaluation(
             answer, source_chunks, effective_judge
         )
         faithfulness_scores.append(score)
+
+        has_failed_claims = any(not supported for _, supported in claim_pairs)
+        if has_failed_claims:
+            if hit3 == 0:
+                retrieval_failures.append({"question": question, "type": "retrieval"})
+            else:
+                generation_failures.append({"question": question, "type": "generation"})
+
         for claim, supported in claim_pairs:
             if not supported:
                 failed_claims.append(
@@ -366,6 +376,10 @@ def run_evaluation(
             for qtype in type_hit3
         },
         "failed_claims": failed_claims,
+        "retrieval_failure_count": len(retrieval_failures),
+        "generation_failure_count": len(generation_failures),
+        "retrieval_failures": retrieval_failures,
+        "generation_failures": generation_failures,
     }
 
 
