@@ -8,8 +8,7 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from .embedding import embed_chunks, get_tokenizer
 from collections.abc import Iterator
-from config import EmbeddingConfig
-from config import ChunkConfig
+from config import EmbeddingConfig, ChunkConfig
 from .models import Document
 from .logger import get_logger
 
@@ -57,6 +56,10 @@ def chunk_recursive(
 
     for i, separator in enumerate(_separators):
         splittext = text.split(separator)
+
+        if len(splittext) == 1:
+            # separator not found in text; try the next one
+            continue
 
         for part in splittext:
             if not part.strip():
@@ -145,8 +148,8 @@ def chunk_document(
     doc: Document, cfg: ChunkConfig, embedding_cfg: EmbeddingConfig
 ) -> Iterator[Document]:
     """
-    Dispatch to the right strategy and yield chunk dicts:
-    {"id": str, "text": str, "metadata": dict}
+    Dispatch to the right strategy and yield Document objects, one per chunk,
+    each with id, text, and metadata.
     """
 
     if cfg.strategy == "fixed":

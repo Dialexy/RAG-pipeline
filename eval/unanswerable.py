@@ -10,13 +10,13 @@ from src.pipeline import query_pipeline
 from src.generation import ABSTENTION_RESPONSE
 from src.vector_store import load_index, load_chunk_corpus
 from src.models import Document
+from src.ingestion import CORPUS_SIZE
 from eval.evaluate import _ollama_chat_with_retry
 from src.logger import get_logger
 
 logger = get_logger(__name__)
 
 UNANSWERABLE_SET_PATH = Path(__file__).parent / "unanswerable_set.json"
-CORPUS_SIZE = 10_000  # alwyas matching with ingestion.py
 
 
 def generate_unanswerable_qa_pairs(

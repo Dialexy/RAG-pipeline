@@ -53,18 +53,29 @@ def health():
 @app.post("/query", response_model=QueryResponse)
 def query(request: QueryRequest):
     """Embed the question, retrieve chunks, generate an answer, return structured response."""
-    cfg = state["cfg"]
-    if request.model is not None:
-        cfg = dataclasses.replace(
-            cfg, generation=dataclasses.replace(cfg.generation, model=request.model)
+    try:
+        cfg = state["cfg"]
+        if request.model is not None:
+            cfg = dataclasses.replace(
+                cfg, generation=dataclasses.replace(cfg.generation, model=request.model)
+            )
+        result = query_pipeline(
+            request.question,
+            cfg,
+            collection=state["collection"],
+            corpus=state["corpus"],
+            filters=request.filters,
         )
-    result = query_pipeline(
-        request.question,
-        cfg,
-        collection=state["collection"],
-        corpus=state["corpus"],
-        filters=request.filters,
-    )
-    return QueryResponse(
-        answer=result["answer"], sources=result["sources"], query=result["query"]
-    )
+        return QueryResponse(
+            answer=result["answer"],
+            sources=result["sources"],
+            query=result["query"],
+            error=result.get("error"),
+        )
+    except Exception as e:
+        return QueryResponse(
+            answer="",
+            sources=[],
+            query=request.question,
+            error=str(e),
+        )

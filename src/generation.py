@@ -47,7 +47,7 @@ def build_prompt(query: str, chunks: list[dict]) -> str:
 def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     """
     Call the local Ollama model with the retrieved context and return the answer string.
-    Streams from ollama.chat() using cfg.model (default: qwen2.5:14b).
+    Makes a single blocking ollama.chat() call using cfg.model (default: qwen2.5:14b).
     """
 
     logger.info(

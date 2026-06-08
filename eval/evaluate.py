@@ -1,10 +1,13 @@
 """
 Evaluation: retrieval quality and end-to-end answer quality.
 
-Metrics to implement:
-  - Retrieval: Recall@k, MRR, NDCG
-  - Answer: faithfulness (do answers stay grounded in retrieved chunks?),
-            answer relevance, context precision/recall (RAGAs-style)
+Implemented metrics:
+  - Retrieval: Recall@k, MRR, Hit@3, with a per-question-type breakdown.
+  - Answer: faithfulness via claim decomposition (split the answer into atomic
+            claims and verify each against the retrieved context).
+  - Latency: p50/p95 for retrieval and generation.
+  - Abstention tracking, plus classification of faithfulness failures into
+    retrieval failures vs generation failures.
 """
 
 import time
@@ -128,8 +131,8 @@ def _ollama_chat_with_retry(
 def generate_qa_pairs(
     raw_dir: Path, n: int, cfg: GenerationConfig, seed: int = 42
 ) -> list[dict]:
-    """Sample n docs from raw_dir, prompt the LLM for one factual question per doc,
-    and return  (question, doc_id) pairs."""
+    """Sample n docs from raw_dir, prompt the LLM for one question per doc, and return
+    a list of dicts with keys "question", "relevant_doc_id", and "question_type"."""
 
     rng = random.Random(seed)
     text_files = list(raw_dir.rglob("*.txt"))

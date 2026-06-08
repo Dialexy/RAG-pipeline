@@ -17,6 +17,7 @@ from collections import defaultdict
 from sentence_transformers import CrossEncoder
 from functools import lru_cache
 from .logger import get_logger
+import time
 import numpy as np
 import ollama
 import httpx
@@ -110,8 +111,6 @@ Return only the questions, one per line, no numbering or explanation.
 
 Question: {query}"""
 
-    import time as _time
-
     for attempt in range(max_retries):
         try:
             response = ollama.chat(
@@ -137,7 +136,7 @@ Question: {query}"""
                     max_retries,
                     e,
                 )
-                _time.sleep(wait)
+                time.sleep(wait)
             else:
                 logger.warning(
                     "Query expansion ResponseError, continuing with original query: %s",

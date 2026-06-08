@@ -33,9 +33,8 @@ def file_hash(path: Path) -> str:
 
 def corpus_hash(raw_dir: Path) -> str:
     file_path = sorted(
-        raw_dir.glob("*.txt")
-    )  # glob used instead of rglob incase I ever change the file struct
-    # rglob is probably fine though
+        list(raw_dir.rglob("*.txt")) + list(raw_dir.rglob("*.md"))
+    )
 
     hash = hashlib.sha256()
 
@@ -66,6 +65,15 @@ def build_pipeline(cfg: PipelineConfig, force=False) -> None:
     Run once (or when the corpus changes).
     """
 
+    t_start = time.perf_counter()
+    logger.info("Starting indexing pipeline")
+
+    try:
+        fetch_corpus(RAW_DIR)
+    except Exception as e:
+        logger.error("Corpus fetch failed: %s", e)
+        raise RuntimeError("Corpus fetch failed - check network connection") from e
+
     current_hash = corpus_hash(RAW_DIR) + config_fingerprint(cfg)
     hash_file = CHROMA_PERSIST_DIR / "corpus.hash"
 
@@ -75,15 +83,6 @@ def build_pipeline(cfg: PipelineConfig, force=False) -> None:
         if current_hash == stored_hash:
             logger.info("Indexing Skipped, corpus unchanged")
             return
-
-    t_start = time.perf_counter()
-    logger.info("Starting indexing pipeline")
-
-    try:
-        fetch_corpus(RAW_DIR)
-    except Exception as e:
-        logger.error("Corpus fetch failed: %s", e)
-        raise RuntimeError("Corpus fetch failed - check network connection") from e
 
     documents = list(iter_documents(RAW_DIR))
     if not documents:
@@ -125,7 +124,7 @@ def query_pipeline(
 ) -> dict:
     """
     Query-time: embed query → retrieve → generate.
-    Returns {"query": str, "answer": str, "sources": list[dict]}
+    Returns {"query": str, "answer": str, "sources": list[dict], "error": str | None}
     """
     t_start = time.perf_counter()
     logger.info("Query received: %r", query)

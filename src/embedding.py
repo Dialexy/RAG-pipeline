@@ -23,12 +23,6 @@ def get_tokenizer(cfg: EmbeddingConfig):
     return load_model(cfg).tokenizer
 
 
-def embed_query(text: str, cfg: EmbeddingConfig) -> np.ndarray:
-    """Return a single (D,) embedding for a query, prepending query_instruction if set."""
-    prefixed = f"{cfg.query_instruction}{text}" if cfg.query_instruction else text
-    return embed_chunks([prefixed], cfg)[0]
-
-
 def embed_chunks(texts: list[str], cfg: EmbeddingConfig) -> np.ndarray:
     """Return (N, D) embedding matrix for a list of text chunks."""
     model = load_model(cfg)

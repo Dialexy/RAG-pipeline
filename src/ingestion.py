@@ -13,6 +13,8 @@ from .logger import get_logger
 
 logger = get_logger(__name__)
 
+CORPUS_SIZE = 10_000  # number of articles ingested from the dataset
+
 
 def fetch_corpus(output_dir: Path) -> None:
     """Download / export the chosen dataset into output_dir."""
@@ -25,7 +27,7 @@ def fetch_corpus(output_dir: Path) -> None:
 
     count = 0
     for i, indexedfile in enumerate(dataset):
-        if i >= 10000:
+        if i >= CORPUS_SIZE:
             break
         item = cast(dict[str, Any], indexedfile)
 
