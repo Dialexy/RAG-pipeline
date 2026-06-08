@@ -180,15 +180,17 @@ def mean_reciprocal_rank(retrieved_ids: list[str], relevant_ids: set[str]) -> fl
 
 def _decompose_claims(answer: str, cfg: GenerationConfig) -> list[str]:
     """split an answer into atomic claims, one per line"""
-    prompt = dedent(f"""
-    Split the following answer into individual atomic claims.
-    Each claim should be a single self-contained factual assertion.
-    Do not include source citations or hedging phrases like "according to".
-    Respond with only the claims, one per line, nothing else.
+    prompt = dedent(
+        f"""
+            Split the following answer into individual atomic claims.
+            Each claim should be a single self-contained factual assertion.
+            Do not include any claim that references a source number (e.g. "Source 1", "source2").
+            Do not include hedging phrases like "according to".
+            Respond with only the claims, one per line, nothing else.
 
-    Answer: {answer}
-    """)
-
+            Answer: {answer}
+            """
+    )
     raw = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}])
     claims = [line.strip() for line in raw.strip().splitlines() if line.strip()]
     return claims
@@ -196,14 +198,16 @@ def _decompose_claims(answer: str, cfg: GenerationConfig) -> list[str]:
 
 def _verify_claim(claim: str, context: str, cfg: GenerationConfig) -> bool:
     """Return True if the claim is directly supported by the context."""
-    prompt = dedent(f"""
+    prompt = dedent(
+        f"""
     Context: {context}
 
     Claim: {claim}
 
     Is this claim directly supported by the context above?
     Respond with only "yes" or "no".
-    """)
+    """
+    )
 
     response = _ollama_chat_with_retry(cfg.model, [{"role": "user", "content": prompt}])
     return "yes" in response.lower()
@@ -318,16 +322,22 @@ def run_evaluation(
     # Phase 2: faithfulness scoring (judge model loads once, 14b is killed)
     abstention_str = ABSTENTION_RESPONSE.lower()
     failed_claims: list[dict] = []
-    for question, answer, source_chunks in zip(questions_list, answers, source_chunks_list):
+    for question, answer, source_chunks in zip(
+        questions_list, answers, source_chunks_list
+    ):
         if abstention_str in answer.lower():
             abstention_count += 1
             continue
 
-        score, claim_pairs = faithfulness_score_with_breakdown(answer, source_chunks, effective_judge)
+        score, claim_pairs = faithfulness_score_with_breakdown(
+            answer, source_chunks, effective_judge
+        )
         faithfulness_scores.append(score)
         for claim, supported in claim_pairs:
             if not supported:
-                failed_claims.append({"question": question, "claim": claim, "supported": False})
+                failed_claims.append(
+                    {"question": question, "claim": claim, "supported": False}
+                )
 
     mean_faithfulness = (
         sum(faithfulness_scores) / len(faithfulness_scores)

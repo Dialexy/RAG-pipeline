@@ -4,6 +4,7 @@ from config import PipelineConfig
 
 # --- flags set correctly ---
 
+
 def test_build_config_sets_flags():
     base = PipelineConfig()
     variant = {"use_hybrid": True, "use_reranker": False, "use_query_expansion": True}
@@ -14,6 +15,7 @@ def test_build_config_sets_flags():
 
 
 # --- base config not mutated ---
+
 
 def test_build_config_does_not_mutate_base():
     base = PipelineConfig()
@@ -35,10 +37,15 @@ def test_build_config_does_not_mutate_base():
 
 # --- independent configs ---
 
+
 def test_build_config_returns_independent_configs():
     base = PipelineConfig()
-    cfg_a = build_config(base, {"use_hybrid": True, "use_reranker": True, "use_query_expansion": True})
-    cfg_b = build_config(base, {"use_hybrid": False, "use_reranker": False, "use_query_expansion": False})
+    cfg_a = build_config(
+        base, {"use_hybrid": True, "use_reranker": True, "use_query_expansion": True}
+    )
+    cfg_b = build_config(
+        base, {"use_hybrid": False, "use_reranker": False, "use_query_expansion": False}
+    )
 
     assert cfg_a.retrieval.use_hybrid != cfg_b.retrieval.use_hybrid
     assert cfg_a.retrieval.use_reranker != cfg_b.retrieval.use_reranker
@@ -47,5 +54,5 @@ def test_build_config_returns_independent_configs():
     # Mutating cfg_a's retrieval object must not affect cfg_b
     cfg_a.retrieval.use_hybrid = False
     assert cfg_b.retrieval.use_hybrid is False  # cfg_b's own value, unchanged
-    cfg_a.retrieval.use_hybrid = True           # restore; assert cfg_b still independent
+    cfg_a.retrieval.use_hybrid = True  # restore; assert cfg_b still independent
     assert cfg_b.retrieval.use_hybrid is False

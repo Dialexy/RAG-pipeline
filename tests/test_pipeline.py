@@ -5,6 +5,7 @@ from config import PipelineConfig, ChunkConfig
 
 # --- file_hash ---
 
+
 def test_file_hash_different_contents_differ(tmp_path):
     a = tmp_path / "a.txt"
     b = tmp_path / "b.txt"
@@ -27,6 +28,7 @@ def test_file_hash_same_content_matches(tmp_path):
 
 
 # --- corpus_hash ---
+
 
 def test_corpus_hash_deterministic(tmp_path):
     (tmp_path / "one.txt").write_text("alpha")
@@ -52,6 +54,7 @@ def test_corpus_hash_changes_on_modified_content(tmp_path):
 
 
 # --- config_fingerprint ---
+
 
 def test_config_fingerprint_defaults_equal():
     assert config_fingerprint(PipelineConfig()) == config_fingerprint(PipelineConfig())

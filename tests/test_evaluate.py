@@ -4,6 +4,7 @@ from eval.evaluate import recall_at_k, mean_reciprocal_rank, _latency_stats
 
 # --- recall_at_k ---
 
+
 def test_recall_at_k_hit():
     assert recall_at_k(["a", "b", "c"], {"a"}, k=3) == 1.0
 
@@ -23,6 +24,7 @@ def test_recall_at_k_larger_than_list():
 
 # --- mean_reciprocal_rank ---
 
+
 def test_mrr_rank_1():
     assert mean_reciprocal_rank(["a", "b", "c"], {"a"}) == 1.0
 
@@ -36,6 +38,7 @@ def test_mrr_not_present():
 
 
 # --- _latency_stats ---
+
 
 def test_latency_stats_percentiles():
     latencies = [float(i) for i in range(1, 101)]

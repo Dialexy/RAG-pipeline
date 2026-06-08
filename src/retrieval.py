@@ -111,27 +111,38 @@ Return only the questions, one per line, no numbering or explanation.
 Question: {query}"""
 
     import time as _time
+
     for attempt in range(max_retries):
         try:
             response = ollama.chat(
                 model=cfg.model, messages=[{"role": "user", "content": prompt}]
             )
             raw = response.message.content or ""
-            variants = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+            variants = [
+                line.strip() for line in raw.strip().splitlines() if line.strip()
+            ]
             return [query] + variants[:2]
         except (httpx.RemoteProtocolError, httpx.ConnectError) as e:
-            logger.warning("Query expansion failed, continuing with original query: %s", e)
+            logger.warning(
+                "Query expansion failed, continuing with original query: %s", e
+            )
             return [query]
         except ollama.ResponseError as e:
             if "unexpectedly stopped" in str(e) and attempt < max_retries - 1:
                 wait = 90
                 logger.warning(
                     "Ollama runner crash during query expansion, retrying in %ds (attempt %d/%d): %s",
-                    wait, attempt + 1, max_retries, e,
+                    wait,
+                    attempt + 1,
+                    max_retries,
+                    e,
                 )
                 _time.sleep(wait)
             else:
-                logger.warning("Query expansion ResponseError, continuing with original query: %s", e)
+                logger.warning(
+                    "Query expansion ResponseError, continuing with original query: %s",
+                    e,
+                )
                 return [query]
     return [query]
 

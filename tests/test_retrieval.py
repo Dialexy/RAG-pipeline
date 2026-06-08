@@ -9,6 +9,7 @@ def make_doc(text: str, doc_id: str = None) -> dict:
 
 # --- reciprocal_rank_fusion ---
 
+
 def test_rrf_single_list_preserves_order():
     docs = [make_doc("alpha"), make_doc("beta"), make_doc("gamma")]
     result = reciprocal_rank_fusion([docs])
