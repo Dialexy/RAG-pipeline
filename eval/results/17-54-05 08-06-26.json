@@ -1,0 +1,152 @@
+{
+  "recall@10_candidates": 0.94,
+  "mrr@10_candidates": 0.8409009892068715,
+  "hit@3": 0.99,
+  "faithfulness": 0.9333594976452119,
+  "abstention_count": 9,
+  "abstention_rate": 0.09,
+  "n_evaluated": 100,
+  "retrieval_p50_s": 20.442,
+  "retrieval_p95_s": 25.96,
+  "generation_p50_s": 3.916,
+  "generation_p95_s": 9.355,
+  "per_type": {
+    "factual": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.92
+    },
+    "paraphrased": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.96
+    },
+    "inferential": {
+      "n": 25,
+      "hit@3": 0.96,
+      "recall@10": 0.92
+    },
+    "multi_hop": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.96
+    }
+  },
+  "failed_claims": [
+    {
+      "question": "What allows amides to act as hydrogen bond acceptors?",
+      "claim": "To a lesser extent, a N\u2013C dipole allows amides to act as H-bond acceptors.",
+      "supported": false
+    },
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "claim": "Bar denotes the examination one must pass to join this professional body.",
+      "supported": false
+    },
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "claim": "One must legally pass an examination like CAPA in France to represent clients in court.",
+      "supported": false
+    },
+    {
+      "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+      "claim": "There is no other individual named Alexander III who was an emperor specifically from the Middle Ages period mentioned in the provided information.",
+      "supported": false
+    },
+    {
+      "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+      "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was considered a motivation for constructing the Allahabad Fort.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "Channels have been dredged to aid ship and barge navigation.",
+      "supported": false
+    },
+    {
+      "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+      "claim": "WFXG's program was canceled due to poor performance.",
+      "supported": false
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "claim": "The two stages mentioned where a Buddha plays a crucial role are Natural and Continuing.",
+      "supported": false
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "claim": "Continuing stage or \"development\" phase involves meeting a Buddha who confirms one's future Buddhahood.",
+      "supported": false
+    },
+    {
+      "question": "What was McLean's most lasting legislative achievement according to the text?",
+      "claim": "This is supported by Source 1.",
+      "supported": false
+    },
+    {
+      "question": "What was McLean's most lasting legislative achievement according to the text?",
+      "claim": "This is supported by Source 2.",
+      "supported": false
+    },
+    {
+      "question": "What position did he hold from 1985 to 1992 at York University?",
+      "claim": "The time period of his presidency was from 1985 to 1992.",
+      "supported": false
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "claim": "Racial profiling may be involved in Coleman's criticism of police treatment.",
+      "supported": false
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "claim": "Boris Becker is listed as being seeded higher than Ivan Lendl.",
+      "supported": false
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "claim": "Mats Wilander was seeded lower than Boris Becker.",
+      "supported": false
+    },
+    {
+      "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+      "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+      "supported": false
+    },
+    {
+      "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+      "claim": "This commitment contributed positively to their brand identity.",
+      "supported": false
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "claim": "Hebrew borrowed technical religious terms from Jewish Aramaic.",
+      "supported": false
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "claim": "Everyday words like \"wood\" (\u05e2\u05e5) entered Hebrew from Aramaic.",
+      "supported": false
+    },
+    {
+      "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+      "claim": "The ship radioed the Kenilworth to warn it about an unidentified vessel approaching.",
+      "supported": false
+    },
+    {
+      "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+      "claim": "The main advantage of using hollow cathode lamps in LS AAS is that they provide high spectral resolution required for AAS measurements.",
+      "supported": false
+    },
+    {
+      "question": "Which philosopher noted that logic becomes linguistic regarding logical constants in the preface to the second edition of The Principles of Mathematics?",
+      "claim": "This note was made in the preface to the second edition of The Principles of Mathematics.",
+      "supported": false
+    },
+    {
+      "question": "How did the Statute of Westminster impact Canada's constitutional amendments process despite granting autonomy to Canada?",
+      "claim": "The Statute of Westminster did not affect Canada's ability to amend its constitution.",
+      "supported": false
+    }
+  ]
+}

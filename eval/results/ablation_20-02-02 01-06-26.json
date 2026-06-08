@@ -1,0 +1,72 @@
+[
+  {
+    "name": "baseline",
+    "recall@10_candidates": 0.85,
+    "mrr@10_candidates": 0.7548333333333334,
+    "hit@3": 0.8,
+    "faithfulness": 0.9541139240506329,
+    "abstention_count": 21,
+    "abstention_rate": 0.21,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 0.011,
+    "retrieval_p95_s": 0.012,
+    "generation_p50_s": 2.112,
+    "generation_p95_s": 5.121
+  },
+  {
+    "name": "+hybrid",
+    "recall@10_candidates": 0.93,
+    "mrr@10_candidates": 0.8471428571428571,
+    "hit@3": 0.9,
+    "faithfulness": 0.9704719101123596,
+    "abstention_count": 11,
+    "abstention_rate": 0.11,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 0.891,
+    "retrieval_p95_s": 1.351,
+    "generation_p50_s": 3.071,
+    "generation_p95_s": 8.666
+  },
+  {
+    "name": "+reranker",
+    "recall@10_candidates": 0.85,
+    "mrr@10_candidates": 0.7548333333333334,
+    "hit@3": 0.83,
+    "faithfulness": 0.9721518987341772,
+    "abstention_count": 21,
+    "abstention_rate": 0.21,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 0.225,
+    "retrieval_p95_s": 0.278,
+    "generation_p50_s": 3.041,
+    "generation_p95_s": 6.827
+  },
+  {
+    "name": "+expansion",
+    "recall@10_candidates": 0.86,
+    "mrr@10_candidates": 0.7438015873015873,
+    "hit@3": 0.79,
+    "faithfulness": 0.9519230769230769,
+    "abstention_count": 22,
+    "abstention_rate": 0.22,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 3.942,
+    "retrieval_p95_s": 6.607,
+    "generation_p50_s": 4.547,
+    "generation_p95_s": 11.359
+  },
+  {
+    "name": "full",
+    "recall@10_candidates": 0.93,
+    "mrr@10_candidates": 0.8532238726036679,
+    "hit@3": 0.96,
+    "faithfulness": 0.9750574712643678,
+    "abstention_count": 13,
+    "abstention_rate": 0.13,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 7.751,
+    "retrieval_p95_s": 11.6,
+    "generation_p50_s": 4.581,
+    "generation_p95_s": 10.118
+  }
+]

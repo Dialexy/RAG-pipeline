@@ -1,0 +1,7 @@
+{
+  "recall@10_candidates": 0.93,
+  "mrr@10_candidates": 0.8510136194065727,
+  "hit@3": 0.96,
+  "faithfulness": 0.89875,
+  "n_evaluated": 100
+}

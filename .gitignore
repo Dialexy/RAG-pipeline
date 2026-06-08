@@ -53,7 +53,7 @@ models/
 # Logs and outputs
 logs/
 *.log
-results/
+/results/
 outputs/
 
 # macOS

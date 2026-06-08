@@ -1,0 +1,35 @@
+{
+  "recall@10_candidates": 0.95,
+  "mrr@10_candidates": 0.8640009892068715,
+  "hit@3": 0.98,
+  "faithfulness": 0.9882584269662921,
+  "abstention_count": 11,
+  "abstention_rate": 0.11,
+  "n_evaluated": 100,
+  "retrieval_p50_s": 19.681,
+  "retrieval_p95_s": 25.866,
+  "generation_p50_s": 4.041,
+  "generation_p95_s": 9.821,
+  "per_type": {
+    "factual": {
+      "n": 25,
+      "hit@3": 0.96,
+      "recall@10": 0.92
+    },
+    "paraphrased": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 1.0
+    },
+    "inferential": {
+      "n": 25,
+      "hit@3": 0.96,
+      "recall@10": 0.92
+    },
+    "multi_hop": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.96
+    }
+  }
+}

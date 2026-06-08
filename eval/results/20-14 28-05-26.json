@@ -1,0 +1,6 @@
+{
+  "recall@10": 0.75,
+  "mrr": 0.725,
+  "faithfulness": 0.775,
+  "n_evaluated": 20
+}

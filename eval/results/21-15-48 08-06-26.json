@@ -1,0 +1,273 @@
+{
+  "recall@10_candidates": 0.95,
+  "mrr@10_candidates": 0.8302587453396276,
+  "hit@3": 0.98,
+  "faithfulness": 0.9265516273849607,
+  "abstention_count": 10,
+  "abstention_rate": 0.1,
+  "n_evaluated": 100,
+  "retrieval_p50_s": 20.041,
+  "retrieval_p95_s": 26.003,
+  "generation_p50_s": 4.013,
+  "generation_p95_s": 9.541,
+  "per_type": {
+    "factual": {
+      "n": 25,
+      "hit@3": 0.96,
+      "recall@10": 0.92
+    },
+    "paraphrased": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 1.0
+    },
+    "inferential": {
+      "n": 25,
+      "hit@3": 0.96,
+      "recall@10": 0.92
+    },
+    "multi_hop": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.96
+    }
+  },
+  "failed_claims": [
+    {
+      "question": "What allows amides to act as hydrogen bond acceptors?",
+      "claim": "To a lesser extent, a N\u2013C dipole allows amides to act as H-bond acceptors.",
+      "supported": false
+    },
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "claim": "It denotes the legal profession as an institution.",
+      "supported": false
+    },
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "claim": "The Bar Council oversees the admission and conduct of attorneys.",
+      "supported": false
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "claim": "KKFS relaunched with an all 1980's music format.",
+      "supported": false
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "claim": "The station changed its format to playing exclusively 1980s music.",
+      "supported": false
+    },
+    {
+      "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+      "claim": "There is no other individual named Alexander III who was an emperor specifically from the Middle Ages period based on available data.",
+      "supported": false
+    },
+    {
+      "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+      "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was thought to be a motivation for constructing the Allahabad Fort.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "The arrival of railroads by the late 19th century shifted reliance from rivers to railroads for transportation.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "Channels were dredged to aid ship and barge navigation.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "Railways have become more significant in moving agricultural produce and other goods.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "This shift reflects broader changes in Alabama's economy.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "The infrastructure network now includes railroads, highways, and modern shipping channels.",
+      "supported": false
+    },
+    {
+      "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+      "claim": "WFXG's program was canceled due to poor performance.",
+      "supported": false
+    },
+    {
+      "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+      "claim": "Construction was stopped because once completed its shadow would touch the Gol Gombaz.",
+      "supported": false
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "claim": "The two stages mentioned where a Buddha plays a crucial role are Natural and Resolution.",
+      "supported": false
+    },
+    {
+      "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+      "claim": "Berkelium-250 quickly decays to californium-250.",
+      "supported": false
+    },
+    {
+      "question": "What position did he hold from 1985 to 1992 at York University?",
+      "claim": "The time period of his presidency was from 1985 to 1992.",
+      "supported": false
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "claim": "The incident highlighted potential biases in law enforcement interactions.",
+      "supported": false
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "claim": "The incident highlighted disrespectful treatment based on one's status.",
+      "supported": false
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "claim": "Coleman was treated like a child despite being a legislator.",
+      "supported": false
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "claim": "Boris Becker is listed as being seeded higher than Ivan Lendl.",
+      "supported": false
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "claim": "Mats Wilander was seeded lower than Boris Becker.",
+      "supported": false
+    },
+    {
+      "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+      "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+      "supported": false
+    },
+    {
+      "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+      "claim": "This commitment contributed positively to their brand identity.",
+      "supported": false
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "claim": "Hebrew borrowed technical religious terms from Jewish Aramaic.",
+      "supported": false
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "claim": "Everyday words like \"wood\" (\u05e2\u05e5) entered Hebrew from Aramaic.",
+      "supported": false
+    },
+    {
+      "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+      "claim": "The ship radioed the Kenilworth to warn it about an unidentified vessel approaching.",
+      "supported": false
+    },
+    {
+      "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+      "claim": "The main advantage of using hollow cathode lamps in LS AAS is that they provide high spectral resolution required for AAS measurements.",
+      "supported": false
+    },
+    {
+      "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+      "claim": "The dynamic scenes influenced Zhang Xu's ability to create fluid calligraphy.",
+      "supported": false
+    },
+    {
+      "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+      "claim": "The transition occurred in 1986.",
+      "supported": false
+    }
+  ],
+  "retrieval_failure_count": 1,
+  "generation_failure_count": 19,
+  "retrieval_failures": [
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "type": "retrieval"
+    }
+  ],
+  "generation_failures": [
+    {
+      "question": "What allows amides to act as hydrogen bond acceptors?",
+      "type": "generation"
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "type": "generation"
+    },
+    {
+      "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+      "type": "generation"
+    },
+    {
+      "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+      "type": "generation"
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "type": "generation"
+    },
+    {
+      "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+      "type": "generation"
+    },
+    {
+      "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+      "type": "generation"
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "type": "generation"
+    },
+    {
+      "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+      "type": "generation"
+    },
+    {
+      "question": "What position did he hold from 1985 to 1992 at York University?",
+      "type": "generation"
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "type": "generation"
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "type": "generation"
+    },
+    {
+      "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+      "type": "generation"
+    },
+    {
+      "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+      "type": "generation"
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "type": "generation"
+    },
+    {
+      "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+      "type": "generation"
+    },
+    {
+      "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+      "type": "generation"
+    },
+    {
+      "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+      "type": "generation"
+    },
+    {
+      "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+      "type": "generation"
+    }
+  ]
+}

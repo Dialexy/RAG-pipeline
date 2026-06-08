@@ -1,0 +1,28 @@
+{
+  "n_unanswerable": 100,
+  "correct_abstentions": 96,
+  "abstention_accuracy": 0.96,
+  "false_answer_rate": 0.04,
+  "false_answers": [
+    {
+      "question": "What is the population of Kad\u0131\u015fehri as of 2022?",
+      "source_title": "Kad\u0131\u015fehri",
+      "answer": "The population of Kad\u0131\u015fehri as of 2022 is 77,690.\n\nSource: source1"
+    },
+    {
+      "question": "What was the population of Jaedae District as of 2008?",
+      "source_title": "Jaedae District",
+      "answer": "As of 2008, the District had 50,161 people.\n\nThis information is from Source3. Note that while the context mentions Jaedae District in the question, the provided sources do not explicitly name it as such but give population details fitting the description given in the question."
+    },
+    {
+      "question": "What material are surface-mounted boxes often made from according to the text?",
+      "source_title": "Pattress",
+      "answer": "According to the text from source1:\n\nng birch barkwiigiwaam \u2013 Wigwam, typically made using birch barkng birch barkwiigiwaam \u2013 Wigwam, typically made using birch barkwiigwaasi-makak \u2013 boxes and other containers made of birch bark\n\nThe material that surface-mounted boxes are often made from is birch bark.\n\nSource: 1"
+    },
+    {
+      "question": "What is the population of Demirci as of 2022?",
+      "source_title": "Demirci",
+      "answer": "The population of Demirci as of 2022 is 413,994.\n\nSource: source1"
+    }
+  ]
+}
