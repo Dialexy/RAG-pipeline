@@ -11,7 +11,6 @@ import time
 import ollama
 import httpx
 import random
-import re
 from collections import defaultdict
 from statistics import quantiles
 from src.logger import get_logger
@@ -210,10 +209,10 @@ def _verify_claim(claim: str, context: str, cfg: GenerationConfig) -> bool:
     return "yes" in response.lower()
 
 
-def faithfulness_score(
+def faithfulness_score_with_breakdown(
     answer: str, source_chunks: list[str], cfg: GenerationConfig
-) -> float:
-    """Decompose answer into atomic claims, verify each against context."""
+) -> tuple[float, list[tuple[str, bool]]]:
+    """Decompose answer into atomic claims and verify each; return score and per-claim pairs."""
     context = "\n".join(source_chunks)
     claims = _decompose_claims(answer, cfg)
 
@@ -221,11 +220,19 @@ def faithfulness_score(
         logger.warning(
             "Claim decomposition returned no claims for answer: %r", answer[:100]
         )
-        return 0.0
+        return 0.0, []
 
     verified = [_verify_claim(claim, context, cfg) for claim in claims]
     score = sum(verified) / len(verified)
     logger.debug("Faithfulness: %d/%d claims supported", sum(verified), len(verified))
+    return score, list(zip(claims, verified))
+
+
+def faithfulness_score(
+    answer: str, source_chunks: list[str], cfg: GenerationConfig
+) -> float:
+    """Decompose answer into atomic claims, verify each against context."""
+    score, _ = faithfulness_score_with_breakdown(answer, source_chunks, cfg)
     return score
 
 
@@ -269,6 +276,7 @@ def run_evaluation(
     # Phase 1: retrieval + generation (14b model stays loaded)
     answers = []
     source_chunks_list = []
+    questions_list = []
     for qa_pair in qa_pairs:
         question = qa_pair["question"]
         relevant_doc_id = qa_pair["relevant_doc_id"]
@@ -298,6 +306,7 @@ def run_evaluation(
         answers.append(generate(question, results, pipeline_cfg.generation))
         generation_latencies.append(time.perf_counter() - t0)
         source_chunks_list.append([r["text"] for r in results])
+        questions_list.append(question)
 
     # Evict generation model before loading the judge to avoid CUDA OOM
     _ollama_unload(pipeline_cfg.generation.model)
@@ -308,13 +317,17 @@ def run_evaluation(
 
     # Phase 2: faithfulness scoring (judge model loads once, 14b is killed)
     abstention_str = ABSTENTION_RESPONSE.lower()
-    for answer, source_chunks in zip(answers, source_chunks_list):
+    failed_claims: list[dict] = []
+    for question, answer, source_chunks in zip(questions_list, answers, source_chunks_list):
         if abstention_str in answer.lower():
             abstention_count += 1
             continue
 
-        score = faithfulness_score(answer, source_chunks, effective_judge)
+        score, claim_pairs = faithfulness_score_with_breakdown(answer, source_chunks, effective_judge)
         faithfulness_scores.append(score)
+        for claim, supported in claim_pairs:
+            if not supported:
+                failed_claims.append({"question": question, "claim": claim, "supported": False})
 
     mean_faithfulness = (
         sum(faithfulness_scores) / len(faithfulness_scores)
@@ -342,6 +355,7 @@ def run_evaluation(
             }
             for qtype in type_hit3
         },
+        "failed_claims": failed_claims,
     }
 
 
