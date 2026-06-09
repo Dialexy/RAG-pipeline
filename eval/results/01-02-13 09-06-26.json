@@ -1,0 +1,263 @@
+{
+  "recall@10_candidates": 0.96,
+  "mrr@10_candidates": 0.7839980158730158,
+  "hit@3": 0.99,
+  "faithfulness": 0.9316656773178513,
+  "abstention_count": 8,
+  "abstention_rate": 0.08,
+  "n_evaluated": 100,
+  "retrieval_p50_s": 19.502,
+  "retrieval_p95_s": 24.859,
+  "generation_p50_s": 3.705,
+  "generation_p95_s": 10.444,
+  "per_type": {
+    "factual": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.96
+    },
+    "paraphrased": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 1.0
+    },
+    "inferential": {
+      "n": 25,
+      "hit@3": 0.96,
+      "recall@10": 0.92
+    },
+    "multi_hop": {
+      "n": 25,
+      "hit@3": 1.0,
+      "recall@10": 0.96
+    }
+  },
+  "failed_claims": [
+    {
+      "question": "What allows amides to act as hydrogen bond acceptors?",
+      "claim": "To a lesser extent, a N\u2013C dipole allows amides to act as H-bond acceptors.",
+      "supported": false
+    },
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "claim": "Bar examination is a requirement.",
+      "supported": false
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "claim": "KKFS relaunched with an all 1980's music format.",
+      "supported": false
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "claim": "The new moniker for KKFS is \"Flash 103.9\".",
+      "supported": false
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "claim": "The station changed its format to playing exclusively 1980s music.",
+      "supported": false
+    },
+    {
+      "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+      "claim": "There is no other individual named Alexander III who was an emperor specifically from the Middle Ages period based on available data.",
+      "supported": false
+    },
+    {
+      "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+      "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was thought to be a motivation for constructing the Allahabad Fort.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "Steamships along these rivers linked communities.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "Private sectors have developed the river system extensively.",
+      "supported": false
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "claim": "Channels were dredged to aid ship and barge navigation.",
+      "supported": false
+    },
+    {
+      "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+      "claim": "WFXG's program was canceled due to poor performance.",
+      "supported": false
+    },
+    {
+      "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+      "claim": "They offer Certificate II.",
+      "supported": false
+    },
+    {
+      "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+      "claim": "They offer Certificate III.",
+      "supported": false
+    },
+    {
+      "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+      "claim": "They offer Certificate IV.",
+      "supported": false
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "claim": "The two stages mentioned where a Buddha plays a crucial role are Natural and Continuing.",
+      "supported": false
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "claim": "Continuing stage or \"development\" phase involves meeting a Buddha who confirms one's future Buddhahood.",
+      "supported": false
+    },
+    {
+      "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+      "claim": "Berkelium-250 quickly decays to californium-250.",
+      "supported": false
+    },
+    {
+      "question": "What event in Ayckbourn's personal life coincided with a prevalent theme in his plays during the early seventies, and how long did it take for this event to be formally resolved in his personal life?",
+      "claim": "Ayckbourn married Heather Stoney the same year they were officially divorced.",
+      "supported": false
+    },
+    {
+      "question": "What position did he hold from 1985 to 1992 at York University?",
+      "claim": "The time period of his presidency was from 1985 to 1992.",
+      "supported": false
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "claim": "The incident highlighted potential biases in law enforcement interactions.",
+      "supported": false
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "claim": "The incident highlighted disrespectful treatment based on one's status.",
+      "supported": false
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "claim": "Mats Wilander reached the final but was seeded lower than Boris Becker.",
+      "supported": false
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "claim": "Boris Becker was eliminated in the fourth round of the 1988 French Open.",
+      "supported": false
+    },
+    {
+      "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+      "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+      "supported": false
+    },
+    {
+      "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+      "claim": "This commitment contributed positively to their brand identity.",
+      "supported": false
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "claim": "Hebrew borrowed technical religious terms from Jewish Aramaic.",
+      "supported": false
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "claim": "Everyday words like \"wood\" (\u05e2\u05e5) entered Hebrew from Aramaic.",
+      "supported": false
+    },
+    {
+      "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+      "claim": "A significant communication incident involving a US Navy warship occurred while it was operating under its new name.",
+      "supported": false
+    },
+    {
+      "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+      "claim": "The main advantage of using hollow cathode lamps in LS AAS is that they provide high spectral resolution required for AAS measurements.",
+      "supported": false
+    }
+  ],
+  "retrieval_failure_count": 0,
+  "generation_failure_count": 19,
+  "retrieval_failures": [],
+  "generation_failures": [
+    {
+      "question": "What allows amides to act as hydrogen bond acceptors?",
+      "type": "generation"
+    },
+    {
+      "question": "What is the meaning of Bar in the context of law?",
+      "type": "generation"
+    },
+    {
+      "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+      "type": "generation"
+    },
+    {
+      "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+      "type": "generation"
+    },
+    {
+      "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+      "type": "generation"
+    },
+    {
+      "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+      "type": "generation"
+    },
+    {
+      "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+      "type": "generation"
+    },
+    {
+      "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+      "type": "generation"
+    },
+    {
+      "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+      "type": "generation"
+    },
+    {
+      "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+      "type": "generation"
+    },
+    {
+      "question": "What event in Ayckbourn's personal life coincided with a prevalent theme in his plays during the early seventies, and how long did it take for this event to be formally resolved in his personal life?",
+      "type": "generation"
+    },
+    {
+      "question": "What position did he hold from 1985 to 1992 at York University?",
+      "type": "generation"
+    },
+    {
+      "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+      "type": "generation"
+    },
+    {
+      "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+      "type": "generation"
+    },
+    {
+      "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+      "type": "generation"
+    },
+    {
+      "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+      "type": "generation"
+    },
+    {
+      "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+      "type": "generation"
+    },
+    {
+      "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+      "type": "generation"
+    },
+    {
+      "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+      "type": "generation"
+    }
+  ]
+}
