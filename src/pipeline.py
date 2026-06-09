@@ -32,9 +32,7 @@ def file_hash(path: Path) -> str:
 
 
 def corpus_hash(raw_dir: Path) -> str:
-    file_path = sorted(
-        list(raw_dir.rglob("*.txt")) + list(raw_dir.rglob("*.md"))
-    )
+    file_path = sorted(list(raw_dir.rglob("*.txt")) + list(raw_dir.rglob("*.md")))
 
     hash = hashlib.sha256()
 

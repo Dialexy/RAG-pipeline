@@ -60,9 +60,7 @@ def load_index(cfg: PipelineConfig) -> Collection:
     try:
         rag_chunks = chroma_client.get_collection(name="rag_chunks")
     except Exception as e:
-        raise RuntimeError(
-            "Index not found. Run 'python -m main index' first."
-        ) from e
+        raise RuntimeError("Index not found. Run 'python -m main index' first.") from e
     return rag_chunks
 
 
