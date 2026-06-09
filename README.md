@@ -91,9 +91,10 @@ All numbers below are on a fixed gold QA set of `n=100` questions, evaluated wit
 | + bge-large embedding upgrade | 0.94 | 0.869 | 0.92 | 0.895 | |
 | Semantic threshold 1.5 selected (342k chunks) | 0.93 | 0.851 | 0.96 | 0.899 | Best Hit@3 across the sweep |
 | **Threshold confirmed @ 1.5** | **0.940** | **0.844** | **0.960** | **0.922** | Last comparable clean GPU run |
-| **Harder QA set (mixed question types)** | **0.940** | **0.862** | **0.980** | **0.963** | **Current best (see below)** |
+| **Harder QA set (mixed question types)** | **0.940** | **0.862** | **0.980** | **0.963** | Superseded by final row |
+| **Final (clean index, claim decomposition faithfulness)** | **0.960** | **0.784** | **0.990** | **0.932** | **Definitive result — see below** |
 
-The **harder QA set** run is the headline result. It uses four question types (factual, paraphrased, inferential, multi-hop) cycled evenly, rather than the factual-only set used earlier. It was **CPU-reranked** due to VRAM pressure during the run: the **quality metrics are valid, but its latency is not representative** of GPU operation (compare against the ablation latencies below). Abstention rate on this set is 15%; read faithfulness and abstention rate together, since abstentions are excluded from the faithfulness denominator.
+The **final row** is the definitive result. It uses the same mixed question set (factual, paraphrased, inferential, multi-hop) with claim decomposition faithfulness and a clean index rebuilt after fixing a `chunk_recursive` duplication bug that had inflated the index by ~107k duplicate chunks (342,188 → 234,586). It was CPU-reranked due to VRAM pressure; quality metrics are valid, latency is not representative. Failure breakdown: 0 retrieval failures, 19 generation failures — all faithfulness failures are generation-side.
 
 The **threshold-confirmed @ 1.5** run is the last fully comparable clean **GPU** run, and is the reference point for any latency comparison on the main pipeline.
 
