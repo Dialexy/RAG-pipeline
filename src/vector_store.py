@@ -98,8 +98,8 @@ def fetch_neighbouring_chunks(
             result = collection.get(ids=[cid], include=["documents"])
             if result["documents"] and result["documents"][0]:
                 return result["documents"][0]
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("Neighbour lookup failed for %s: %s", cid, e)
         return None
 
     prev_text = _fetch(f"{doc_id}::chunk{chunk_index - 1}")

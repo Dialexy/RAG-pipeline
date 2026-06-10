@@ -39,7 +39,7 @@ def load_rank() -> CrossEncoder:
         raise
 
 
-@lru_cache(maxsize=None)
+@lru_cache(maxsize=1)
 def build_bm25_index(corpus: tuple[Document, ...]) -> BM25Okapi:
     tokenised_corpus = [doc.text.lower().split() for doc in corpus]
     return BM25Okapi(tokenised_corpus)
@@ -104,8 +104,12 @@ def rerank(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     ]
 
 
-def expand_query(query: str, cfg: GenerationConfig, max_retries: int = 10) -> list[str]:
+def expand_query(
+    query: str, cfg: GenerationConfig, max_retries: int | None = None
+) -> list[str]:
     """Ask the LLM for 2 alternative phrasings; returns original + up to 2 variants."""
+    if max_retries is None:
+        max_retries = cfg.max_retries
     prompt = f"""Generate 2 alternative phrasings of this question that mean the same thing.
 Return only the questions, one per line, no numbering or explanation.
 

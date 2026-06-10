@@ -1,25 +1,25 @@
 # Data
-datasets
-nltk
+datasets==4.8.5
+nltk==3.9.4
 
 # ML
-sentence-transformers
-transformers
-numpy
-rank-bm25
-tqdm
+sentence-transformers==5.4.1
+transformers==5.7.0
+numpy==2.4.4
+rank-bm25==0.2.2
+tqdm==4.67.3
 
 # LLM
-ollama
-httpx
+ollama==0.6.1
+httpx==0.28.1
 
 # Vector Store
-chromadb
+chromadb==1.5.8
 
 # API
-fastapi
-uvicorn
-pydantic
+fastapi==0.136.1
+uvicorn==0.46.0
+pydantic==2.13.3
 
 # Testing
-pytest
+pytest==9.0.3

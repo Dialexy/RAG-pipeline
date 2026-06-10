@@ -56,6 +56,9 @@ logs/
 /results/
 outputs/
 
+# Editor backup files
+*~
+
 # macOS
 .DS_Store
 

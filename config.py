@@ -42,6 +42,13 @@ class GenerationConfig:
     model: str = "qwen2.5:14b"
     max_tokens: int = 1024
     temperature: float = 0.0
+    # Ollama retry budget; long evals want persistence, the API wants to fail fast
+    max_retries: int = 10
+
+
+# Models the HTTP API may load via the request "model" field.
+# The CLI --model flag is not restricted by this.
+API_ALLOWED_MODELS: frozenset[str] = frozenset({"qwen2.5:14b"})
 
 
 @dataclass

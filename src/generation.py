@@ -15,7 +15,12 @@ ABSTENTION_RESPONSE: str = "I don't have enough information to answer that."
 
 
 def build_prompt(query: str, chunks: list[dict]) -> str:
-    """Format retrieved chunks into a context block for the prompt."""
+    """Format retrieved chunks into a context block for the prompt.
+
+    Note: chunk text is interpolated verbatim, so a malicious document in the
+    corpus could attempt prompt injection. Acceptable for a trusted corpus
+    (Wikipedia); revisit before indexing user-supplied documents.
+    """
 
     formatted_chunks = []
 
@@ -67,7 +72,7 @@ def generate(query: str, chunks: list[dict], cfg: GenerationConfig) -> str:
     ]
     options = {"temperature": cfg.temperature, "num_predict": cfg.max_tokens}
 
-    max_retries = 10
+    max_retries = cfg.max_retries
     for attempt in range(max_retries):
         try:
             response = ollama.chat(model=cfg.model, messages=messages, options=options)

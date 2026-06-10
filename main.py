@@ -20,7 +20,12 @@ def main() -> None:
     )
 
     srv = sub.add_parser("serve", parents=[common], help="Start the FastAPI server")
-    srv.add_argument("--host", type=str, default="0.0.0.0")
+    srv.add_argument(
+        "--host",
+        type=str,
+        default="127.0.0.1",
+        help="Bind address; pass 0.0.0.0 to expose beyond localhost (no auth!)",
+    )
     srv.add_argument("--port", type=int, default=8000)
 
     q = sub.add_parser(

@@ -24,28 +24,28 @@ logger = get_logger(__name__)
 
 
 def file_hash(path: Path) -> str:
-    hash = hashlib.sha256()
-    hash.update(path.name.encode())
-    hash.update(b"\0")
-    hash.update(path.read_bytes())
-    return hash.hexdigest()
+    hasher = hashlib.sha256()
+    hasher.update(path.name.encode())
+    hasher.update(b"\0")
+    hasher.update(path.read_bytes())
+    return hasher.hexdigest()
 
 
 def corpus_hash(raw_dir: Path) -> str:
     file_path = sorted(list(raw_dir.rglob("*.txt")) + list(raw_dir.rglob("*.md")))
 
-    hash = hashlib.sha256()
+    hasher = hashlib.sha256()
 
     for file in file_path:
         hashed_file = file_hash(file)
-        hash.update(hashed_file.encode())
-        hash.update(b"\0")
+        hasher.update(hashed_file.encode())
+        hasher.update(b"\0")
 
-    return hash.hexdigest()
+    return hasher.hexdigest()
 
 
 def config_fingerprint(cfg: PipelineConfig) -> str:
-    hash = hashlib.sha256()
+    hasher = hashlib.sha256()
     configs_as_dicts = {
         "ChunkingConfig": asdict(cfg.chunking),
         "EmbeddingConfig": asdict(cfg.embedding),
@@ -53,8 +53,8 @@ def config_fingerprint(cfg: PipelineConfig) -> str:
 
     configs_as_json = json.dumps(configs_as_dicts, sort_keys=True)
 
-    hash.update(configs_as_json.encode())
-    return hash.hexdigest()
+    hasher.update(configs_as_json.encode())
+    return hasher.hexdigest()
 
 
 def build_pipeline(cfg: PipelineConfig, force=False) -> None:

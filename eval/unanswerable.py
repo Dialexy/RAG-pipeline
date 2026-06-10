@@ -144,7 +144,7 @@ if __name__ == "__main__":
 
     results_dir = Path(__file__).parent / "results"
     results_dir.mkdir(exist_ok=True)
-    timestamp = datetime.now().strftime("%H-%M-%S %d-%m-%y")
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_path = results_dir / f"unanswerable_{timestamp}.json"
     results_path.write_text(json.dumps(results, indent=2))
     print(f"\nResults written to {results_path}")

@@ -260,6 +260,8 @@ def run_evaluation(
     Run the full eval suite over a list of {"question": str, "relevant_doc_id": str}
     and return aggregated metrics.
     """
+    if not qa_pairs:
+        raise ValueError("qa_pairs is empty - nothing to evaluate")
 
     _ollama_unload_all()
     _ollama_warmup(pipeline_cfg.generation.model)
@@ -408,7 +410,7 @@ if __name__ == "__main__":
 
     results_dir = Path(__file__).parent / "results"
     results_dir.mkdir(exist_ok=True)
-    timestamp = datetime.now().strftime("%H-%M-%S %d-%m-%y")
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     results_path = results_dir / f"{timestamp}.json"
     results_path.write_text(json.dumps(results, indent=2))
     print(f"Results written to {results_path}")
