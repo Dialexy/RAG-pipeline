@@ -25,17 +25,24 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
     logger.info("Building index for %d chunks", len(chunks))
     chroma_client = chromadb.PersistentClient(CHROMA_PERSIST_DIR)
 
-    rag_chunks = chroma_client.get_or_create_collection(
-        name="rag_chunks", metadata={"hnsw:space": "cosine"}
-    )
-    rag_chunks.modify(
+    # Drop any existing collection first: upsert alone leaves stale chunks
+    # behind whenever a previous build produced more chunks per document.
+    try:
+        chroma_client.delete_collection("rag_chunks")
+        logger.info("Deleted existing rag_chunks collection")
+    except Exception:
+        pass  # no existing collection
+
+    rag_chunks = chroma_client.create_collection(
+        name="rag_chunks",
         metadata={
+            "hnsw:space": "cosine",
             "config": json.dumps(
                 {"chunking": asdict(cfg.chunking), "embedding": asdict(cfg.embedding)},
                 sort_keys=True,
             ),
             "indexed_at": datetime.now(timezone.utc).isoformat(),
-        }
+        },
     )
     texts = [doc.text for doc in chunks]
     embedded = embed_chunks(texts, cfg.embedding)
@@ -50,7 +57,11 @@ def build_index(chunks: list[Document], cfg: PipelineConfig) -> None:
             metadatas=[chunk.metadata for chunk in batch],
         )
 
-    logger.info("Index build complete: %d chunks upserted into Chroma", len(chunks))
+    logger.info(
+        "Index build complete: %d chunks upserted, collection now holds %d",
+        len(chunks),
+        rag_chunks.count(),
+    )
 
 
 def load_index(cfg: PipelineConfig) -> Collection:
