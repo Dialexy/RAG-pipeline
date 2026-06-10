@@ -1,0 +1,13 @@
+{
+  "n_unanswerable": 100,
+  "correct_abstentions": 99,
+  "abstention_accuracy": 0.99,
+  "false_answer_rate": 0.01,
+  "false_answers": [
+    {
+      "question": "In which year did G\u00fcny\u00fcz\u00fc gain the status of a district?",
+      "source_title": "G\u00fcny\u00fcz\u00fc",
+      "answer": "Based on the context from source1, G\u00fcny\u00fcz\u00fc (referred to as Akk\u00f6y) gained the status of a district in 1934.\n\nSource: 1"
+    }
+  ]
+}
