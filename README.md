@@ -114,21 +114,23 @@ Hit@3 sits at ceiling for every question type on the clean index; the only remai
 
 ### Ablation
 
-Component ablation over the fixed QA set, toggling `use_hybrid`, `use_reranker`, and `use_query_expansion`. Reported in its own table because the configs are not iterative improvements; they isolate each component's contribution. GPU-reranked, so retrieval latencies here are representative.
+Component ablation over the fixed QA set, toggling `use_hybrid`, `use_reranker`, and `use_query_expansion`. Reported in its own table because the configs are not iterative improvements; they isolate each component's contribution. Re-run against the verified-clean index with claim-decomposition faithfulness, GPU-reranked, so retrieval latencies here are representative.
 
 | Config | Recall@10 | MRR | Hit@3 | Faithfulness | Abstention | Retrieval p50 |
 |---|---|---|---|---|---|---|
-| baseline (dense only) | 0.85 | 0.755 | 0.80 | 0.954 | 0.21 | 0.011s |
-| + hybrid (BM25) | 0.93 | 0.847 | 0.90 | 0.970 | 0.11 | 0.891s |
-| + reranker | 0.85 | 0.755 | 0.83 | 0.972 | 0.21 | 0.225s |
-| + expansion | 0.86 | 0.744 | 0.79 | 0.952 | 0.22 | 3.942s |
-| **full** | **0.93** | **0.853** | **0.96** | **0.975** | **0.13** | **7.751s** |
+| baseline (dense only) | 0.92 | 0.862 | 0.88 | 0.924 | 0.16 | 0.012s |
+| + hybrid (BM25) | 0.97 | 0.884 | 0.93 | 0.940 | 0.13 | 0.846s |
+| + reranker | 0.92 | 0.862 | 0.92 | 0.907 | 0.10 | 0.247s |
+| + expansion | 0.93 | 0.861 | 0.88 | 0.921 | 0.18 | 5.334s |
+| **full** | **0.97** | **0.896** | **1.00** | **0.919** | **0.08** | **8.795s** |
 
 Reading the ablation:
 
-- **Hybrid is the single biggest contributor**: +8pp Recall@10 and +10pp Hit@3 over dense-only. BM25 recovers the exact-match queries dense search misses.
-- **Query expansion is net-negative in isolation** (it widens the candidate pool with noise when nothing else filters it), but on top of hybrid + reranker it adds +6pp Hit@3; the reranker absorbs the extra candidates and keeps the good ones.
-- **The expansion LLM call dominates retrieval latency** (3.94s p50 on its own), which is the cost of the full config's 7.75s p50.
+- **Hybrid is the single biggest contributor**: +5pp Recall@10 and +5pp Hit@3 over dense-only. BM25 recovers the exact-match queries dense search misses. The margins are smaller than on the polluted index — a clean candidate pool lifts the dense-only baseline most of all.
+- **The reranker is a pure ordering win**: +4pp Hit@3 with an identical candidate pool (recall unchanged), and it nearly halves the cost of the full config's quality — only the combination of all three reaches Hit@3 = 1.00.
+- **Query expansion is quality-neutral in isolation** (Hit@3 unchanged, +1pp recall) and only pays off when the reranker is there to filter the widened pool: full config gains +7pp Hit@3 over hybrid alone.
+- **The expansion LLM call dominates retrieval latency** (5.33s p50 on its own), which is the cost of the full config's 8.80s p50.
+- **Claim-level faithfulness is flat across configs** (0.91–0.94, no monotonic trend): grounding quality is set by the generator, not the retriever, once a plausible chunk is in context. Where retrieval components do show up is the abstention column — the full config abstains least (0.08) because better candidates clear the gate.
 
 ### Unanswerable / distractor evaluation
 
@@ -282,7 +284,7 @@ Naive dense-only RAG fails in predictable ways, and each pipeline stage targets 
 
 **1. Vocabulary mismatch.** An exact-keyword query ("Battle of Hastings 1066") can score poorly against dense neighbours if the corpus phrases it differently. BM25 handles exact-term overlap natively. Dense and BM25 lists (one pair per query variant) are merged with **Reciprocal Rank Fusion**, which is rank-based, so it sidesteps the score-scale incompatibility between cosine similarity and BM25 scores. The ablation confirms this is the single largest quality lever.
 
-**2. Phrasing brittleness.** A single phrasing of a question only probes one region of embedding space. **Query expansion** asks the LLM for two paraphrases; all three variants are embedded in one batched call and retrieved independently before fusion. In isolation this adds noise, but combined with the reranker it lifts Hit@3, most visibly on paraphrased and multi-hop questions.
+**2. Phrasing brittleness.** A single phrasing of a question only probes one region of embedding space. **Query expansion** asks the LLM for two paraphrases; all three variants are embedded in one batched call and retrieved independently before fusion. In isolation it is quality-neutral, but combined with the reranker it lifts Hit@3, most visibly on paraphrased and multi-hop questions.
 
 **3. Similarity ≠ relevance.** Top-*k* by cosine distance is not top-*k* by answer quality. A **cross-encoder reranker** scores each query–chunk pair jointly, attending to fine-grained interactions. It's expensive, so it runs only over the RRF-fused candidates and selects `rerank_top_n=3`. Selected chunks are neighbour-stitched into strict `[prev, current, next]` order (deduplicated) to restore local context for generation.
 
