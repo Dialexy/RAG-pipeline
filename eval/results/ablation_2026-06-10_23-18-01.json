@@ -1,0 +1,1377 @@
+[
+  {
+    "name": "baseline",
+    "recall@10_candidates": 0.92,
+    "mrr@10_candidates": 0.8617619047619047,
+    "hit@3": 0.88,
+    "faithfulness": 0.924074074074074,
+    "abstention_count": 16,
+    "abstention_rate": 0.16,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 0.012,
+    "retrieval_p95_s": 0.013,
+    "generation_p50_s": 3.639,
+    "generation_p95_s": 9.311,
+    "per_type": {
+      "factual": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.88
+      },
+      "paraphrased": {
+        "n": 25,
+        "hit@3": 0.84,
+        "recall@10": 0.88
+      },
+      "inferential": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.92
+      },
+      "multi_hop": {
+        "n": 25,
+        "hit@3": 0.92,
+        "recall@10": 1.0
+      }
+    },
+    "failed_claims": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "claim": "The isolation occurs in the specific half-duplex segment between the device port and the connected node.",
+        "supported": false
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "claim": "KKFS changed its format from an original unspecified format to a focus on 1980s music.",
+        "supported": false
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "claim": "Only Alexander III of Scotland fits the criteria for living during the Middle Ages and holding a title of king.",
+        "supported": false
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was considered a motivation for building the fort.",
+        "supported": false
+      },
+      {
+        "question": "How many campuses does Second Baptist Church have in the Houston metropolitan area as of the spring of 2015?",
+        "claim": "This information was accurate as of the spring of 2015.",
+        "supported": false
+      },
+      {
+        "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+        "claim": "Rishi Kapoor has been awarded the IIFA Best Villain Award.",
+        "supported": false
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "claim": "WFXG's program was canceled due to poor performance.",
+        "supported": false
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "claim": "Angiosperms are closely related to gymnosperms.",
+        "supported": false
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "claim": "Angiosperms do not form a single monophyletic group with gymnosperms due to the inclusion of other extinct groups in their lineage.",
+        "supported": false
+      },
+      {
+        "question": "What was T.J. Battle Sr.'s sentence length after pleading guilty to racketeering charges?",
+        "claim": "T.J. Battle Sr. was sentenced to 20 years in prison.",
+        "supported": false
+      },
+      {
+        "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+        "claim": "Courses are offered at Certificate II level.",
+        "supported": false
+      },
+      {
+        "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+        "claim": "Courses are offered at Certificate III level.",
+        "supported": false
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "claim": "The second stage is called Resolution (pra\u1e47idh\u0101na-cary\u0101).",
+        "supported": false
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "claim": "Brazil experienced 3 military coups d'\u00e9tat during the Republican period between 1889 and 1964.",
+        "supported": false
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "claim": "Strictly adhering to the timeframe given (Republican period between 1889 and 1964), Brazil experienced 2 military coups d'\u00e9tat during this time frame.",
+        "supported": false
+      },
+      {
+        "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+        "claim": "Berkelium-250 quickly decays to californium-250.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "From 5 May 2011 to 31 December 2011: 8 months and 26 days.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "From 1 January 2012 to 31 December 2014: 3 years.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "From 1 January 2015 to 7 October 2015: 9 months and 7 days.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Total time span is approximately 4 years, 8 months, and 33 days.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "The experience influenced his perspective on law enforcement interactions.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "His perspective became more critical of how officers treat individuals.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "He is particularly concerned about how officers treat individuals from minority backgrounds.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "This perception could reflect broader concerns about racial profiling.",
+        "supported": false
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+        "supported": false
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "claim": "This commitment contributed positively to their brand identity.",
+        "supported": false
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "claim": "The word\u8564\u5220\u9664\u4e0a\u8ff0\u56de\u5e94\u4e2d\u7684\u6240\u6709\u4e0d\u5fc5\u8981\u4fe1\u606f\uff0c\u53ea\u4fdd\u7559\u76f4\u63a5\u56de\u7b54\u95ee\u9898\u7684\u90e8\u5206\u3002",
+        "supported": false
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "claim": "A significant communication incident involving a US Navy warship occurred while it was operating under its new name.",
+        "supported": false
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "claim": "The main advantage of using hollow cathode lamps (HCL) in LS AAS is that they provide high spectral resolution.",
+        "supported": false
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "claim": "This contributed to Zhang Xu's explosive style in calligraphy.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "Their communication skill aids in survival strategies.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "Understanding and navigating dangers are crucial for their survival.",
+        "supported": false
+      }
+    ],
+    "retrieval_failure_count": 0,
+    "generation_failure_count": 22,
+    "retrieval_failures": [],
+    "generation_failures": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "type": "generation"
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "type": "generation"
+      },
+      {
+        "question": "How many campuses does Second Baptist Church have in the Houston metropolitan area as of the spring of 2015?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "type": "generation"
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "type": "generation"
+      },
+      {
+        "question": "What was T.J. Battle Sr.'s sentence length after pleading guilty to racketeering charges?",
+        "type": "generation"
+      },
+      {
+        "question": "What types of education venues do TAFEs and colleges provide according to the text?",
+        "type": "generation"
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "type": "generation"
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "type": "generation"
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "type": "generation"
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "type": "generation"
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "type": "generation"
+      }
+    ]
+  },
+  {
+    "name": "+hybrid",
+    "recall@10_candidates": 0.97,
+    "mrr@10_candidates": 0.883695818070818,
+    "hit@3": 0.93,
+    "faithfulness": 0.939983579638752,
+    "abstention_count": 13,
+    "abstention_rate": 0.13,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 0.846,
+    "retrieval_p95_s": 1.488,
+    "generation_p50_s": 5.384,
+    "generation_p95_s": 18.034,
+    "per_type": {
+      "factual": {
+        "n": 25,
+        "hit@3": 0.96,
+        "recall@10": 0.96
+      },
+      "paraphrased": {
+        "n": 25,
+        "hit@3": 0.96,
+        "recall@10": 1.0
+      },
+      "inferential": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.96
+      },
+      "multi_hop": {
+        "n": 25,
+        "hit@3": 0.92,
+        "recall@10": 0.96
+      }
+    },
+    "failed_claims": [
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "claim": "KKFS changed its format from an original unspecified format to a focus on 1980s music.",
+        "supported": false
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "claim": "Alexander III of Russia is not applicable here since he was an emperor.",
+        "supported": false
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was considered a motivation for constructing the Allahabad Fort.",
+        "supported": false
+      },
+      {
+        "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+        "claim": "The awards were given on two separate occasions.",
+        "supported": false
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "claim": "WFXG's program was canceled due to poor performance.",
+        "supported": false
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "claim": "This complicates the straightforward sister relationship between angiosperms and gymnosperms as suggested by molecular phylogenetics.",
+        "supported": false
+      },
+      {
+        "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+        "claim": "Construction was stopped because once completed its shadow would touch the Gol Gombaz.",
+        "supported": false
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "claim": "The two stages mentioned where a Buddha plays a crucial role are Natural and Continuing.",
+        "supported": false
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "claim": "Continuing (anuloma-cary\u0101), also known as \"development\" (vivartana), is the stage where one meets a Buddha who confirms one's future Buddhahood.",
+        "supported": false
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "claim": "Brazil experienced 3 military coups d'\u00e9tat during the Republican period between 1889 and 1964.",
+        "supported": false
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "claim": "Brazil experienced two military coups during the timeframe after 1889 until 1964.",
+        "supported": false
+      },
+      {
+        "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+        "claim": "Berkelium-250 quickly decays to californium-250.",
+        "supported": false
+      },
+      {
+        "question": "Where did Shishunaga move his capital to later in his reign?",
+        "claim": "This move occurred later in Shishunaga's reign.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "The 2015 incident influenced Garnet Coleman's perspective on interactions with law enforcement.",
+        "supported": false
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+        "supported": false
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "claim": "Hebrew borrowed technical religious terms from Jewish Aramaic.",
+        "supported": false
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "claim": "A significant communication incident involving a US Navy warship occurred while it was operating under its new name, Kenilworth.",
+        "supported": false
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "claim": "This contributed to Zhang Xu's explosive style in calligraphy.",
+        "supported": false
+      },
+      {
+        "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+        "claim": "The transition occurred in 1986.",
+        "supported": false
+      },
+      {
+        "question": "Which philosopher noted that logic becomes linguistic regarding logical constants in the preface to the second edition of The Principles of Mathematics?",
+        "claim": "This note was made regarding logical constants.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "Telepathy offers an additional means to gather intelligence about their environment.",
+        "supported": false
+      }
+    ],
+    "retrieval_failure_count": 0,
+    "generation_failure_count": 19,
+    "retrieval_failures": [],
+    "generation_failures": [
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "type": "generation"
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+        "type": "generation"
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "type": "generation"
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+        "type": "generation"
+      },
+      {
+        "question": "Where did Shishunaga move his capital to later in his reign?",
+        "type": "generation"
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "type": "generation"
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "type": "generation"
+      },
+      {
+        "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+        "type": "generation"
+      },
+      {
+        "question": "Which philosopher noted that logic becomes linguistic regarding logical constants in the preface to the second edition of The Principles of Mathematics?",
+        "type": "generation"
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "type": "generation"
+      }
+    ]
+  },
+  {
+    "name": "+reranker",
+    "recall@10_candidates": 0.92,
+    "mrr@10_candidates": 0.8617619047619047,
+    "hit@3": 0.92,
+    "faithfulness": 0.9068386243386243,
+    "abstention_count": 10,
+    "abstention_rate": 0.1,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 0.247,
+    "retrieval_p95_s": 0.286,
+    "generation_p50_s": 5.395,
+    "generation_p95_s": 17.259,
+    "per_type": {
+      "factual": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.88
+      },
+      "paraphrased": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.88
+      },
+      "inferential": {
+        "n": 25,
+        "hit@3": 0.92,
+        "recall@10": 0.92
+      },
+      "multi_hop": {
+        "n": 25,
+        "hit@3": 1.0,
+        "recall@10": 1.0
+      }
+    },
+    "failed_claims": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "claim": "The isolation occurs in the specific half-duplex segment between the device port and the connected node.",
+        "supported": false
+      },
+      {
+        "question": "What allows amides to act as hydrogen bond acceptors?",
+        "claim": "A N\u2013C dipole allows amides to act as hydrogen bond acceptors.",
+        "supported": false
+      },
+      {
+        "question": "What factor primarily influenced the need for substitute analysts on Westwood One's Monday Night Football broadcasts starting in 2007?",
+        "claim": "Esiason took over a morning show on Westwood One starting in 2007.",
+        "supported": false
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "claim": "KKFS relaunched with an all 1980's music format.",
+        "supported": false
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "claim": "The new moniker for KKFS is \"Flash 103.9\".",
+        "supported": false
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "claim": "The station changed its format to playing exclusively 1980s music.",
+        "supported": false
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "claim": "There isn't another Alexander III who was an emperor or king during the Middle Ages fitting the criteria mentioned.",
+        "supported": false
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was considered a motivation for constructing the Allahabad Fort.",
+        "supported": false
+      },
+      {
+        "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+        "claim": "Steamships along these rivers linked communities.",
+        "supported": false
+      },
+      {
+        "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+        "claim": "Private sectors have extensively developed the Alabama River.",
+        "supported": false
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "claim": "WFXG's program was canceled due to poor performance.",
+        "supported": false
+      },
+      {
+        "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+        "claim": "Construction was stopped because once completed its shadow would touch the Gol Gombaz.",
+        "supported": false
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "claim": "The two stages mentioned where a Buddha plays a crucial role are Natural and Resolution.",
+        "supported": false
+      },
+      {
+        "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+        "claim": "Berkelium-250 quickly decays to californium-250.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Specifically, from May to October in each year spans 6 months.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "For 4 years, it's 4 * 6 = 24 months or 2 years.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Adding the remaining time from May to October of the fourth year (2015), which is approximately 5 more months.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "The total period is around 4 years and 5 months.",
+        "supported": false
+      },
+      {
+        "question": "What position did he hold from 1985 to 1992 at York University?",
+        "claim": "The time period of his presidency was from 1985 to 1992.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "This critical perspective might be especially focused on the treatment of minority community members by police officers.",
+        "supported": false
+      },
+      {
+        "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+        "claim": "Mats Wilander reached the final but was seeded lower than Boris Becker.",
+        "supported": false
+      },
+      {
+        "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+        "claim": "Boris Becker was eliminated in the fourth round of the 1988 French Open.",
+        "supported": false
+      },
+      {
+        "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+        "claim": "Mats Wilander reached the final but was seeded lower than Boris Becker in 1987 and 1985.",
+        "supported": false
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+        "supported": false
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "claim": "This steadfast commitment contributed positively to their brand identity.",
+        "supported": false
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "claim": "Hebrew borrowed technical religious terms from Jewish Aramaic.",
+        "supported": false
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "claim": "A significant communication incident involving a US Navy warship occurred while it was operating under its new name.",
+        "supported": false
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "claim": "The main advantage of using hollow cathode lamps in LS AAS is that they provide high spectral resolution required for AAS measurements.",
+        "supported": false
+      },
+      {
+        "question": "Which historical figure's remains were initially buried in St. Markus Church before being moved to Siegen?",
+        "claim": "Prince John Maurice von Nassau-Siegen's remains were initially buried in St. Markus Church.",
+        "supported": false
+      },
+      {
+        "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+        "claim": "The transition occurred in 1986.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "Colleen tolerates human company.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "The communication skill is crucial for their survival strategies.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "This communication provides them with additional information.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "This communication provides them with additional resources.",
+        "supported": false
+      },
+      {
+        "question": "How did the Statute of Westminster impact Canada's constitutional amendments process despite granting autonomy to Canada?",
+        "claim": "The Statute of Westminster introduced a requirement for consensus among multiple countries when it comes to certain constitutional amendments involving the monarchy.",
+        "supported": false
+      }
+    ],
+    "retrieval_failure_count": 0,
+    "generation_failure_count": 24,
+    "retrieval_failures": [],
+    "generation_failures": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "type": "generation"
+      },
+      {
+        "question": "What allows amides to act as hydrogen bond acceptors?",
+        "type": "generation"
+      },
+      {
+        "question": "What factor primarily influenced the need for substitute analysts on Westwood One's Monday Night Football broadcasts starting in 2007?",
+        "type": "generation"
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "type": "generation"
+      },
+      {
+        "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+        "type": "generation"
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges might researchers face in utilizing berkelium as part of the nuclear fuel cycle given its properties and behavior with neutrons?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "type": "generation"
+      },
+      {
+        "question": "What position did he hold from 1985 to 1992 at York University?",
+        "type": "generation"
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "type": "generation"
+      },
+      {
+        "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+        "type": "generation"
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "type": "generation"
+      },
+      {
+        "question": "Which historical figure's remains were initially buried in St. Markus Church before being moved to Siegen?",
+        "type": "generation"
+      },
+      {
+        "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+        "type": "generation"
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the Statute of Westminster impact Canada's constitutional amendments process despite granting autonomy to Canada?",
+        "type": "generation"
+      }
+    ]
+  },
+  {
+    "name": "+expansion",
+    "recall@10_candidates": 0.93,
+    "mrr@10_candidates": 0.8613578643578643,
+    "hit@3": 0.88,
+    "faithfulness": 0.9213221060782038,
+    "abstention_count": 18,
+    "abstention_rate": 0.18,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 5.334,
+    "retrieval_p95_s": 9.402,
+    "generation_p50_s": 7.865,
+    "generation_p95_s": 17.517,
+    "per_type": {
+      "factual": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.88
+      },
+      "paraphrased": {
+        "n": 25,
+        "hit@3": 0.84,
+        "recall@10": 0.88
+      },
+      "inferential": {
+        "n": 25,
+        "hit@3": 0.88,
+        "recall@10": 0.96
+      },
+      "multi_hop": {
+        "n": 25,
+        "hit@3": 0.92,
+        "recall@10": 1.0
+      }
+    },
+    "failed_claims": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "claim": "The isolation occurs to the specific half-duplex segment between the device port and the connected node.",
+        "supported": false
+      },
+      {
+        "question": "What factor primarily influenced the need for substitute analysts on Westwood One's Monday Night Football broadcasts starting in 2007?",
+        "claim": "Paul Esiason took over a morning show on WFAN starting in 2007.",
+        "supported": false
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "claim": "KKFS changed its format from an original unspecified format to a focus on 1980s music.",
+        "supported": false
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was considered a motivation for constructing the Allahabad Fort.",
+        "supported": false
+      },
+      {
+        "question": "How many campuses does Second Baptist Church have in the Houston metropolitan area as of the spring of 2015?",
+        "claim": "This information was accurate as of the spring of 2015.",
+        "supported": false
+      },
+      {
+        "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+        "claim": "Rishi Kapoor has been awarded the IIFA Best Villain Award.",
+        "supported": false
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "claim": "WFXG's program was canceled due to poor performance.",
+        "supported": false
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "claim": "Angiosperms form a sister clade to gymnosperms according to molecular phylogenetics studies.",
+        "supported": false
+      },
+      {
+        "question": "What was T.J. Battle Sr.'s sentence length after pleading guilty to racketeering charges?",
+        "claim": "T.J. Battle Sr. received a 20-year prison sentence.",
+        "supported": false
+      },
+      {
+        "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+        "claim": "Construction was stopped because once completed its shadow would touch the Gol Gombaz.",
+        "supported": false
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "claim": "Brazil experienced 3 military coups d'\u00e9tat during the Republican period between 1889 and 1964.",
+        "supported": false
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "claim": "Brazil experienced 2 military coups d'\u00e9tat during the Republican period between 1889 and 1964.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "Representative Coleman's experience during the 2015 incident with the police officer influenced his perspective on law enforcement interactions.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "The incident highlighted potential biases in law enforcement interactions.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "The incident highlighted disrespectful treatment based on one\u2019s status.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "He was treated like a child despite being a legislator.",
+        "supported": false
+      },
+      {
+        "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+        "claim": "The player who reached the final but was seeded lower than Boris Becker is Andre Agassi.",
+        "supported": false
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+        "supported": false
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "claim": "This commitment contributed positively to their brand identity.",
+        "supported": false
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "claim": "The word m\u0101mm\u00f4n meaning \"wealth\" in Aramaic was adopted by Hebrew.",
+        "supported": false
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "claim": "The main advantage of using hollow cathode lamps (HCL) in LS AAS is that they provide high spectral resolution.",
+        "supported": false
+      },
+      {
+        "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+        "claim": "The transition of representation occurred in 1986.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "This ability provides them with an additional means of communication.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "This ability possibly offers protection or information about the dangerous world around them.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "The context does not explicitly state how this directly influences Steve\u2019s relationship with Colleen beyond aiding their overall survival efforts.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "His telepathic abilities aid their practical survival together.",
+        "supported": false
+      }
+    ],
+    "retrieval_failure_count": 1,
+    "generation_failure_count": 18,
+    "retrieval_failures": [
+      {
+        "question": "Which player reached the final but was seeded lower than Boris Becker, who was eliminated in the semifinals?",
+        "type": "retrieval"
+      }
+    ],
+    "generation_failures": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "type": "generation"
+      },
+      {
+        "question": "What factor primarily influenced the need for substitute analysts on Westwood One's Monday Night Football broadcasts starting in 2007?",
+        "type": "generation"
+      },
+      {
+        "question": "What significant change occurred at KKFS between its establishment in 1974 and its acquisition by Salem Communications, and how did this affect the station's format?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "type": "generation"
+      },
+      {
+        "question": "How many campuses does Second Baptist Church have in the Houston metropolitan area as of the spring of 2015?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two actors have been awarded the IIFA Best Villain Award on two separate occasions?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "type": "generation"
+      },
+      {
+        "question": "What does the text suggest about the evolutionary relationship between angiosperms and gymnosperms, considering the molecular clock data and the inclusion of extinct seed plant groups in some definitions of anthophytes?",
+        "type": "generation"
+      },
+      {
+        "question": "What was T.J. Battle Sr.'s sentence length after pleading guilty to racketeering charges?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the reason behind the incomplete state of Bara Kaman, and who was responsible for its architectural design?",
+        "type": "generation"
+      },
+      {
+        "question": "How many military coups d'\u00e9tat did Brazil experience during the Republican period between 1889 and 1964?",
+        "type": "generation"
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "type": "generation"
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "type": "generation"
+      },
+      {
+        "question": "In what year did Sam Smith succeed his father as the representative for the 66th district?",
+        "type": "generation"
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "type": "generation"
+      }
+    ]
+  },
+  {
+    "name": "full",
+    "recall@10_candidates": 0.97,
+    "mrr@10_candidates": 0.895748538011696,
+    "hit@3": 1.0,
+    "faithfulness": 0.9188664596273293,
+    "abstention_count": 8,
+    "abstention_rate": 0.08,
+    "n_evaluated": 100,
+    "retrieval_p50_s": 8.795,
+    "retrieval_p95_s": 14.069,
+    "generation_p50_s": 8.272,
+    "generation_p95_s": 23.298,
+    "per_type": {
+      "factual": {
+        "n": 25,
+        "hit@3": 1.0,
+        "recall@10": 1.0
+      },
+      "paraphrased": {
+        "n": 25,
+        "hit@3": 1.0,
+        "recall@10": 1.0
+      },
+      "inferential": {
+        "n": 25,
+        "hit@3": 1.0,
+        "recall@10": 0.92
+      },
+      "multi_hop": {
+        "n": 25,
+        "hit@3": 1.0,
+        "recall@10": 0.96
+      }
+    },
+    "failed_claims": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "claim": "The isolation occurs in the specific half-duplex segment between the device port and the connected node.",
+        "supported": false
+      },
+      {
+        "question": "What allows amides to act as hydrogen bond acceptors?",
+        "claim": "To a lesser extent, a N\u2013C dipole allows amides to act as hydrogen bond acceptors.",
+        "supported": false
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "claim": "The only clear match for an emperor or king named Alexander III during the Middle Ages is Alexander III of Scotland.",
+        "supported": false
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "claim": "Collecting taxes from pilgrims visiting the Triveni Sangam was thought to be a motivation for constructing the Allahabad Fort.",
+        "supported": false
+      },
+      {
+        "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+        "claim": "The arrival of railroads by the late 19th century shifted reliance from rivers to railways for transportation.",
+        "supported": false
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "claim": "WFXG's program was canceled due to poor performance.",
+        "supported": false
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "claim": "The two stages mentioned where a Buddha plays a crucial role are Natural and Continuing.",
+        "supported": false
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "claim": "Continuing stage or \"development\" phase involves meeting a Buddha who confirms one's future Buddhahood.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Specifically, from May to October in one year is 6 months.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Over 4 years, this would be 24 months (or 2 years).",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Adding the remaining time from May to October each year for 4 years gives us an extra 5 months per year \u00d7 4 = 20 months.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "Therefore, we have 2 years and 20 months which is equivalent to 48 months plus a few days.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "The exact number of days isn't specified but the total time span is approximately 4 years and 5 months.",
+        "supported": false
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "claim": "For precise calculation purposes, it's around 1637 days (from May 5th to October 7th inclusive).",
+        "supported": false
+      },
+      {
+        "question": "What does the transition band allow between the passband and stopband in a signal processing filter?",
+        "claim": "It is defined by a range of frequencies where the signal starts attenuating.",
+        "supported": false
+      },
+      {
+        "question": "Where did Shishunaga move his capital to later in his reign?",
+        "claim": "This move occurred later in Shishunaga's reign.",
+        "supported": false
+      },
+      {
+        "question": "What event in Ayckbourn's personal life coincided with a prevalent theme in his plays during the early seventies, and how long did it take for this event to be formally resolved in his personal life?",
+        "claim": "After divorcing Christine Roland, Alan Ayckbourn married Heather Stoney.",
+        "supported": false
+      },
+      {
+        "question": "What position did he hold from 1985 to 1992 at York University?",
+        "claim": "The time period of his presidency was from 1985 to 1992.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "The incident might have influenced Coleman's perspective on interactions with law enforcement.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "Coleman was treated like a child despite being a legislator.",
+        "supported": false
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "claim": "The incident could suggest issues of racial profiling to Coleman.",
+        "supported": false
+      },
+      {
+        "question": "How does each presenter uniquely contribute to ending their respective episodes in a way that reflects their real-life profession?",
+        "claim": "Each episode ends with a self-penned short cutout animated story done by Alan Rogers and Peter Lang.",
+        "supported": false
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "claim": "Roberto Leydi created Nuovo Canzoniere Italiano.",
+        "supported": false
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "claim": "This commitment contributed positively to their brand identity.",
+        "supported": false
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "claim": "Hebrew borrowed technical religious terms from Jewish Aramaic.",
+        "supported": false
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "claim": "A significant communication incident involving a US Navy warship occurred while it was operating under its new name.",
+        "supported": false
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "claim": "The main advantage of using hollow cathode lamps in LS AAS is that they provide high spectral resolution.",
+        "supported": false
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "claim": "These dynamic scenes influenced Zhang Xu's fluidity in calligraphy.",
+        "supported": false
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "claim": "These dynamic scenes influenced Zhang Xu's dynamism in calligraphy.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "His telepathic abilities influence their survival strategies.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "This communication skill does not explicitly influence the development of their romantic relationship beyond this initial interaction.",
+        "supported": false
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "claim": "It does suggest that Steve\u2019s unique ability could provide them with additional information or assistance in navigating the dangerous post-apocalyptic world.",
+        "supported": false
+      },
+      {
+        "question": "How did the Statute of Westminster impact Canada's constitutional amendments process despite granting autonomy to Canada?",
+        "claim": "The stipulations regarding the line of succession are in the Statute of Westminster.",
+        "supported": false
+      }
+    ],
+    "retrieval_failure_count": 0,
+    "generation_failure_count": 22,
+    "retrieval_failures": [],
+    "generation_failures": [
+      {
+        "question": "What device has become commonplace, isolating collision domains to the specific half-duplex segment between the device port and the connected node?",
+        "type": "generation"
+      },
+      {
+        "question": "What allows amides to act as hydrogen bond acceptors?",
+        "type": "generation"
+      },
+      {
+        "question": "Which two individuals named Alexander III, mentioned in the text, lived during the Middle Ages and held the title of emperor or king?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been Akbar's primary motivation for constructing the Allahabad Fort given the historical context provided?",
+        "type": "generation"
+      },
+      {
+        "question": "How have the economic roles of the rivers in Alabama changed from the 19th century to modern times due to advancements in transportation infrastructure?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the name of the newscast that competed against WFXG's program at 10 PM before it was canceled due to poor performance?",
+        "type": "generation"
+      },
+      {
+        "question": "What two stages are mentioned in the text where a Buddha plays a crucial role, one for planting the roots of merit and another for confirming one's future Buddhahood?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the total time span from the ng ceremony for the conversion on 5 May 2011 to the opening of the developed section of Berlin on 7 October 2015?",
+        "type": "generation"
+      },
+      {
+        "question": "What does the transition band allow between the passband and stopband in a signal processing filter?",
+        "type": "generation"
+      },
+      {
+        "question": "Where did Shishunaga move his capital to later in his reign?",
+        "type": "generation"
+      },
+      {
+        "question": "What event in Ayckbourn's personal life coincided with a prevalent theme in his plays during the early seventies, and how long did it take for this event to be formally resolved in his personal life?",
+        "type": "generation"
+      },
+      {
+        "question": "What position did he hold from 1985 to 1992 at York University?",
+        "type": "generation"
+      },
+      {
+        "question": "How might Representative Coleman's experience during the 2015 incident with the police officer have influenced his perspective on law enforcement interactions?",
+        "type": "generation"
+      },
+      {
+        "question": "How does each presenter uniquely contribute to ending their respective episodes in a way that reflects their real-life profession?",
+        "type": "generation"
+      },
+      {
+        "question": "Who created Nuovo Canzoniere Italiano, and in what city was it established?",
+        "type": "generation"
+      },
+      {
+        "question": "What challenges did Fannie May face during World War II and how did their approach to maintaining recipe integrity and product quality influence their brand identity?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the interaction between Hebrew and Aramaic languages influence the semantic development of words in both languages?",
+        "type": "generation"
+      },
+      {
+        "question": "What was the original name of the ferry renamed Kenilworth, and what significant communication incident involving a US Navy warship occurred while it was operating under its new name?",
+        "type": "generation"
+      },
+      {
+        "question": "What is the main advantage of using hollow cathode lamps in LS AAS?",
+        "type": "generation"
+      },
+      {
+        "question": "What might have been the impact on Zhang Xu's calligraphy style due to his observations of the sword-dancer Lady Gongsun and the porters' fight, as inferred from the text?",
+        "type": "generation"
+      },
+      {
+        "question": "How does Steve's discovery of his telepathic abilities influence his relationship with Colleen and their survival strategies in the post-apocalyptic world?",
+        "type": "generation"
+      },
+      {
+        "question": "How did the Statute of Westminster impact Canada's constitutional amendments process despite granting autonomy to Canada?",
+        "type": "generation"
+      }
+    ]
+  }
+]
